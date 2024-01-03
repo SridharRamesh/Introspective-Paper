@@ -1,0 +1,196 @@
+% Commands defined by Sridhar for this document
+
+% Remember: \newtheorem{command name}{displayed name}[parent counter] makes a theorem whose counter is subordinate to counter, but \newtheorem{command name}[shared counter]{displayed name} makes a theorem which shares the counter. Also remember that there is automatically a counter available named "section" and similarly a counter available named "chapter".
+
+% Playing around
+\newtheoremstyle{envstyle}
+  {\topsep}
+  {\topsep}
+  {}
+  {}
+  {\scshape \color{purple}}
+  {}
+  {.5em}
+  {}
+
+%\theoremstyle{plain}
+\theoremstyle{envstyle}
+\newtheorem{theorem}{Theorem}[\topLevelCounter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{construction}[theorem]{Construction}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{corollarytoproof}[theorem]{Corollary (to proof)}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+%\theoremstyle{definition}
+\theoremstyle{envstyle}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{convention}[theorem]{Convention}
+\newtheorem{warningenv}[theorem]{Warning}
+\newtheorem{note}[theorem]{Note}
+
+\newcommand{\defined}[1]{\textbf{#1}\index{#1}} % For indicating the defined term in a definition
+\newcommand{\definedManualIndexSort}[2]{\textbf{#1}\index{#2@#1}}
+
+\newcommand{\openNamed}[2]{\begin{#1}[#2]\index{#2}}
+\newcommand{\openNamedManualIndexSort}[3]{\begin{#1}[#2]\index{#3@#2}}
+\newcommand{\closeNamed}[1]{\end{#1}}
+
+%\theoremstyle{remark}
+\theoremstyle{envstyle}
+\newtheorem*{remark}{Remark}
+
+% This doesn't quite work yet. The word "Proof" is bolded?
+% \renewenvironment{proof}{\paragraph{\scshape \color{blue} Proof:}}{\hfill$\square$}
+
+\newtheoremstyle{redstyle}
+  {\topsep}
+  {\topsep}
+  {\color{red}}
+  {}
+  {\scshape \color{red}}
+  {}
+  {.5em}
+  {}
+  
+\theoremstyle{redstyle}
+\newtheorem*{TODOblock}{TO DO}
+
+% Currently this does not count TODOblocks or hidden sTODOs.
+\newcounter{TODOcounter}
+
+% Warning! LaTeX will swallow the following space stupidly in this command. You may have to place a backslash-space after it instead.
+\newcommand{\TODO}{\stepcounter{TODOcounter}{\color{red} TO DO}}
+\newcommand{\TODOinline}[1]{\TODO\ {\color{red} #1}}
+
+\newif\ifHideStodo
+
+\HideStodotrue
+% \HideStodofalse
+
+\ifHideStodo
+\newcommand{\sTODOinline}[1]{}
+\else
+\newcommand{\sTODOinline}[1]{\TODOinline{#1}}
+\fi
+
+% Using \operatorname for constants is maybe a little wrong, as it suggests a closer semantic association to the right. For now, we just use \mathrm.
+\newcommand{\const}[1]{\mathrm{#1}} % Typesetting named constants
+\newcommand{\constcat}[1]{\const{#1}} % Typesetting named constant categories
+\newcommand{\arrowcat}[1]{\operatorname{Arrow}(#1)} % Typesetting arrow categories
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Iso}{\operatorname{Iso}}
+\newcommand{\Nat}{\operatorname{Nat}}
+\newcommand{\dom}{\operatorname{dom}}
+\newcommand{\cod}{\operatorname{cod}}
+\newcommand{\op}[1]{#1^{\mathrm{op}}} % If we include the `physics` package, then this needs to be renewcommand, as \op is defined for \outerproduct by the `physics` package.
+\newcommand{\Ob}{\operatorname{Ob}}
+\newcommand{\Mor}{\operatorname{Mor}}
+\newcommand{\Set}{\constcat{Set}}
+\newcommand{\Cat}{\constcat{Cat}}
+\newcommand{\FiniteProductCat}{\constcat{FiniteProductCat}}
+\newcommand{\LexCat}{\constcat{LexCat}}
+\newcommand{\FinProdCat}{\constcat{FinProdCat}}
+\newcommand{\StrictCat}{\constcat{StrictCat}}
+\newcommand{\StrictCatTwo}{\StrictCat_2}
+\newcommand{\StrictLexCat}{\constcat{StrictLexCat}}
+\newcommand{\StrictLexCatTwo}{\StrictLexCat_2}
+\newcommand{\id}{\const{id}}
+\newcommand{\unique}{!}
+\newcommand{\iso}{\simeq}
+\newcommand{\Psh}[1]{\operatorname{Psh}(#1)}
+\newcommand{\Lan}{\operatorname{Lan}}
+\newcommand{\Ran}{\operatorname{Ran}}
+
+\newcommand{\introF}{\mathcal{F}}
+\newcommand{\introS}{\mathcal{S}}
+\newcommand{\introN}{\mathcal{N}}
+\newcommand{\glQuote}{\mathcal{J}}
+
+\newcommand{\nat}{\mathbb{N}}
+\newcommand{\posnat}{\nat^+}
+
+\newcommand{\GLCatTheory}{\mathrm{Th}(\mathrm{GC})}
+
+\renewcommand{\implies}{\Rightarrow}
+\newcommand{\biimplies}{\iff}
+
+\newcommand{\code}[1]{\ulcorner #1 \urcorner}
+
+\newcommand{\pullAlong}[1]{#1^*}
+
+% Hack to define a command name whose name has to end with a 
+% slash, thus preventing spacing problems. (Otherwise, space 
+% automatically gets swallowed after invoking the command.)
+\def\repsmall/{representable}
+\def\repsmallness/{representability} %{\repsmall/ness}
+\newcommand{\DiscussSmallNotation}{} % Just a marker to indicate places where we should make sure to discuss whatever convention we've settled on for this kind of notation, and to revise such discussion any time we change this notation.
+\def\setsmall/{set-sized}
+\def\wordsmall/{small} % Sometimes we want to say the word "small" just in ordinary English, not with a mathematical meaning.
+\def\Goedel/{G\"odel}
+\def\Godel/{\Goedel/}
+\def\Loeb/{L\"ob}
+\def\Lob/{\Loeb/}
+\def\sigmesque/{sigmesque}
+\def\interior/{interior}
+\def\included/{included}
+\def\initogeminal/{self-initializing}
+
+\newcommand{\adjointTo}{\dashv}
+\newcommand{\yoneda}{\mathrm{yoneda}}
+
+\newcommand{\profuncTo}{\nrightarrow} % Profunctor \to arrows
+
+\renewcommand{\quote}{\textquote} % I have no use for the existing \quote command in LaTeX, and would like that short name for this instead
+
+\newcommand{\point}{\star}
+\newcommand{\App}{App}
+
+\newcommand{\later}{\blacktriangleright}
+\newcommand{\El}{\operatorname{El}}
+
+\newcommand{\Groth}{\int}
+
+\newcommand{\theoryT}{\mathbb{T}}
+\newcommand{\modelsIn}[2]{#1\mathrm{-Mod}(#2)}
+\newcommand{\classifying}[1]{\mathcal{C}_{#1}}
+\newcommand{\cartwith}[1]{\mathrm{Lex}\varpi #1}
+\newcommand{\TheoryOfLexCat}{\theoryT_{\mathrm{lex}}}
+\newcommand{\LexCatToTheory}[1]{\operatorname{Th}(#1)}
+
+\newcommand{\quotient}{\mathcal{Q}}
+\newcommand{\core}[1]{\operatorname{core}(#1)}
+
+\newcommand{\loebNeg}{g}
+\newcommand{\tocite}[1]{\TODOinline{Cite: #1}}
+
+\newcommand{\GlobSymbol}{\mathrm{Glob}}
+\newcommand{\LabeledGlob}[1]{\GlobSymbol_{#1}}
+\newcommand{\Glob}[1]{\GlobSymbol(#1)}
+
+\newcommand{\InducedHomo}[2]{\mathrm{Induced}(#1, #2)}
+\newcommand{\TransferN}[3]{#2[#3]}
+
+\newcommand{\InteriorGeminal}[1]{\mathrm{InteriorGeminal}(#1)}
+\newcommand{\IntoSelf}[1]{\mathrm{IntoSelf}(#1)}
+\newcommand{\underlying}[1]{| #1 |}
+
+\newcommand{\IAU}{\mathrm{IAU}}
+
+\newcommand{\comma}[2]{(#1 / #2)}
+\newcommand{\initMod}[1]{\mathrm{InitialModels}(#1)}
+
+\newcommand{\openDetails}{\textit{Construction details. }}
+\newcommand{\closeDetails}{}
+
+\newcommand{\omegaLexCat}{\constcat{\omega LexCat}}
+
+\newcommand{\SpecialHom}{\mathrm{SpecialHom}}
+\newcommand{\Prior}{\mathrm{Prior}}
+\newcommand{\prior}{\mathrm{prior}}
+\newcommand{\Later}{\mathrm{Later}}
+\newcommand{\latermap}{\mathrm{next}}
+
+\newcommand{\slicePreIntrosp}[2]{#1/#2}

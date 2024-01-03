@@ -1,0 +1,115 @@
+\documentclass{ucbthesis}
+%\documentclass[12pt]{article}
+% The above line really belongs in the prelude, but Overleaf gets a little weird about it not being in the main .tex file.
+
+% Because ucbthesis uses chapters as the top-level units, not sections, but I developed this using sections as the top-level units (because of the article documentclass), I use the following to quickly transition:
+\let\paragraph\subsubsection
+\let\subsubsection\subsection
+\let\subsection\section
+\let\section\chapter
+\newcommand{\topLevelCounter}{chapter}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\pagestyle{headings}
+
+\include{UCBprelude}
+\include{prelude}
+
+\include{commands}
+
+\subfilesfalse
+
+% \ifsubfiles
+% \usepackage{subfiles}
+% The above line is following the instructions from https://www.overleaf.com/learn/latex/Multi-file_LaTeX_projects
+% \fi
+% I've commented this out for now on the off-chance Overleaf is doing some weird parsing to detect if subfiles is used.
+
+\title{Introspective Theories and Geminal Categories}
+
+\author{Sridhar Ramesh}
+
+\begin{document}
+\maketitle
+
+\copyrightpage
+
+\begin{abstract}
+In provability logic, a key principle is \Loeb/'s theorem, stating that if the provability of $P$ provably entails $P$, then $P$ itself is provable (in modal logic notation, $\Box P \vdash P$ has as a consequence $\vdash P$). This was first discovered in the follow-up work on \Goedel/'s incompleteness theorems, with \Goedel/'s results viewable as following from \Loeb/'s theorem. Later, it was also seen that the same formal pattern of \Loeb/'s theorem described certain fixed point constructions studied under the name of \quote{guarded recursion}.
+
+The aim of these notes is to draw attention to a certain simple class of category-theoretic structures which serve as an abstract environment for deriving \Loeb/'s theorem and such fixed point constructions, allowing for a vastly generalized and unified understanding of the scope of applicability of such constructions. These are the structures we call \quote{introspective theories}.
+
+This very minimal categorical definition nontrivially entails \Loeb/'s theorem and guarded recursion at both the term and type level. We also demonstrate how this abstraction offers a clean unification of the interpretation of the \Godel/-\Lob/ incompleteness theorems in traditional logic or via arithmetic universes a la Joyal, along with the interpretation by Birkedal et al of guarded recursion in presheaves over well-founded orders, along with the distinct classical interpretation of the GL modal logic in well-founded transitive Kripke frames.
+
+We also explore free instances of our structure, which turn out to admit a tractable explicit description. The free introspective theory is what we call \quote{the theory of geminal categories}, and we explore also some further illuminating relationships between the concepts of introspective theories and geminal categories.
+
+% It should perhaps be noted that the core of the work in this document was originally developed during my time in graduate school from 2006 to 2013, but I did not write it up suitably at that time.
+\end{abstract}
+
+\begin{frontmatter}
+
+\begin{dedication}
+\null\vfil
+\begin{center}
+To Amma, who showed me why adding \textit{this} many \textit{that}s is the same as adding \textit{that} many \textit{this}es,
+\\\vspace{12pt}
+
+and Appa, who showed me what those $\sin$ and $\cos$ buttons on calculators mean.
+
+\end{center}
+\vfil\null
+\end{dedication}
+
+\begin{acknowledgements}
+The timeline on which this dissertation was written is rather unusual. I originally attended graduate school from 2006 through 2013, during which I had the bulk of the ideas which were to become this dissertation. But life took a circuitous path and I did not write them up until much later, now finally filing this dissertation in 2023.
+
+First of all, I would like to thank Dana Scott who had been my advisor during the time I initially attended graduate school. His kindness, patience, and humor as an advisor for all those years were tremendous and I still feel his influence in all my mathematical work. Though I did not finish the dissertation at that time, I hope it can still be considered in some sense a part of the legacy Dana has fostered.
+
+I am also profusely grateful to Michael Shulman, who in 2023 graciously took on the role of reading and advising on my dissertation. His extraordinarily detailed reading and his many helpful suggestions have improved this dissertation and will continue to greatly improve my future expositions of these ideas. I could not have completed this without him.
+
+I also thank Tom Scanlon, for his help in navigating my process of returning to complete my PhD and for serving as the chair of my dissertation committee. Thank you also to the other members of my committee: Gabriel Goldberg, Wesley Holliday, and Antonio Montalban.
+
+I am particularly indebted to my friends Reid Dale, Alex Kruckman, and Sarah Rovner-Frydman for their encouragement and feedback throughout my process of writing this dissertation. Reid introduced me to tools such as Overleaf and Quiver and has given me ceaseless encouragement throughout all my moments of doubt. Alex has listened to me explain the concepts of introspective theories and geminal categories more times over more years than anyone else. And Sarah's interest in the material, along with her suggestion to consider what introspective theories would look like from the perspective of indexed category theory, sparked the discovery of \magicref{SNCorrespondence} and thus of \magicref{DefnPreIntrospIndexed}, setting off the momentum under which I ultimately finally managed to write the dissertation after so many years of not knowing how to start.
+
+During my time in Berkeley, I also received lots of love, care, company, food, etc, from my family in the Bay Area. Thank you to Chitti (who showed me why the angles of a triangle sum to the angle across a straight line), Chittappa, Maya, Meera, Ramesh Mama, Sapna Mami, Deepa, Sheela, and Daniel.
+
+Thank you also to my fellow grad student friends during my time at Berkeley and afterwards, including in rough chronological order Alex Rennet, Gwyneth Harrison-Shermoen, Justin Bledin, Melissa Fusco, Tamar Lando, Oran Gannot, Michael Wan, and Kevin Lin, in addition to the aforementioned Alex Kruckman and Reid Dale.
+
+The diagrams in this document were made using the Quiver app created by Varkor, which is just such a tool as I spent my original years in Berkeley bemoaning the lack of existence of and fantasizing someone would someday make.
+
+Finally, as noted, the journey to here was a very long one. I began graduate school in the summer of 2006. It is now the summer of 2023. Over those seventeen years, there have been so many friends in my life, and I've received help from so many people. So many that it is unfortunately not feasible for me to list them all here. But suffice it to say, I am grateful to all of you.
+\end{acknowledgements}
+
+\tableofcontents
+
+\end{frontmatter}
+
+%\setcounter{section}{-1}
+\setcounter{chapter}{-1}
+\fileinclude{Introduction}
+
+\fileinclude{Preliminaries}
+
+\fileinclude{IntrospectiveTheory}
+
+\fileinclude{Modal}
+
+\fileinclude{Loeb}
+
+\fileinclude{GLCategory}
+
+\fileinclude{Models}
+
+% \fileinclude{Future}
+
+\printbibliography
+
+% \printindex
+
+% \fileinclude{InProgress}
+
+% \include{TODOCounters}
+
+\end{document}

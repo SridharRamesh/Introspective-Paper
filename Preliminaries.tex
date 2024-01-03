@@ -1,0 +1,1206 @@
+\filestart
+
+\section{Category-theoretic preliminaries}
+
+In this chapter, we set out terminology, conventions, concepts, lemmas, etc, which will be useful for us later on. We do not claim originality for any of the material in this Preliminaries chapter, though perhaps our choices for how to present this material may at times be idiosyncratic.
+
+The Preliminaries from \magicref{PreliminariesTerminologyConventions} through \magicref{PreliminariesSelfIndexing} cover conventions and material which are used throughout the entire document, which the reader will certainly want to familiarize themselves with. The remainder of the Preliminaries can be read on an as needed basis.
+
+\subsection{Higher categorical terminology conventions}\label{PreliminariesTerminologyConventions}
+We assume familiarity with categories, functors, natural transformations, limits, presheaves, $\Set$, $\Cat$, all in the ordinary sense. At times, we may also call upon some comfort with concepts such as 2-categories, and abstract Kan extensions and comma objects within these. It will also be very useful to have some familiarity with functorial semantics and internal algebraic structures such as internal categories.
+
+We will take all categories we work with to be locally \setsmall/ (which is to say, we will take $\Set$ to be large enough to include the hom-set between any two objects of any category we work with). Generally speaking, we are interested in the categories we work with being overall \setsmall/ as well, except for those particular large categories such as $\Set$, $\Set^X$, $\Cat$, etc. Wherever paying explicit attention to such size issues is important, we will make some explicit note. Otherwise, we do not.
+
+In particular, we do not bother explicitly stating size restrictions on an arbitrary category $C$ before using the Yoneda embedding of $C$ into $\Set^{C^{op}}$. Only in situations where there is some risk that it would not be possible to simply interpret $\Set$ as suitably large relative to $C$ do we bother making explicit comment on size issues.
+
+We write $m \circ n$ or just $mn$ for composition of morphisms $n : X \to Y$, $m : Y \to Z$ in a category. We occasionally write $n ; m$ to mean $m \circ n$. We write $\id_X$ or just $\id$ for the identity morphism on an object $X$. We also use parallel lines without arrowheads to denote identity morphisms (or canonical isomorphisms) in diagrams, like so:
+
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJBIl0sWzEsMCwiQiJdLFswLDEsIiIsMCx7ImxldmVsIjoyLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+\[\begin{tikzcd}
+	A & B
+	\arrow[Rightarrow, no head, from=1-1, to=1-2]
+\end{tikzcd}\]
+
+When $C$ is a category, we occasionally write $c \in C$ to mean that $c$ is an object of $C$. We usually write $\Hom_C(a, b)$ to mean the morphisms from $a$ to $b$ in $C$, but we sometimes write $C(a, b)$ instead, especially when $C$ is a 2-category so that $C(a, b)$ is not merely a set but a 1-category.
+
+We use the term \defined{lexcategory} for a category with finite limits. We use the term \defined{lexfunctor} for a functor preserving finite limits, whose domain and codomain are both lexcategories. By $\LexCat$, we mean the 2-category of lexcategories, lexfunctors, and natural transformations. We will not generally make distinctions between $f(a \times b)$ and $f(a) \times f(b)$, etc, when $f$ is a lexfunctor, but shall instead write with the ordinary fluency for working with limit-preserving functors. (Similarly, we use $\FinProdCat$ for the 2-category of finite product categories (i.e., categories with finite products), functors preserving finite products, and natural transformations.)
+
+We will speak frequently of category-valued presheaves (i.e., contravariant functors into the category of categories) and natural transformations between these. Technically, what we mean by these are not \quote{functors} and \quote{natural transformations} in the traditional sense, but what some call "pseudofunctors" and \quote{pseudonatural transformations}, or \quote{2-functors} and \quote{2-natural transformations}, as the category of categories should be viewed as a 2-category (by which we mean the non-strict concept some call \quote{bicategory}), lacking a notion of equality between its 1-cells and only having a notion of isomorphism between them instead. That is, wherever one might traditionally ask for an (automatically coherent) system of equalities, this is replaced by a coherent system of isomorphisms. We take the convention that this is what terminology such as \quote{functor} and \quote{natural transformation} already means, in such a context. But we will try our best to construct arguments in such a way as that this is not a bother that needs to be explicitly worried about.
+
+Similarly, we do not worry about distinguishing between terms like \quote{isomorphic} and \quote{equivalent} in statements like \quote{category $C$ is isomorphic/equivalent to category $D$}, always meaning by such a statement an adjoint equivalence. Everything always means the weakest thing it could mean, unless we explicitly say we are dealing with something stricter.
+
+Similarly, if we ever describe diagrams involving functors between categories as commuting, we really mean that these diagrams commute up to natural isomorphism. If we make claims about uniqueness in such a context, we mean the space of choices with the relevant isomorphisms is contractible. And so on. Again, our convention is that this is what such terminology already means, in any categorical context where one has such concepts of isomorphism around, unless we have taken care to say we are working with stricter notions instead (see more on strictness below). Unless we have said we are talking about strict notions, we never distinguish between equivalent categorical structures.
+
+(That all said, nothing we do is higher-dimensional than 2-categorical, so everything could in theory be strictified in some fashion, if so desired.)
+
+\subsection{Indexed sets and \repsmallness/}
+We will now give a series of related definitions, concerning what are called indexed structures. The notions being described in this section are all old hat, none of them are newly invented by us, but we wish to pin them down with particular names to establish a language for easily talking about the things we wish to talk about in the rest of this document.
+
+As we give these definitions, we will also observe a basic stock of theorems about them. Again, we make no claim to originality with these preliminaries. They simply may be useful to remind the reader of, or to give labels to in order to reference as we use them.
+
+The reader who is already very familiar with these notions and just unfamiliar with our conventions of vocabulary is advised to just skim these preliminaries on initial read and then return as needed when faced with unfamiliar vocabulary. Frankly, the reader who is not very familiar with these notions is also given similar advice. No need to spend all one's time reading proofs and details of lemmas up front. It is probably best to read a bit of the preliminaries to get the lay of the land, then go off and read the actual content and come back as needed. But who knows? To each reader, their own reading style may be best.
+
+\sTODOinline{Give evocative names instead of just numbers to any theorem, construction, etc, in this document for which such a name would be useful.}
+
+The key notion upon which everything else builds is the following:
+
+\begin{definition}
+Let $T$ be an arbitrary category. By a $T$-\defined{indexed set}, we mean a presheaf on $T$; that is, a contravariant functor from $T$ to $\Set$. By a \defined{function} or \defined{map} or any such thing between $T$-indexed sets, we mean a natural transformation between the corresponding presheaves.
+\end{definition}
+
+The category of $T$-indexed sets and maps between them is thus the presheaf category $\Set^{\op{T}}$. We may also refer to this as $\Psh{T}$.
+
+We may refer to the data of an indexed set at any object $t$ of the category over which it is indexed as its data \defined{defined over} $t$, or which is $t$-\defined{indexed}, or as its $t$-\defined{aspect}.\footnote{Those who prefer to talk in terms of fibered structures rather than indexed structures would call this the \quote{fiber} at $t$.} We can refer to the $t$-aspect of an indexed set $P$ as the set $P(t)$ or $P_t$.
+
+Note that data defined over $t$ is automatically transferred to corresponding data defined over $s$ by any morphism from $s$ to $t$ in $T$, by the action of the presheaf. More explicitly, given morphism $m : s \to t$ in $T$, we may write $P(m) : P(t) \to P(s)$ for the corresponding function in $\Set$, or $P_m$.
+
+In contexts where it is clear what presheaf $P$ we have in mind, we may also write $\pullAlong{m}$ for $P(m)$. Also, in contexts where it would cause no confusion to speak in this way, given some $t$-indexed datum $d \in P(t)$ and a morphism $m : s \to t$, we use the same name $d$ also to refer to the corresponding $s$-indexed datum which more explicitly would be called $P(m)(d)$ or $\pullAlong{m} d$. It will be especially common for us to abuse language in this name-reusing way when $t$ is a terminal object.
+
+In the particular case where $t$ is a terminal object, we may refer to the aspect at $t$ of an indexed set as its \defined{global aspect}. By the Yoneda lemma, this global aspect data $P(1)$ of a presheaf $P$ on category $T$ is the same as the data of a map from the terminal object $1$ to $P$, which is the same as the data of a map from the constantly $1$ presheaf to $P$. This is also the same as the data of the limit of $P$, thought of a $\op{T}$-indexed diagram. In this way, even if $T$ does not have a terminal object, we may still speak of the global aspect of $T$-indexed sets. We sometimes use the notation $\Glob{P}$ to refer to the global aspect of an indexed set $P$.
+
+\DiscussSmallNotation
+\begin{definition}\label{RepsmallDefn}
+We say an indexed set is \defined{\repsmall/} (or $T$-\repsmall/, when we wish to emphasize which indexing category we are talking about) if the corresponding presheaf is representable.
+\end{definition}
+
+\begin{remark}
+This notion is also sometimes referred to with the word \quote{\wordsmall/} in the literature on indexed or fibered categories (especially in derived senses like describing an indexed category as \quote{\wordsmall/} or \quote{locally \wordsmall/}). Cf. Definition 7.3.3 in \autocite{jacobs1999categorical}, which uses the word \quote{\wordsmall/} in essentially this way. When the indexing category $T$ has finite limits (or even just splittings of idempotents), note that representability is equivalent also to the standard notion \quote{tiny}; see \autocite{nLabTinyObject}.
+
+But it is perhaps a bit misleading to use \quote{\wordsmall/}-derived terminology here, as this notion is not closed under subobjects. Indeed, what might be considered the \wordsmall/est indexed set, the one which constantly takes the value of the empty set, is never \quote{\wordsmall/} in the sense of being representable!
+
+The analogy of representability to the familiar distinction between \quote{\wordsmall/} sets and non-\quote{\wordsmall/} proper classes is often a fruitful one, motivating this terminology. However, to avoid confusion, we stick with only referring to this notion as \quote{representable} for now. \sTODOinline{Reader beware! Previous versions of this document used the word \quote{\wordsmall/} for this notion, and while I think I have caught and transferred all instances of this, there is always the possibility I have missed or reinserted a stray one somewhere.}
+
+When we wish to refer to the distinction between set-sized and proper-class-sized, we will say \quote{\setsmall/}, rather than saying \quote{\wordsmall/}. We will shy away from using the word \quote{\wordsmall/} altogether.
+\end{remark}
+
+\begin{convention}
+Via the Yoneda embedding (which we denote $\yoneda$), we identify $T$ itself as the full subcategory of \repsmall/ $T$-indexed sets within the category of all $T$-indexed sets. In this way, we may speak, for example, of functions from objects of $T$ to $T$-indexed sets. That is, when $t$ is an object of $T$, we will readily write $t$ also to mean the Yoneda embedding of $t$, when we wish to treat it as a \repsmall/ $T$-indexed set; we will usually not explicitly write $\yoneda(t)$. And conversely, given a \repsmall/ $T$-indexed set $P$, we freely write also $P$ to name an object in $T$ representing $P$, rather than explicitly writing $\yoneda^{-1}(P)$.
+
+Via the Yoneda lemma, we frequently also identify $P(t)$ with $\Hom(t, P)$.
+\end{convention}
+
+\begin{theorem}
+Note that \repsmall/ sets, construed as objects of $\Psh{T}$, are closed under any limits which exist in $T$. In particular, if $T$ is a lexcategory, \repsmall/ sets are closed under finite limits. (This is essentially the observation that the Yoneda embedding preserves limits.)
+\end{theorem}
+
+\begin{definition}
+Note that given an arbitrary functor $f : S \to T$, this induces by composition a functor $\pullAlong{f} : \Psh{T} \to \Psh{S}$.\footnote{I apologize for re-using this $\pullAlong{f}$ notation both for the action of a presheaf on a morphism $f$, \emph{and} for composition of a presheaf with a functor $f$, but this re-use of notation seems to be relatively standard. We can think of the second use of this notation as a kind of instance of the first, for the category-valued $\Hom(-, \Set)$ presheaf on $\Cat$.}
+
+That is, from a $T$-indexed set $P$, we may construct the following $S$-indexed set $\pullAlong{f} P$:
+
+% https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXG9we1N9Il0sWzIsMCwiXFxvcHtUfSJdLFs0LDAsIlxcU2V0Il0sWzAsMSwiXFxvcHtmfSJdLFsxLDIsIlAiXV0=
+\[\begin{tikzcd}
+	{\op{S}} && {\op{T}} && \Set
+	\arrow["{\op{f}}", from=1-1, to=1-3]
+	\arrow["P", from=1-3, to=1-5]
+\end{tikzcd}\]
+\end{definition}
+
+\begin{theorem}\label{YonedaPullalong}
+Given $f : S \to T$ and an object $s$ in $S$ and a $T$-indexed set $P$, we have that $\Hom(s, \pullAlong{f}P) = \Hom(f(s), P)$, with this correspondence being natural in both $s$ and $P$.
+\end{theorem}
+\begin{proof}
+Keep in mind that in these Hom-expressions, $s$ and $f(s)$ have implicitly been construed as $S$-indexed sets via the Yoneda embedding. That is, more explicitly, our claim is $\Hom(\yoneda(s), \pullAlong{f}P) = \Hom(\yoneda(f(s)), P)$. To establish this claim, we can apply the Yoneda lemma to both sides of the equation to reduce it to $(\pullAlong{f}P)(s) = P(f(s))$, which is the definition of $\pullAlong{f}$.
+
+This completes the proof. (In fancy categorical jargon, we have demonstrated that $\yoneda \circ f : S \to \Psh{T}$ is the relative left adjoint of $\pullAlong{f} : \Psh{T} \to \Psh{S}$, relative to the Yoneda embedding $\yoneda : S \to \Psh{S}$.)
+\end{proof}
+
+\begin{lemma}\label{YonedaPullalongLemma}
+Given $f$, $s$, and $P$ as in \magicref{YonedaPullalong}, we have that every morphism $m : s \to \pullAlong{f} P$ factors through a morphism in the range of $\pullAlong{f}$. That is, $m = \pullAlong{f}(m') \circ \eta$ for some $m' : f(s) \to P$ and $\eta : s \to \pullAlong{f}(f(s))$.
+\end{lemma}
+\begin{proof}
+This is corollary to \magicref{YonedaPullalong} by the general yoga of relative adjoints.
+
+Specifically, consider the following naturality diagram for the correspondence in \magicref{YonedaPullalong}, where $m'$ is the morphism in $\Hom(f(s), P)$ corresponding to $m \in \Hom(s, \pullAlong{f}P)$ and $\eta$ is the morphism in $\Hom(s, \pullAlong{f}f(s))$ corresponding to $\id_{f(s)} \in \Hom(f(s), f(s))$.
+
+% https://q.uiver.app/?q=WzAsOCxbMCwwLCJcXEhvbShmKHMpLCBmKHMpKSJdLFszLDAsIlxcSG9tKGYocyksIFApIl0sWzAsMywiXFxIb20ocywgXFxwdWxsQWxvbmd7Zn1mKHMpKSJdLFszLDMsIlxcSG9tKHMsIFxccHVsbEFsb25ne2Z9UCkiXSxbMSwxLCJcXGlkX3tmKHMpfSJdLFsyLDEsIm0nIl0sWzEsMiwiXFxldGEiXSxbMiwyLCJcXHB1bGxBbG9uZ3tmfShtJykgXFxjaXJjIFxcZXRhID0gbSJdLFswLDEsIm0nIFxcY2lyYyAtIl0sWzIsMywiXFxwdWxsQWxvbmd7Zn0obScpIFxcY2lyYyAtIl0sWzIsMCwiIiwxLHsibGV2ZWwiOjIsInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDEseyJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs0LDUsIiIsMSx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1hcHMgdG8ifX19XSxbNCw2LCIiLDEseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJtYXBzIHRvIn19fV0sWzYsNywiIiwxLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibWFwcyB0byJ9fX1dLFs1LDcsIiIsMSx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1hcHMgdG8ifX19XV0=
+\[\begin{tikzcd}
+	{\Hom(f(s), f(s))} &&& {\Hom(f(s), P)} \\
+	& {\id_{f(s)}} & {m'} \\
+	& \eta & {\pullAlong{f}(m') \circ \eta = m} \\
+	{\Hom(s, \pullAlong{f}f(s))} &&& {\Hom(s, \pullAlong{f}P)}
+	\arrow["{m' \circ -}", from=1-1, to=1-4]
+	\arrow["{\pullAlong{f}(m') \circ -}", from=4-1, to=4-4]
+	\arrow[Rightarrow, no head, from=4-1, to=1-1]
+	\arrow[Rightarrow, no head, from=4-4, to=1-4]
+	\arrow[maps to, from=2-2, to=2-3]
+	\arrow[maps to, from=2-2, to=3-2]
+	\arrow[maps to, from=3-2, to=3-3]
+	\arrow[maps to, from=2-3, to=3-3]
+\end{tikzcd}\]
+\end{proof}
+
+\begin{theorem}\label{AspectIsSliceGlobal}
+Let $\Sigma$ be the forgetful functor from a slice category $T/t$ to its ambient category $T$. Then the $t$-aspect of a $T$-indexed set $P$ is in correspondence with the global aspect of $\pullAlong{\Sigma} P$.
+\end{theorem}
+\begin{proof}
+This is corollary to \magicref{YonedaPullalong}, which tells us $\Hom_{\Psh{T/t}}(1_{T/t}, \pullAlong{\Sigma} P)$ is in correspondence with $\Hom_{\Psh{T}}(\Sigma 1_{T/t}, P)$, where $1_{T/t}$ is the terminal object in $T/t$. As this terminal object is given by the identity morphism into $t$, we have that $\Sigma 1_{T/t} = t$. Thus, this equation is telling us that the global aspect of $\pullAlong{\Sigma} P$ corresponds to the $t$-aspect of $P$, as desired.
+\end{proof}
+
+\begin{theorem}\label{KanExtensionOfAdjoint}
+If $f \adjointTo g$, then $\pullAlong{f} \adjointTo \pullAlong{g}$. Thus $\pullAlong{f} = \Lan_{\op{g}}$, while $\pullAlong{g} = \Ran_{\op{f}}$.
+\end{theorem}
+\begin{proof}
+This is simply the fact that adjunction is preserved by 2-functors, and reversed (in the sense of swapping left and right adjoints) by each of $\mathrm{co}$ and $\mathrm{op}$. Thus, adjunction is preserved by $\Hom(\op{-}, C)$ for any fixed $C$. In particular, adjunction is preserved by $\Set^{\op{-}}$ within $\Cat$.
+\end{proof}
+\sTODOinline{We don't really need to remark on the above theorem here in the final draft, but I'm including it for my own reference, so I can stop getting things backwards in my head.}
+
+\begin{theorem}\label{RepsmallRightAdjoint}
+If $f : S \to T$ has a right adjoint $g : T \to S$, then $\pullAlong{f} : \Psh{T} \to \Psh{S}$ takes \repsmall/ sets to \repsmall/ sets. Specifically, $\pullAlong{f}(t) = g(t)$.
+\end{theorem}
+\begin{proof}
+$\pullAlong{f}$ takes any representable presheaf with representing object $t$ in $T$ to the representable presheaf $\Hom_T(f(-), t) = \Hom_S(-, g(t))$.
+\end{proof}
+
+\begin{theorem}\label{PullalongIsLex}
+Any functor of the form $\pullAlong{f}$ preserves finite limits.
+\end{theorem}
+\begin{proof}
+This can be seen in several ways. Perhaps most familiarly, this can be seen from the fact that (co)limits in a a functor category are computed pointwise where the pointwise (co)limits exist, and of course set-sized (co)limits all exist in $\Set$. Secondly, when the domain of $f$ is a \setsmall/ category, it can be seen from the fact that $\pullAlong{f}$ has left and right adjoints (the left and right Kan extensions along $\op{f}$), so that $\pullAlong{f}$ in fact preserves ALL (co)limits that happen to exist, regardless of size. We can also note that $\pullAlong{f}(P) = \Hom(f(-), P)$, which is manifestly limit preserving (though this argument does not generalize as easily to colimit-preservation).
+\end{proof}
+
+We also define more generally the concept of a function between indexed sets having \repsmall/ fibers:
+\begin{definition}\label{RepsmallFibersDefn}
+A function $f : A \to B$ between $T$-indexed sets has \defined{\repsmall/ fibers} if the pullback of $f$ along any map into $B$ from a \repsmall/ set is itself \repsmall/ (thus, lives within a slice category of $T$). That is, we say $f$ has \repsmall/ fibers just in case for every pullback diagram of the following sort within the category of $T$-indexed sets, if $t$ is \repsmall/, then so is $s$:
+
+% https://q.uiver.app/?q=WzAsNCxbMSwwLCJBIl0sWzEsMSwiQiJdLFswLDAsInMiXSxbMCwxLCJ0Il0sWzAsMSwiZiJdLFsyLDBdLFsyLDNdLFszLDFdLFsyLDEsIiIsMix7InN0eWxlIjp7Im5hbWUiOiJjb3JuZXIifX1dXQ==
+\[\begin{tikzcd}
+	s & A \\
+	t & B
+	\arrow["f", from=1-2, to=2-2]
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+\end{tikzcd}\]
+\end{definition}
+
+(Beware that when $T$ does not have finite limits, this definition does not have all the properties which might be expected. For example, we might expect that any morphism between $T$-\repsmall/ sets should have $T$-\repsmall/ fibers, which would not be true if $T$ itself did not have pullbacks. If $T$ does not have binary products, it will not even be true that a map into the terminal object $1$ has \repsmall/ fibers whenever its domain is \repsmall/.)
+
+\begin{theorem}\label{RepsmallSumOfRepsmallFibers}
+If $f : A \to B$ has \repsmall/ fibers and $B$ is \repsmall/, then $A$ is \repsmall/ too.
+\end{theorem}
+\begin{proof}
+Apply the definition of \repsmall/ fibers to the trivial case of pulling $f$ back along $\id_B$.
+\end{proof}
+
+The following two theorems follow from the composition of pullback squares into larger pullback squares (or pullback rectangles, one might say):
+
+\begin{theorem}
+Maps with \repsmall/ fibers are closed under composition.
+\end{theorem}
+\begin{proof}
+% https://q.uiver.app/?q=WzAsNixbMSwwLCJBIl0sWzEsMSwiQiJdLFswLDAsInMiXSxbMCwxLCJ0Il0sWzEsMiwiQyJdLFswLDIsInUiXSxbMCwxLCJmIl0sWzIsMF0sWzIsM10sWzMsMV0sWzIsMSwiIiwyLHsic3R5bGUiOnsibmFtZSI6ImNvcm5lciJ9fV0sWzEsNCwiZyJdLFszLDVdLFs1LDRdLFszLDQsIiIsMSx7InN0eWxlIjp7Im5hbWUiOiJjb3JuZXIifX1dXQ==
+\[\begin{tikzcd}
+	s & A \\
+	t & B \\
+	u & C
+	\arrow["f", from=1-2, to=2-2]
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+	\arrow["g", from=2-2, to=3-2]
+	\arrow[from=2-1, to=3-1]
+	\arrow[from=3-1, to=3-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=2-1, to=3-2]
+\end{tikzcd}\]
+
+When we presume $g$ to have \repsmall/ fibers, we find that $t$ is \repsmall/. Then when we presume $f$ to have \repsmall/ fibers, we find that $s$ is \repsmall/. The composition of the individual pullback squares yields a pullback rectangle, which allows us to conclude that the composition $g \circ f$ has \repsmall/ fibers.
+
+The above illustrates the argument for binary composition, by simply composing pullbacks. The argument for $n$-ary composition for any finite $n$ works inductively in the same way (note that the base $0$-ary case works in the same way as well; the pullback of an identity morphism is an identity morphism, and an identity morphism with \repsmall/ codomain has \repsmall/ domain).
+\end{proof}
+
+\begin{theorem}
+Maps with \repsmall/ fibers are closed under pullback along arbitrary maps.
+\end{theorem}
+\begin{proof}
+% https://q.uiver.app/?q=WzAsNixbMiwwLCJBIl0sWzIsMSwiQiJdLFsxLDAsIkQiXSxbMSwxLCJDIl0sWzAsMSwidCJdLFswLDAsInMiXSxbMCwxLCJmIl0sWzIsMF0sWzIsMywiZiciXSxbMywxXSxbMiwxLCIiLDIseyJzdHlsZSI6eyJuYW1lIjoiY29ybmVyIn19XSxbNCwzXSxbNSw0XSxbNSwyXSxbNSwzLCIiLDAseyJzdHlsZSI6eyJuYW1lIjoiY29ybmVyIn19XV0=
+\[\begin{tikzcd}
+	s & D & A \\
+	t & C & B
+	\arrow["f", from=1-3, to=2-3]
+	\arrow[from=1-2, to=1-3]
+	\arrow["{f'}", from=1-2, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-2, to=2-3]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-1, to=1-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+\end{tikzcd}\]
+
+Any pullback of $f'$ (along some arbitrary map) is a pullback of $f$ itself (along an extended map with the same domain). Thus, if $f$ has yields \repsmall/ objects whenever pulled back along a map with \repsmall/ domain, so does its pullback $f'$.
+\end{proof}
+
+\begin{theorem}\label{RepSmallRightAdjointFibers}
+If $L : Q \to T$ is a functor with a right adjoint, on a category $Q$ with pullbacks, and $f$ is a map between $T$-indexed sets with $T$-\repsmall/ fibers, then $\pullAlong{L} f$ has $Q$-\repsmall/ fibers.
+\end{theorem}
+\begin{proof}
+Let us say $f: A \to B$, and let an arbitrary map $m : q \to \pullAlong{L}(B)$ be given, where $q$ is an object of $Q$. We must show that the pullback of $\pullAlong{L} f$ along $m$ also lies within $Q$. For sake of a name, let us call the domain of this pullback $P$.
+
+% https://q.uiver.app/?q=WzAsNCxbMSwwLCJcXHB1bGxBbG9uZ3tMfUEiXSxbMSwxLCJcXHB1bGxBbG9uZ3tMfUIiXSxbMCwxLCJxIl0sWzAsMCwiUCJdLFswLDEsIlxccHVsbEFsb25ne0x9ZiJdLFszLDJdLFsyLDEsIm0iLDJdLFszLDBdLFszLDEsIiIsMSx7InN0eWxlIjp7Im5hbWUiOiJjb3JuZXIifX1dXQ==
+\[\begin{tikzcd}
+	P & {\pullAlong{L}A} \\
+	q & {\pullAlong{L}B}
+	\arrow["{\pullAlong{L}f}", from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow["m"', from=2-1, to=2-2]
+	\arrow[from=1-1, to=1-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+\end{tikzcd}\]
+
+First, observe via \magicref{YonedaPullalongLemma} that $m$ factors as $\pullAlong{L}(m') \circ \eta$ for some $m' : L(q) \to B$ and $\eta : q \to \pullAlong{L}L(q)$.
+
+% https://q.uiver.app/?q=WzAsMyxbMiwwLCJcXHB1bGxBbG9uZ3tMfUIiXSxbMSwwLCJcXHB1bGxBbG9uZ3tMfUwocSkiXSxbMCwwLCJxIl0sWzEsMCwiXFxwdWxsQWxvbmd7TH0gbSciLDJdLFsyLDEsIlxcZXRhIiwyXSxbMiwwLCJtIiwxLHsib2Zmc2V0Ijo1LCJjdXJ2ZSI6Mn1dLFsxLDUsIiIsMSx7InNob3J0ZW4iOnsidGFyZ2V0IjoyMH0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\[\begin{tikzcd}
+	q & {\pullAlong{L}L(q)} & {\pullAlong{L}B}
+	\arrow["{\pullAlong{L} m'}"', from=1-2, to=1-3]
+	\arrow["\eta"', from=1-1, to=1-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "m"{description}, shift right=5, curve={height=12pt}, from=1-1, to=1-3]
+	\arrow[shorten >=2pt, Rightarrow, no head, from=1-2, to=0]
+\end{tikzcd}\]
+
+Thus, the pullback yielding $P$ we are interested in can be decomposed as follows:
+
+% https://q.uiver.app/?q=WzAsNixbMiwwLCJcXHB1bGxBbG9uZ3tMfUEiXSxbMiwxLCJcXHB1bGxBbG9uZ3tMfUIiXSxbMSwxLCJcXHB1bGxBbG9uZ3tMfUwocSkiXSxbMSwwLCJcXHB1bGxBbG9uZ3tMfShBIFxcdGltZXNfe0J9IEwocSkpIl0sWzAsMSwicSJdLFswLDAsIlAiXSxbMCwxLCJcXHB1bGxBbG9uZ3tMfWYiXSxbMiwxLCJcXHB1bGxBbG9uZ3tMfSBtJyIsMl0sWzMsMF0sWzQsMiwiXFxldGEiLDJdLFs1LDNdLFs1LDRdLFszLDJdLFs0LDEsIm0iLDEseyJvZmZzZXQiOjUsImN1cnZlIjoyfV0sWzIsMTMsIiIsMSx7InNob3J0ZW4iOnsidGFyZ2V0IjoyMH0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSw5LCIiLDEseyJsZXZlbCI6MSwic3R5bGUiOnsibmFtZSI6ImNvcm5lciJ9fV0sWzMsNywiIiwxLHsibGV2ZWwiOjEsInN0eWxlIjp7Im5hbWUiOiJjb3JuZXIifX1dXQ==
+\[\begin{tikzcd}
+	P & {\pullAlong{L}(A \times_{B} L(q))} & {\pullAlong{L}A} \\
+	q & {\pullAlong{L}L(q)} & {\pullAlong{L}B}
+	\arrow["{\pullAlong{L}f}", from=1-3, to=2-3]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\pullAlong{L} m'}"', from=2-2, to=2-3]
+	\arrow[from=1-2, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "\eta"', from=2-1, to=2-2]
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "m"{description}, shift right=5, curve={height=12pt}, from=2-1, to=2-3]
+	\arrow[shorten >=2pt, Rightarrow, no head, from=2-2, to=2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=1]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-2, to=0]
+\end{tikzcd}\]
+
+The right half of the above diagram is $\pullAlong{L}$ (known to preserve pullbacks by \magicref{PullalongIsLex}) applied to the following pullback diagram in $\Psh{T}$:
+
+% https://q.uiver.app/?q=WzAsNCxbMSwwLCJBIl0sWzEsMSwiQiJdLFswLDEsIkwocSkiXSxbMCwwLCJBIFxcdGltZXNfe0J9IEwocSkiXSxbMCwxLCJmIl0sWzIsMSwibSciLDJdLFszLDJdLFszLDBdLFszLDUsIiIsMCx7ImxldmVsIjoxLCJzdHlsZSI6eyJuYW1lIjoiY29ybmVyIn19XV0=
+\[\begin{tikzcd}
+	{A \times_{B} L(q)} & A \\
+	{L(q)} & B
+	\arrow["f", from=1-2, to=2-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{m'}"', from=2-1, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-1, to=1-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=0]
+\end{tikzcd}\]
+
+Note that, as $f$ has $T$-\repsmall/ fibers and $L(q)$ is an object of $T$ (i.e., $T$-\repsmall/), we find that $A \times_{B} L(q)$ is also $T$-\repsmall/.
+
+By \magicref{RepsmallRightAdjoint}, it follows that $\pullAlong{L}(A \times_{B} L(q))$ is $Q$-\repsmall/, as is $\pullAlong{L}L(q)$.
+
+Thus, the left half of our above diagram is a pullback of morphisms within $Q$:
+
+% https://q.uiver.app/?q=WzAsNCxbMSwxLCJcXHB1bGxBbG9uZ3tMfUwocSkiXSxbMSwwLCJcXHB1bGxBbG9uZ3tMfShBIFxcdGltZXNfe0J9IEwocSkpIl0sWzAsMSwicSJdLFswLDAsIlAiXSxbMiwwLCJcXGV0YSIsMl0sWzMsMV0sWzMsMl0sWzEsMF0sWzMsNCwiIiwxLHsibGV2ZWwiOjEsInN0eWxlIjp7Im5hbWUiOiJjb3JuZXIifX1dXQ==
+\[\begin{tikzcd}
+	P & {\pullAlong{L}(A \times_{B} L(q))} \\
+	q & {\pullAlong{L}L(q)}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "\eta"', from=2-1, to=2-2]
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=0]
+\end{tikzcd}\]
+
+As $Q$ is closed under pullbacks, it follows that $P$ is $Q$-\repsmall/, completing our proof.
+\end{proof}
+
+\begin{definition}\label{IndexedStructuresDefn}
+We can talk about any kind of $T$-indexed structure or $T$-indexed maps between such structures, as the appropriate diagram of $T$-indexed sets and functions. For example, we can talk about $T$-indexed groups and group homomorphisms between them. When the $T$-indexed sets involved (the sorts within the structure, including the domains and codomains of all the maps defining the structure) are all \repsmall/, we say the entire structure is \defined{\repsmall/}, or equivalently, we say it is \defined{internal} to $T$\footnote{This \quote{$T$-internal gadgets} terminology makes most sense when $T$ is thought of as a kind of structure such that structure-preserving maps from $T$ to $S$ take $T$-internal gadgets to $S$-internal gadgets. Thus, if the definition of gadgets invokes maps whose domains are defined using finite limits, we will use this terminology of $T$-internal gadgets only in contexts where we are taking $T$ as a category with finite limits (for example, when speaking of internal categories). If the definiton of gadgets invokes maps whose domains are defined using finite products, we will use this terminology of $T$-internal gadgets only in contexts where we are taking $T$ as a category with finite products (for example, when speaking of internal groups). If the definition of gadgets invokes maps whose domains are defined using countably infinite products, then to speak of $T$-internal gadgets, $T$ must be carrying countably infinite product structure, etc.}. By the Yoneda lemma, this amounts to a diagram of objects and morphisms within $T$ itself.
+\end{definition}
+
+Observe that, as $\pullAlong{f}$ for an arbitrary functor $f : S \to T$ preserves finite limits (by \magicref{PullalongIsLex}), it not only takes $T$-indexed sets to $S$-indexed sets but also acts as a functor from $T$-indexed structures to $S$-indexed structures more generally, for any notion of structure definable using finite limits. For example, $\pullAlong{f}$ takes $T$-indexed groups to $S$-indexed groups, and so on. Furthermore, by \magicref{RepsmallRightAdjoint}, if $f$ has a right adjoint, then $\pullAlong{f}$ will take \repsmall/ structures to \repsmall/ structures.
+
+Observe also that any $T$-indexed structure $S$ has a global aspect $\Glob{S}$ which is an ordinary (that is, non-indexed) structure of the same sort (as well as aspects at each object of $T$).
+
+\subsection{Indexed categories}
+\begin{definition}
+In the same vein as all this, by a $T$-\defined{indexed category}, we mean a category-valued presheaf on $T$; that is, a contravariant functor from $T$ to $\Cat$, and by an \defined{indexed functor} (or simply \defined{functor}) between $T$-indexed categories, we mean a natural transformation between such presheaves.\footnote{The machinery of indexed categories is equivalent to the machinery of fibered categories, a presentation some prefer, but we refrain from that presentation for now. Many of the features which make fibered categories most useful do not strongly apply to our ultimate interest largely in internal structures, while adding distracting complexity to the exposition. The current choice of presentation seemed the simpler one for our purposes, but the reader who disagrees may translate everything into the language of fibered categories if they prefer.}. (In keeping with our general convention, note that \quote{functor to $\Cat$} and \quote{natural transformation between functors to $\Cat$} here really refer to pseudofunctors and pseudonatural transformations, respectively, as $\Cat$ is a 2-category). We say this indexed category is an \defined{indexed lexcategory} (aka, \defined{has finite limits}) if this presheaf factors through the inclusion of $\LexCat$ into $\Cat$; that is, if it takes every object to a lexcategory and every morphism to a lexfunctor. We say an indexed functor between indexed lexcategories \defined{preserves finite limits} if it arises from a natural transformation between the corresponding $\LexCat$-valued presheaves. And in the same way as all this, we can speak of \defined{natural transformations} between functors between indexed categories, or any other familiar categorical structure or property.
+\end{definition}
+
+One might have thought our definition of $T$-indexed category-like structures would simply be a special case of our previous definition of $T$-indexed set-like structures as suitable diagrams within $\Psh{T}$ (that is, as suitable diagrams of $\Set$-valued functors). That is indeed the essence of this definition. However, the fact that we take indexed categories to be given by pseudofunctors into the 2-category $\Cat$, instead of treating $\Cat$ as a 1-category, provides a subtle but technically convenient generalization beyond directly demanding mere diagrams of $\Set$-valued functors.
+
+Still, all the same notational conventions apply to indexed categories. E.g., given a $T$-indexed category $C$, we write $C(t)$ (or $C_t$, or even Yoneda-style $\Hom(t, C)$) for the category which is the $t$-aspect of $C$ at an object $t$ of $T$, we write $C(m) : C(t) \to C(s)$ (or $C_m$) for the functor induced by a morphism $m: s \to t$ in $T$, we may write $\pullAlong{m}$ instead of $C(m)$ in contexts where it is clear that we are referring to the action of $C$, etc.
+
+We now might like to speak about an indexed category being \repsmall/, in the sense that its collection of objects and its collection of morphisms are both \repsmall/. This is the essence of the definition we will indeed adopt (at \magicref{RepsmallCategoryDefn}) but there is one pitfall to be aware of here, related to the just mentioned subtlety. We generally speak about categories in such a way as that they do not come with a particular notion of their set of objects, as such. That is, two categories may be equivalent (in the technical sense of \quote{equivalent} within the 2-category $\Cat$) though presented with different ostensible sets of objects. For example, a category presented as comprised of one terminal object, and a category presented as comprised of two isomorphic terminal objects, are equivalent categories; there is no pseudofunctor from the 2-category of categories, functors, and natural isomorphisms to $\Set$ which would send the first of these to a one-element set and the second to a two-element set. We are to treat them as the \quote{same} category. So to speak about a category as having a particular set of objects, we must imagine it as carrying more fine-grained equality structure on its objects than we normally do.
+
+Though a category does not have a well-defined set of objects, it \emph{does} have a well-defined set of morphisms between any two given objects. Thus, there is no such difficulty in defining when an indexed category is locally \repsmall/.
+\begin{definition}\label{LocallyRepmallDefn}
+Given a $T$-indexed category $C$, an object $t$ of $T$ and any two objects $a$ and $b$ in $C(t)$, we can define a $T$-indexed set whose aspect at objects $r$ of $T$ is the set $\{ (m, n) \mid m \in \Hom_T(r, t), n \in \Hom_{C(r)}(\pullAlong{m} a, \pullAlong{m} b) \}$, with the obvious corresponding action on morphisms of $T$. If the $T$-indexed set defined in this way is \repsmall/ for every object $t$ of $T$ and objects $a$ and $b$ in $C(t)$, then we say $C$ is \defined{locally \repsmall/}.
+\end{definition}
+
+Note that this is the same as saying that $\langle \cod, \dom \rangle : \Mor(C) \to \Ob(C) \times \Ob(C)$ has \repsmall/ fibers in the sense of \magicref{RepsmallFibersDefn}, except for that we do not need to think of $\Ob(C)$ as carrying an equality relation as such.
+
+In particular, we have the following result:
+\begin{theorem}\label{RepLocallySmallRightAdjoint}
+If $L : Q \to T$ is a functor with a right adjoint, on a category $Q$ with pullbacks, and $C$ is a $T$-indexed locally \repsmall/ category, then the composition of $C$ with $L$ to yield a $Q$-indexed category is also locally \repsmall/.
+\end{theorem}
+\begin{proof}
+By the reasoning of \magicref{RepSmallRightAdjointFibers}, as applied to the map $\langle \cod, \dom \rangle : \Mor(C) \to \Ob(C) \times \Ob(C)$, although $\Ob(C)$ need not itself be thought of as carrying an equality relation as such.
+\end{proof}
+
+\sTODOinline{Discuss how a(n indexed) category has a well-defined (indexed) set of objects modulo isomorphism, i.e., set of isomorphism classes of objects.}
+
+\sTODOinline{Discuss how a set carries a canonical structure as a strict category, the categories presented by these are discrete categories, and in this way sets are also equivalent to discrete categories. In particular, in this way, an indexed set is the same as an indexed discrete category.}
+
+\subsection{Strict categories and internal categories}
+These bothers around the ill-defined set of objects of a general indexed category shall take us down some technical digressions for a bit, before we return to our big picture ideas. (Please keep in mind, the nuances of this section mostly do not matter for a big picture understanding. The main part of this document where such details might matter is in being rigorous in \magicref{GeminalChapter}. We recommend that on a first read, the reader ignore all discussion of strictification or distinction between strict and non-strict concepts, in order to pick up the big picture ideas. The reader can then pay attention to these details on later more scrupulous re-reads as desired.)
+
+\begin{definition}\label{StrictCategoryDefn}
+Specifically, let us say a \defined{strict category} is a set of objects (including the ability to speak about equality of objects in a potentially finer-grained sense than isomorphism) and a set of morphisms, with the usual operations and satisfying the usual equations. We may also speak of a \defined{strict functor}, meaning a homomorphism of such structure that preserves all of it on-the-nose. Strict categories and the strict functors between them comprise the 1-category $\StrictCat$.
+
+We can speak straightforwardly of natural transformations between strict functors, and with those in mind we can also create a 2-category $\StrictCatTwo$ of strict categories, strict functors, and natural transformations.
+
+But when we speak of equality of parallel strict functors, we will always mean equality in the 1-category $\StrictCat$, not merely isomorphism in the 2-category $\StrictCatTwo$.
+\end{definition}
+
+Every strict category [or functor or etc], gives rise to a category [or functor or etc] in whatever ordinary sense one would like to think of these. We may say the strict category [or etc] presents the category [or etc] which results. Beware, non-isomorphic strict categories can both present the same (up to equivalence) category!
+
+Just as every strict category presents a non-strict category, conversely, one would ordinarily say every category is presented by at least one strict category.\footnote{In certain non-traditional foundations, this may not be true. For example, in Homotopy Type Theory, a groupoid may come primitively with no particular discrete set of objects. If said groupoid was found in the wild instead of constructed by hand and there is furthermore no presumption of an Axiom of Choice, there may be no way to turn it into a strict category. But for our purposes, this sort of thing does not matter. Even in set-theoretic foundations without the Axiom of Choice, the situation becomes more nuanced for turning functors between arbitrary categories equivalent to given strict categories into strict functors between the given strict categories, but again, that will not concern us for now.} One might, if one likes, say that the only distinction between categories and strict categories is that we gather categories up into a 2-category and speak of categories up to equivalence in such, while we gather strict categories up into a 1-category and speak of strict categories up to isomorphism in such.
+
+\begin{definition}
+We now go further in defining a \defined{strict lexcategory}. Here, we mean more than just a strict category for which finite limits exist. We also mean that, when taking special \quote{basic limits}, the relevant limit is not merely defined up to isomorphism, but is given as a particular object (in keeping with the fact that objects can be distinguished more finely-grained than up to isomorphism, within a strict category). A \defined{strict lexfunctor} is accordingly one which preserves these chosen basic limits not merely up to isomorphism, but on-the-nose. Strict lexcategories and the strict lexfunctors between them comprise the 1-category $\StrictLexCat$. Strict lexcategories, the strict lexfunctors between them, and the natural transformations between those comprise the 2-category $\StrictLexCatTwo$.
+
+In the same way, we can also speak of a \defined{strict category with finite products}, or any similar such categorical structure.
+\end{definition}
+
+It is important for us to make this demand of chosen basic limits and their preservation on the nose in order to ensure that $\StrictLexCat$ is the category of models and homomorphisms of an essentially algebraic theory (a fact we will make use of in \magicref{GeminalChapter}).
+
+This business of \defined{basic limits} will require more explanation, another technical subtlety. What I mean by this is like so: Consider for example the concept of a category with a terminal object. And now consider the concept of a category with a pair of terminal objects, a terminal object A and a terminal object B. Ordinarily, we would like to say these are equivalent concepts or equivalent theories. They give rise to equivalent 2-categories (of categories with terminal objects, functors taking terminal objects to terminal objects, and natural transformations between these). However, the concept of a strict category with a single chosen terminal object, and the concept of a strict category with two chosen terminal objects A and B, are not equivalent concepts. We can ask questions in the one case that we cannot in the other; for example, in the latter case, we can distinguish between those models in which A and B are equal objects and those models in which A and B are not equal objects, merely isomorphic. This is reflected also in these giving rise to non-equivalent 1-categories of models (in which the objects are strict categories with the designated terminal objects, and the morphisms are functors preserving designated terminal objects on the nose). So when we seek to strictify the concept of a category with a terminal object, we really must make a choice as to how we choose to designate the terminal object; once or multiply.
+
+This issue was illustrated above for terminal objects, but arises again, perhaps even more perniciously, for categories with finite products or finite limits or the like. Here, we find that the essentially algebraic theory of \quote{A strict category with a chosen terminal object and a binary operation sending any pair of objects to a chosen product} is not precisely the same as the essentially algebraic theory of \quote{A strict category with an $n$-ary operation on objects assigning chosen $n$-ary products, for each finite $n$}. Or the essentially algebraic theory of \quote{A strict category with a chosen terminal object and chosen (binary) pullbacks} is not precisely the same as the essentially algebraic theory of \quote{A strict category with a chosen terminal object, chosen binary products, and chosen (binary) equalizers}, particularly when we ask for homomorphisms between such structures which preserve their operations on-the-nose.
+
+So in general, when we wish to talk about the appropriate notion of \quote{strict lexcategory} (or \quote{strict category with finite products} or \quote{strict cartesian closed category} or any such thing), we must make some decision as to how exactly to formalize this. We must make some choice of a basic stock of limit operations (or representing object operations more generally) of the desired sort, such that all the other desired limits (or representing objects) can be constructed from these basic operations. Different choices will yield slightly different strict concepts, albeit equivalent for all non-strict purposes.
+
+None of the results in this work are ever particularly sensitive to what choice of basic such operations we take in strictifying a categorical concept. We shall simply suppose some such choice has been made whenever needed, and refer to its operations as our basic limits (or basic representing object operations more generally). The one notable presumption we will make is that there are only finitely many basic limit operations involved in defining a strict lexcategory (or any such finitely axiomatizable thing); beyond that, any choice is fine. If the reader insists that we commit to a specific choice, let us for harmony with \autocite{palmgrenvickers} say a strict lexcategory is defined by having a chosen terminal object and a chosen (binary) pullback operator.
+
+\begin{definition}
+Of course, we can speak of \defined{indexed strict categories} now (or indexed strict lexcategories, indexed strict categories with finite products, etc), straightforwardly via \magicref{IndexedStructuresDefn}, as the appropriate diagram of indexed sets and functions between them. And we can speak of such indexed strict categories as being \repsmall/, just in case their indexed sets of objects and of morphisms are both \repsmall/.
+\end{definition}
+
+\begin{definition}\label{RepsmallCategoryDefn}
+We will now say an indexed category is \defined{\repsmall/} if it is equivalent to some indexed strict category which is \repsmall/. Note that we do not demand that, as part of its structure, any particular such strict category is selected; merely, that it is possible to do so. However, we may use the terminology \defined{internal category}, to mean the selection of a specific \repsmall/ indexed strict category; similarly, an \defined{internal lexcategory} will mean the selection of a specific \repsmall/ indexed strict lexcategory (including chosen basic limits), and so on for any such notion.
+
+In this way, the terminology of internality always comes with the presumption of strictness. (In particular, an \defined{internal lexfunctor} between internal lexcategories means an indexed strict lexfunctor between them, preserving basic limits on the nose). As $T$-internal structures are both strict and \repsmall/, they can not only be viewed as living within $\Psh{T}$ but can also be viewed as just suitable diagrams within $T$.
+\end{definition}
+
+\begin{definition}\label{LocallyRepsmallStrictDefn}
+We also say an indexed strict category is \defined{locally \repsmall/} if the map $\langle \dom, \cod \rangle$ from its set of morphisms to its set of pairs of objects has \repsmall/ fibers (in other words, though its set of objects may not be \repsmall/, everything that exists between any two particular objects is \repsmall/). 
+
+We can repeat in this language the observation made at the end of \magicref{LocallyRepmallDefn}. Given an indexed category $C$ which is equivalent to some indexed strict category $C'$, we have that $C$ is locally \repsmall/ just in case $C'$ is locally \repsmall/. Note that, although an indexed category may be equivalent to non-isomorphic indexed strict categories, they will all agree on whether they are locally \repsmall/.
+
+Note that a \repsmall/ strict category indexed over a category with finite limits is a fortiori locally \repsmall/, as expected, as the collection of morphisms between any particular pair of objects is given by an equalizer between sets already presumed \repsmall/ in a \repsmall/ strict category.
+\end{definition}
+
+In the same way as all the above, we adopt the following convention even for non-indexed categories, which can be thought of as categories indexed by the terminal category $1$.
+
+\DiscussSmallNotation
+\begin{definition}
+We say \defined{\repsmall/ category} to mean a category which is presented by some (\setsmall/) strict category. And we say \defined{\repsmall/ lexcategory} to mean a lexcategory which is presented by some (\setsmall/) strict lexcategory. In particular, it is for us true by definition that all \repsmall/ lexcategories admit presentations with chosen basic limits.
+\end{definition}
+
+Note that all the ordinary constructions of category theory which produce \setsmall/ categories or lexcategories from other such data in fact furthermore produce \repsmall/ categories or \repsmall/ lexcategories from analogous inputs. So this convention does not change very much, except it saves us some pedantry in the scope of some claims we make which might otherwise fail in contexts without the Axiom of Choice (where a random category found in the wild, instead of constructed by hand, could conceivably have finite limits without admitting any presentation with chosen basic limits, or some such pathology).
+
+We note without detailed proof some strictification results which will be useful to us later. \sTODOinline{Give or cite proofs}
+
+\sTODOinline{We don't end up using the following:
+\begin{theorem}\label{StrictifyLexfunctor}
+Given a strict lexcategory $D$, a lexcategory $C$, and a lexfunctor $f : C \to D$, there is some strict lexcategory $C'$ and strict lexfunctor $f' : C' \to D$ such that $f$ and $f'$ are equivalent within the slice 2-category $\Cat/D$.
+\end{theorem}
+}
+
+\begin{theorem}\label{FreeStrictifyLexcategory}
+Given any lexcategory $T$, there is a strict lexcategory $T_{strict}$ which presents $T$, such that furthermore, for any lexfunctor $f : T \to L$ into a strict lexcategory $L$, there is a strict lexfunctor $f_{strict} : T_{strict} \to L$ which presents $f$.
+\end{theorem}
+
+\begin{theorem}\label{StrictifyIndexedCategory}
+Any indexed category is presented by some indexed strict category.
+\end{theorem}
+
+\begin{theorem}\label{StrictifyIndexedLexcategory}
+Any indexed lexcategory is presented by some indexed strict lexcategory.
+\end{theorem}
+
+\begin{theorem}\label{StrictifyInternalCategoryToInternalLexcategory}
+Any internal category which has finite limits (qua indexed category) can be further equipped as an internal lexcategory (without modifying the internal category structure).
+\end{theorem}
+\begin{proof}
+Let the internal category $C$, internal to $T$, be given, and suppose its $t$-aspect has finite limits for each object $t$ of $T$. That is, the category whose objects are $\Hom(t, \Ob(t))$ and whose morphisms are $\Hom(t, \Mor(t))$, with suitable composition structure from the diagram internal to $T$ defining $C$, has finite limits.
+
+Then in particular, for each basis finite limit shape, we can consider the case where $t$ is taken to be the set of diagrams of such shape within $C$ (for example, for binary products, we can consider $t = \Ob(C) \times \Ob(C)$, or for binary equalizers, we can consider $t$ taken to be the kernel pair (that is, pullback along itself) of $\langle \cod, \dom \rangle : \Mor(C) \to \Ob(C) \times \Ob(C)$). There will then be, within the $t$-aspect of $C$, a corresponding generic diagram of this shape, which will have some limit within $C$ as $C$ has finite limits. The selection of any particular such limit (that is, a particular value in $\Hom(t, \Ob(C))$ to serve as the apex of the limit cone, and particular further values in $\Hom(t, \Mor(C))$ to serve as the projection morphisms of the limit cone) gives us the morphisms within $T$ which serve as a limit-assigning operation on $C$ for this particular shape of basic limit. After making such a choice for each of the basic limit operations (of which we can presume there are only finitely many), we ultimately have equipped $C$ as an internal lexcategory.
+\end{proof}
+Note that it is NOT true that any indexed strict category which has finite limits (qua indexed category) can furthermore be equipped as an indexed strict lexcategory (without modification to the indexed strict category structure)! The former has reindexing functors which need only preserve finite limits in a non-strict-sense, while the latter's chosen basic limits must be such that all reindexing functors preserve basic limits on-the-nose. So it is rather remarkable that we get this for free once our indexed strict category is furthermore \repsmall/.
+
+\subsection{Self-indexing and slice categories}\label{PreliminariesSelfIndexing}
+\begin{definition}
+Note that, from any lexcategory $T$ (or even just a category with pullbacks), we obtain a $T$-indexed lexcategory by considering the functor $T/-$ which assigns to each object $t$ of $T$ the slice category $T/t$, and whose action on morphisms is given by pullback. We refer to this as the \defined{self-indexing} of $T$.
+\end{definition}
+
+Note in the above that our flexibility in considering an indexed category as a pseudofunctor into $\Cat$, rather than a strict functor into $\StrictCat$, pays off in letting us not worry about how to choose specific pullbacks in a strictly functorial way.
+
+The self-indexing $T/-$ of a lexcategory $T$ is not in general \repsmall/, nor even locally \repsmall/. Given two globally defined objects $A$ and $B$ of the self-indexed category, their corresponding hom-set $\Hom_{T/-}(A, B)$ amounts to the presheaf $\Hom_{T}(A \times -, B)$ on $T$, which is to say, the exponential $B^A$ within $\Psh{T}$. This indexed set is \repsmall/ just in case an exponential object $B^A$ already exists within $T$. This extends in the same way to non-globally-defined objects of the self-indexed category (considered as globally defined over some slice category of $T$ instead, a la \magicref{AspectIsSliceGlobal}), and so we have the following:
+
+\begin{theorem}\label{LocallySmallSelfIndexing}
+The self-indexing of a lexcategory $T$ is locally \repsmall/ just in case $T$ is locally cartesian closed.
+\end{theorem}
+
+Even when we do not have local cartesian closure in full, note that when $A = 1$, the exponential $B^A$ always is given by $B$ itself, so that hom-sets whose domain is $1$ are always \repsmall/ within the self-indexed category, with $\Hom_{T/-}(1, B)$ being the same as $B$ itself.
+
+\sTODOinline{Get rid of stuff like the following about finite product categories, since we've decided to only focus for now  on the lex case of everything.}
+\begin{definition}
+In the same way, we can also speak of an \defined{indexed category with finite products}, and indeed, from any category with finite products $T$ (or even just a category with binary products), we obtain a $T$-indexed category with finite products by considering the functor $T//-$ which assigns to each object $t$ of $T$ the full subcategory of $T/t$ consisting of projections (slice category objects given by the projection $: t \times s \to t$ for some object $s$ of $T$), and whose action on morphisms is again given by pullback (the pullback of a projection being another projection in a canonical way). We refer to this as the \defined{simple self-indexing} of $T$. Note that $T//t$ can also be thought of as the Kleisli category for the $t \times -$ comonad; that is, the objects of $T//t$ are the same as the objects of $T$, while a morphism $: s_1 \to s_2$ in $T//t$ is the same as a morphism $: t \times s_1 \to s_2$ in $T$, with suitable composition structure.
+
+For a category with finite limits (or just pullbacks and binary products), the simple self-indexing can be thought of as a full subcategory of the self-indexing; specifically, the full subcategory whose objects in each aspect are restricted to those of $T$ itself.
+\end{definition}
+
+By analogous reasoning to before, the simple self-indexing $T//-$ of a category with finite products $T$ is locally \repsmall/ just in case $T$ is cartesian closed.
+
+\begin{observation}\label{FunctorsActOnSlices}
+Given any functor $f : A \to B$ between arbitrary categories $A$ and $B$, we get an induced functor $f' : A/a \to B/f(a)$ between slice categories for any object $a$ of $A$. If $f$ is a lexfunctor between lexcategories, then this induced functor $f'$ is also a lexfunctor between lexcategories.
+
+In the same way, there is also an induced functor $f'' : A//a \to B//f(a)$ between slice categories restricted to projections, and if $f$ is a finite product preserving functor between categories with finite products, then so is this $f''$.
+\end{observation}
+
+\begin{observation}\label{CategoryIsGlobalSlices}
+For any category $T$ with a terminal object $1$, we have an equivalence between $T$ and its slice category $T/1$.
+\end{observation}
+
+\begin{lemma}\label{Lemma1}
+If $Y$ is a category with initial object $0$ and $X$ is a (2-)category, then to any functor $f : Y \to X$, we can associate a corresponding functor $f'$ from $Y$ to the slice category $f(0)/X$.
+
+Furthermore, if $D$ and $C$ are parallel functors from $Y$ to $X$, then a natural transformation from $D$ to $C$ amounts to the same thing as a map $\introS$ from $D(0)$ to $C(0)$ along with a natural transformation from $D'$ to $\introS^{*} \circ C'$, where $\introS^{*} : C(0)/X \to D(0)/X$ is the functor between these slice categories given by composition with $\introS$.
+
+(Dually, for contravariant functors $f : \op{Y} \to X$ (such as with indexed structures), acting on a category $Y$ with a terminal object $1$, we obtain a corresponding contravarint functor $f'$ from $Y$ to the co-slice category $X/f(1)$. And then the dual further result as well.)
+\end{lemma}
+\begin{proof}
+The first half of the lemma is just the combination of \magicref{FunctorsActOnSlices} and \magicref{CategoryIsGlobalSlices}.
+
+The second half is also straightforward to mechanically verify when $X$ is a 1-category. This lemma should be understood as a triviality. But we will take some care to write out in detail an abstract demonstration that works just as well when $X$ is a 2-category (or indeed, when all categories involved are of whatever higher dimension), such that (in keeping with our linguistic convention) the functors involved are pseudofunctors, the natural transformations are pseudonatural transformations, etc, without having to get our hands dirty manually fussing about higher-dimensional coherence data.
+
+Throughout the remainder of this proof, all references to \quote{category}, \quote{functor}, etc, are in the sense of whatever dimension of higher-categories encapsulates both $Y$ and $X$.
+
+Let $Z$ be the category obtained by augmenting $Y$ with a new object $0_Z$ and unique maps from $0_Z$ to each object of $Y$. We have an inclusion functor $i : Y \to Z$, and this inclusion is fully faithful, in the sense that the induced map $\Hom_Y(y_1, y_2) \to \Hom_Z(i(y_1), i(y_2))$ is an equivalence for all $y_1, y_2 \in \Ob(Y)$.
+
+The unique maps from $0_Z$ to each object in the range of $i$ constitute a diagram of this form:
+
+\[\begin{tikzcd}
+	& 1 \\
+	Y && Z
+	\arrow["\unique", from=2-1, to=1-2]
+	\arrow["{0_Z}", from=1-2, to=2-3]
+	\arrow[""{name=0, anchor=center}, "i"', from=2-1, to=2-3]
+	\arrow[Rightarrow, from=1-2, to=0]
+\end{tikzcd}\]
+
+What's more, because of how $Z$ was constructed by freely augmenting $Y$ with a new object and cone from it to the inclusion of $Y$, this diagram satisfies the universal property that for any other similar diagram
+\[\begin{tikzcd}
+	& 1 \\
+	Y && Z'
+	\arrow["\unique", from=2-1, to=1-2]
+	\arrow[from=1-2, to=2-3]
+	\arrow[""{name=0, anchor=center}, from=2-1, to=2-3]
+	\arrow[Rightarrow, from=1-2, to=0]
+\end{tikzcd}\]
+there is a unique functor from $Z$ to $Z'$ commutatively relating the two diagrams. In jargon, this universal property is summarized by saying $Z$ (along with the data of $0_Z$ and $i$) is the co-comma of the unique functor from $Y$ to $1$ and the identity functor from $Y$ to $Y$.
+
+Now, observe that $i$ has a left adjoint, the functor $q : Z \to Y$ such that $q \circ i$ is the identity on $Y$ and such that $q$ of the initiality co-cone for $0_Z$ in $Z$ is the initiality co-cone for $0$ in $Y$. That is, $q$ is the functor obtained by the co-comma property for $Z$ as applied to this diagram expressing the initiality co-cone of $0$ in $Y$:
+
+\[\begin{tikzcd}
+	& 1 \\
+	Y && Y
+	\arrow["\unique", from=2-1, to=1-2]
+	\arrow["{0}", from=1-2, to=2-3]
+	\arrow[""{name=0, anchor=center}, "\id"', from=2-1, to=2-3]
+	\arrow[Rightarrow, from=1-2, to=0]
+\end{tikzcd}\]
+
+It is straightforward to verify that this $q$ is indeed left adjoint to $i$, as any data in $Z$ is either from the fully faithful inclusion of $Y$ or from the initiality co-cone for $0_Z$, and $\Hom_Y(q(i(y_1)), y_2) \iso \Hom_Y(y_1, y_2) \iso \Hom_Z(i(y_1), i(y_2))$ naturally in $y_1, y_2$ from $Y$, and $\Hom_Y(q(0_Z), y) = \Hom_Y(0, y) \iso 1 \iso \Hom_Z(0_Z, i(y))$ naturally in $y$ from $Y$.
+
+Now consider any two parallel functors $D, C : Y \to X$. Because $q \circ i$ is the identity on $Y$, we have that $\Nat(D, C) \iso \Nat(D \circ q \circ i, C)$, where $\Nat$ denotes the space of natural transformations between these functors. But because $q \dashv i$, we in turn have that $\Nat(D \circ q \circ i, C) \iso \Nat(D \circ q, C \circ q)$.
+
+Finally, let us consider what a natural transformation between $D \circ q$ and $C \circ q$ amounts to. This is the same as a functor from $Z$ to the arrow category of $X$ whose domain and codomain projections to $X$ yield $D \circ q$ and $C \circ q$. But by the co-comma property of $Z$, this functor out of $Z$ corresponds to data of the following form:
+
+\[\begin{tikzcd}
+	& 1 \\
+	Y && {\arrowcat{X}}
+	\arrow["\unique", from=2-1, to=1-2]
+	\arrow[from=1-2, to=2-3]
+	\arrow[""{name=0, anchor=center}, from=2-1, to=2-3]
+	\arrow[Rightarrow, from=1-2, to=0]
+\end{tikzcd}\]
+
+such that the rightmost arrow of this diagram corresponds to some arrow $\introS$ in $X$ whose domain is $(D \circ q)(0_Z) = D(0)$ and whose codomain is $(C \circ q)(0_Z) = C(0)$, and such that the bottom arrow of this diagram corresponds to a natural transformation from $D \circ q \circ i \iso D$ to $C \circ q \circ i \iso C$. The 2-cell in the above diagram then corresponds to the remaining data necessary for us to construe this natural transformation from $D$ to $C$ as simply the codomain projection of a natural transformation between $D'$ and $\introS^{*} \circ C'$, the functors from $Y$ to $D(0)/X$ as mentioned in the statement of this lemma.
+\end{proof}
+
+In order to state the next theorem, some terminology:
+
+\begin{definition}
+If $T$ is a lexcategory, then for each object of $t$, we can construct the free lexcategory extending $T$ with a global element of $t$. Call this $T[1 \to t]$. Also, for any $f : s \to t$ in $T$, we can get a map from $T[1 \to t]$ to $T[1 \to s]$ by sending the generic global element of $t$ in $T[1 \to t]$ to the result of applying $f$ to the generic global element of $s$ in $T[1 \to s]$. This action is clearly functorial. Thus, $T[1 \to -]$ comprises a $T$-indexed object of $T/\LexCat$.
+
+We can replace all references to finite limit structure above with finite product structure. In this case, let us use the name $T[[1 \to -]]$ for the resulting $T$-indexed object of $T/\FiniteProductCat$.
+\end{definition}
+
+By \magicref{Lemma1}, we can see $T/-$ as a contravariant functor from a lexcategory $T$ to $\LexCat/T$. And similarly for $T//-$ in terms of finite product structure.
+
+\begin{theorem}\label{SelfIndexingIsFree}
+$T[1 \to -]$ is equivalent to $T/-$, when the latter is viewed as a contravariant functor from a lexcategory $T$ to $T/\LexCat$ via \magicref{Lemma1}.
+
+(And in just the same way, for a category with finite products $T$, we have that $T[[1 \to -]]$ is equivalent to $T//-$.)
+\end{theorem}
+\begin{proof}
+This is a standard observation (see 1.10.15 of \autocite{jacobs1999categorical}, although this claims it without proof).
+
+It is also simple enough to show, so we will write out the argument:
+
+\sTODOinline{This is a bit messily written right now, but it gets the job done}
+Applying $T/- : \op{T} \to \LexCat$ to the unique functor from object $t$ in $T$ to $1$, we get a lexfunctor $R$ from $T = T/1$ to $T/t$ given by pullback along the unique map $t$ to $1$; more explicitly, $R(x)$ is the projection slice from $t \times x$ to $t$, which projects out the first component. We also have a left adjoint to this, the forgetful functor $L : T/t \to T$.
+
+Breaking down what our proposed theorem says, the claim we must show is that there is a morphism $g : R(1) \to R(t)$ in $T/t$ such that, for any lexcategory $X$, lexfunctor $F: T \to X$, and morphism $h: F(1) \to F(t)$ in $X$, there is a unique lexfunctor $E: T/t \to X$ such that $E \circ R = F$ and $E(g) = h$. (More precisely, there is a contractible space of such lexfunctors such that $E \circ R$ is naturally isomorphic to $F$, and the induced action of that isomorphism as a map from $\Hom_X(E(R(1)), E(R(t)))$ to $\Hom_X(F(1), F(t))$ takes $E(g)$ to $h$. By a contractible space, we mean that such a lexfunctor $E$ exists, and for any two such lexfunctors $E_1$ and $E_2$, there is a unique natural isomorphism between them which, when whiskered along $R$ and then composed with the given isomorphism from $E_2 \circ R$ to $F$, yields the given isomorphism from $E_1 \circ R$ to $F$.) Furthermore, we must show that reindexing within $T[1 \to -]$ corresponds to reindexing within $T/-$ (i.e., to pullback).
+
+We will take our $g$ to be the map from $R(1)$ to $R(t)$ given by the diagonal map $\Delta : t \to t \times t$ (that is, such that $L(g) = \Delta$).
+
+As for the existence aspect of the claim, suppose given an arbitrary lexfunctor $F: T \to X$ and also a morphism $h : 1_X \to F(t)$, where $1_X$ is any terminal object of $X$. This $F$ induces a lexfunctor $F' : T/t \to X/F(t)$ via \magicref{FunctorsActOnSlices}. Composing this with the pullback action $\pullAlong{h} : X/F(t) \to X/1_X$ and the equivalence of $X/1_X$ with $X$, we get a lexfunctor $E : T/t \to X$ such that $E \circ R = F$ and $E(g) = h$. \sTODOinline{Expand on this; why do these equations hold?}
+
+As for uniqueness, it will suffice to show that every diagram in $T/t$ is the pullback along $g$ of some diagram in the range of $R$ (thus, every diagram in $T/t$ has its image under a lexfunctor determined by the lexfunctor's behavior on $g$ and on the range of $R$). We show this now.
+
+By the observation of \magicref{FunctorsActOnSlices}, our $R$ induces also a lexfunctor $R'$ from $T/t$ to $(T/t)/R(t)$.
+
+Observe also that iterated slice categories can be reduced to slice categories. That is for any object $x$ of $T/t$, we have that the iterated slice category $(T/t)/x$ is equivalent to the slice category $T/L(x)$. In particular, $(T/t)/R(t) = T/L(R(t)) = T/(t \times t)$. Thus, the observation of our last paragraph is that the action of $R$ induces a lexfunctor $R' : T/t \to T/(t \times t)$.
+
+Let $\pi_2 : t \times t \to t$ be the projection of the second component. Note that the pullback action $\pullAlong{\pi_2} : T/t \to T/(t \times t)$ is the same as $R'$. These both send objects $f$ of $T/t$ to objects $t \times f$ of $T/(t \times t)$, as in the following diagram (and act accordingly on morphisms as well):
+
+% https://q.uiver.app/?q=WzAsNCxbMCwxLCJ0IFxcdGltZXMgdCJdLFsxLDEsInQiXSxbMSwwLCJzIl0sWzAsMCwidCBcXHRpbWVzIHMiXSxbMCwxLCJcXHBpXzIiLDJdLFsyLDEsImYiXSxbMywwLCJ0IFxcdGltZXMgZiJdLFszLDJdLFszLDEsIiIsMSx7InN0eWxlIjp7Im5hbWUiOiJjb3JuZXIifX1dXQ==
+\[\begin{tikzcd}
+	{t \times s} & s \\
+	{t \times t} & t
+	\arrow["{\pi_2}"', from=2-1, to=2-2]
+	\arrow["f", from=1-2, to=2-2]
+	\arrow["{t \times f}", from=1-1, to=2-1]
+	\arrow[from=1-1, to=1-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+\end{tikzcd}\]
+
+Finally, recall that $L(g) = \Delta : t \to t \times t$ is the diagonal map. Observe that $\pi_2 \circ \Delta = \id_t$. Therefore, the pullback action $\pullAlong{(\pi_2 \circ \Delta)} = \pullAlong{\Delta} \circ \pullAlong{\pi_2} = \pullAlong{\Delta} \circ R' : T/t \to T/t$ is equivalent to the identity.
+
+Thus, every object or morphism in $T/t$ is given (as a diagram in $T$) by $\pullAlong{\Delta}$ applied to some object or morphism in the range of $R'$. Which is to say, every diagram in $T/t$ is given by $\pullAlong{g}$ applied to some diagram in the range of $R$, as desired.
+
+Thus, we have the uniqueness to complement existence, and have established that $T/t$ is the free augmentation of $T$ with a global element of $t$.
+
+Finally, it is easy to verify that the pullback actions from $T/t$ to $T/s$ for arbitrary morphisms $m : s \to t$ correspond to the reindexings from $T[1 \to t]$ to $T[1 \to s]$ along $m$. \sTODOinline{Expand on this}
+
+This completes the proof that $T/-$ is the same as $T[1 \to -]$. Note that the same argument, restricted to only those slice category objects which are projections, also shows that when $T$ is a category with finite products, the simple self-indexing $T//-$ is the same as $T[[1 \to -]]$.
+\end{proof}
+
+\begin{observation}\label{SelfIndexingIsFreeCorollary}
+The analogues of \magicref{SelfIndexingIsFree} automatically also follow for $T[1 \to -]$ for any categorical structure extending the structure of a lexcategory which is automatically transferred to slice categories and preserved by pullback; that is, any structure which automatically transfers from an instance of that structure also to its self-indexing (e.g., for the concepts of locally cartesian closed categories, or for elementary toposes, or for categories with finite and countably infinite limits).
+
+And in just the same way also for $T[[1 \to -]]$ for any categorical structure extending the structure of a category with finite products which automatically transfers from an instance of that structure to its simple self-indexing (e.g., for cartesian closed categories).
+\end{observation}
+
+\subsection{Double or multiple indexing}\label{PreliminariesMultipleIndexing}
+At this point, for any algebraic-categorical notion $S$ (e.g., the notion of a commutative ring, or the notion of a lexcategory), we also have a definition of the notion of a pair of a category and an instance of notion $S$ indexed over that category.
+
+We can thus iterate this process. In particular, we can speak of a $T$-indexed (category $C$ and $C$-indexed set $P$). We can call this also a $(T, C)$-indexed set $P$. Let us observe in more detail what this amounts to.
+
+What this means is that, in addition to having a category $T$ and a $T$-indexed category $C$, we also have for every object $t$ in $T$, some corresponding $C(t)$-indexed set. Thus, we obtain for each $t$-indexed object $c$ of $C$ a corresponding set we may denote $P(t)(c)$ or $P(t, c)$ or $P_t(c)$ (the $t$-defined $c$-defined elements of $P$). And for each morphism $n : c \to d$ in $C(t)$, we have a reindexing function $P(t, n) : P(t, d) \to P(t, c)$. These reindexings act functorially in that $P(t, n_1 \circ \ldots \circ n_k) = P(t, n_k) \circ \ldots \circ P(t, n_1)$ for any sequence of composable morphisms $n_1, \ldots, n_k$ in $C(t)$.
+
+But furthermore, we must have functorial reindexing maps for $P$ along morphisms of $T$. This means, for any map $m : s \to t$ in $T$, we must have for every $t$-defined object $c$ of $C$ a reindexing function $P(m, c) : P(t, c) \to P(s, C(m)(c))$.  We may just write $P(m)$ to refer generically to any $P(m, c)$. These reindexings act functorially in that $P(m_1 \circ \ldots \circ m_k) = P(m_k) \circ \ldots \circ P(m_1)$ for any sequence of composable morphisms $m_1, \ldots, m_k$ in $T$.
+
+Finally, the reindexings along morphisms of $T$ must preserve in a suitable sense the reindexings along morphisms of $C$. This means the following square of reindexings commutes, for any morphisms $m : s \to t$ in $T$ and $n : c \to d$ in $C(t)$:
+
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJQKHQsIGQpIl0sWzAsMSwiUCh0LCBjKSJdLFsxLDAsIlAocywgQyhtKShkKSkiXSxbMSwxLCJQKHMsIEMobSkoYykpIl0sWzAsMSwiUCh0LCBuKSIsMl0sWzAsMiwiUChtKSJdLFsxLDMsIlAobSkiLDJdLFsyLDMsIlAocywgQyhtKShuKSkiXV0=
+\[\begin{tikzcd}
+	{P(t, d)} & {P(s, C(m)(d))} \\
+	{P(t, c)} & {P(s, C(m)(c))}
+	\arrow["{P(t, n)}"', from=1-1, to=2-1]
+	\arrow["{P(m)}", from=1-1, to=1-2]
+	\arrow["{P(m)}"', from=2-1, to=2-2]
+	\arrow["{P(s, C(m)(n))}", from=1-2, to=2-2]
+\end{tikzcd}\]
+
+Using this coherence condition, any reindexing in $C$ followed by a reindexing in $T$ (the left-bottom path) can be turned into an equivalent reindexing in $T$ followed by a reindexing in $C$ (the top-right path). Thus, for any string of reindexings (alternating between reindexings in $C$ and reindexings in $T$), there is a unique reindexing in $T$ followed by a reindexing in $C$ which it is forced equivalent to by the coherence condition and functoriality.
+
+Thus, we can resummarize all of these conditions like so: We create a category denoted $\Groth_{T} C$ (or just $\Groth C$) whose objects are pairs $(t, c)$ where $t$ is an object in $T$ and $c$ is an object in $C(t)$. A morphism in $\Groth C$ from $(s, c)$ to $(t, d)$ is given by a pair $(m, n)$ where $m : s \to t$ in $T$ and $n : c \to C(m)(d)$ in $C(s)$. This represents a reindexing along $m$ followed by a reindexing along $n$, and so by consideration of the previous paragraph, we get also the appropriate composition rule validating our desired coherence condition and automatically ensuring associativity. Specifically, the appropriate composition rule is that $(a, n) \circ (m, b) = ((a \circ m), (C(m)(n) \circ b))$, as can be visualized from our above-noted coherence condition like so:
+
+% https://q.uiver.app/?q=WzAsNixbMiwwLCJQKHQsIGQpIl0sWzIsMSwiUCh0LCBjKSJdLFs0LDAsIlAocywgQyhtKShkKSkiXSxbNCwxLCJQKHMsIEMobSkoYykpIl0sWzAsMCwiXFxidWxsZXQiXSxbNCwyLCJcXGJ1bGxldCJdLFswLDEsIlAodCwgbikiLDFdLFswLDIsIlAobSkiXSxbMSwzLCJQKG0pIl0sWzIsMywiUChzLCBDKG0pKG4pKSIsMV0sWzQsMCwiUChhKSJdLFszLDUsIlAocywgYikiXSxbNCwxXSxbMSw1XV0=
+\[\begin{tikzcd}
+	\bullet && {P(t, d)} && {P(s, C(m)(d))} \\
+	&& {P(t, c)} && {P(s, C(m)(c))} \\
+	&&&& \bullet
+	\arrow["{P(t, n)}"{description}, from=1-3, to=2-3]
+	\arrow["{P(m)}", from=1-3, to=1-5]
+	\arrow["{P(m)}", from=2-3, to=2-5]
+	\arrow["{P(s, C(m)(n))}"{description}, from=1-5, to=2-5]
+	\arrow["{P(a)}", from=1-1, to=1-3]
+	\arrow["{P(s, b)}", from=2-5, to=3-5]
+	\arrow[from=1-1, to=2-3]
+	\arrow[from=2-3, to=3-5]
+\end{tikzcd}\]
+
+Then, a $(T, C)$-indexed set is just the same as as a $(\Groth_T C)$-indexed set. This also gives us easily the right notion of maps between $(T, C)$-indexed sets. They are just maps between the corresponding $(\Groth_T C)$-indexed sets (i.e., natural transformations between presheaves on $\Groth_T C$). In this way, we can speak about $(T, C)$-indexed structures in general.
+
+Given a $(T, C)$-indexed set $P$, and a globally defined object $c$ of $C$, it will often be convenient for us to speak of $P(c)$, meaning the $T$-indexed set which takes $t$ to $P(t, c)$. [More generally, given any $t$-defined object $c$ of $C$, we can in the same way consider $P(c)$ as a $(T/t)$-indexed set.\sTODOinline{Explain this}]. This might be seen as conflicting with the natural notation $P(t)$ for objects $t$ of $T$ to denote the $t$-aspect of $P$ (a presheaf on the $t$-aspect of $C$). Generally this will not cause ambiguity, except if there is some existing ambiguity where objects of $T$ and globally defined objects of $C$ have been given the same name (as could happen with terminal objects named $1$). If there is ever any such ambiguity, it should be cleared up by context.
+
+We say a $(T, C)$-indexed structure $P$ is $T$-\repsmall/ if, for any $t$-defined object $c$ of $C$, the corresponding $(T/t)$-indexed structure $P(c)$ is $(T/t)$-\repsmall/. When $C$ is presented by a strict category $C_{strict}$, this is equivalent to saying that the corresponding map into $\Ob(C_{strict})$ has $T$-\repsmall/ fibers. \sTODOinline{Perhaps before discussing (T, C)-indexed sets for T-indexed categories C, we should discuss (T, C)-indexed sets for T-indexed sets C. This is just looking at slice categories in $\Psh{T}$, but the motivation may be useful.} Put yet  another way, a $T$-\repsmall/ $(T, C)$-indexed set amounts to a $T$-indexed functor from $\op{C}$ to the self-indexing $T/-$.
+
+\begin{definition}[Presheaves over Indexed Categories]\label{IndexedPresheafDefn}
+More generally we have a $T$-indexed category \definedManualIndexSort{$\Psh{C}$}{Psh(C)}, acting as the category of $T$-\repsmall/ $(T, C)$-indexed sets.
+
+In more detail, the $T$-indexed category $C$ gives rise in an obvious way, by reversing arrows, to another $T$-indexed category $\op{C}$. We then have that the two $T$-indexed categories $\op{C}$ and $T/-$ are objects of $\Cat^{\op{T}}$. But $\Cat^{\op{T}}$ is a cartesian closed 2-category (in much the same way that $\Set^{\op{T}}$ is a cartesian closed category, at least when $\Set$ or $\Cat$ are interpreted expansively enough to include sets or categories of comparable size to $T$), and thus we can form within it the exponential object given by $T/-$ raised to the power $\op{C}$. This exponential object is the $T$-indexed category we call $\Psh{C}$.
+
+The objects of the global aspect of this $\Psh{C}$ correspond to the $T$-\repsmall/ $(T, C)$-indexed sets.
+\end{definition}
+
+We will only rarely need to consider any of this multi-indexing, and to the extent we do, almost always will really only care about $(T, C)$-indexed structures $P$ in cases where $C$ is in fact $T$-\repsmall/ and $P$ is also $T$-\repsmall/, thus simply given by a suitable diagram in $T$. However, there is one important instance in which we will need to explicitly consider a doubly-indexed set without any presumed representability properties (in \magicref{IntrospDiagSection}).
+
+\subsubsection*{Further discussion}
+The construction $\Groth_T C$ is called the \defined{Grothendieck construction}. By projecting out first coordinates, we get a functor from $\Groth_T C$ to $T$; functors which arise in this way are called Grothendieck fibrations, or just fibrations. It turns out, given merely the data of a fibration as a functor between categories, one can recover the indexed category which gave rise to it.
+
+Thus, the data of an indexed category is equivalent to the data of a fibration. The entire machinery of indexed categories can therefore equivalently be presented in terms of fibrations. For this reason, fibrations are also called fibered categories. In particular, one can give a more intrinsic account of the conditions under which an arbitrary functor is a fibration. Furthermore, any natural transformation between $T$-indexed categories induces a corresponding map between the corresponding fibrations in $\Cat/T$, and again the natural transformation can be recovered from this map, and again a more intrinsic account can be given of which maps arise in this way. Some things are easier to describe in a fibration-based presentation. Other things are more difficult. For our purposes (using the general language of indexed structures ultimately for the goal of understanding specifically \repsmall/ or internal structures), we felt the indexed category presentation was the most apt. Thus, we will not describe the theory of fibered categories further. We use the Grothendieck construction only for the correspondence between $(\Groth_T C)$-indexed sets and $(T, C)$-indexed sets.
+
+Of course, this construction can be iterated further now. A $(T, C)$-indexed category $D$ is a $(\Groth_T C)$-indexed category (i.e., a contravariant functor from $\Groth_T C$ to $\Cat$), and thus gives rise to another category $\Groth_{\Groth_T C} D$. Structures indexed over $\Groth_{\Groth_T C} D$ can be called $(T, C, D)$-indexed structures. And so on ad infinitum. But do not worry, we will not need to explicitly consider any further depth of indexing than double-indexing. \sTODOinline{But see the next section on multiply internal structures}
+
+\sTODOinline{Discuss the concept of being $T$-\repsmall/ vs. $C$-\repsmall/ when $(T, C)$-indexed}
+
+Note also that any structure singly-indexed over $T$ can automatically be thought of as doubly-indexed over $T$ and $C$, where the indexing over $C$ is trivial. This is basically by the fact that $\Groth_T C$ comes with a projection functor to $T$, so that each $T$-indexed structure thus induces, via this functor, a $(T, C)$-indexed structure. Thus, we can readily speak of maps between $T$-indexed structures and $(T, C)$-indexed structures, by treating the former as implicitly $(T, C)$-indexed themselves.
+
+Indeed, more generally in the multiply indexed context, any structure indexed over some prefix of a string of categories is automatically indexed over the full string of categories. And in the same way, this allows us to speak of maps between structures indexed by different strings of categories. This is perhaps the main reason for us to bring all this up, just so that we can speak of maps between structures at different levels of indexing.
+
+(Keep in mind also that an honest-to-goodness actual structure, living in $\Set$, is like the zero-ary case of indexing; it's indexed by the empty string of categories $()$, but can be seen in a trivial way as $T$-indexed for any category $T$).
+
+Note that a map from a $T$-indexed structure $A$ to a $(T, C)$-indexed structure $B$ thus amounts to a map from $A$ to $\Hom_C(1, B)$, whenever $C$ has a terminal object. So all this high-faluting multiply indexed stuff just amounts to another way of thinking about maps into global aspects.
+
+\subsection{Arithmetic universes, toposes, and other special kinds of category}
+In addition to categories simpliciter and lexcategories, we have various other augmentations of the basic notion of category which are occasionally of interest. All of the following notions are standard in the literature. We note them here simply for reference (particularly the notion of \quote{arithmetic universe}, which is perhaps less well known than the others).
+
+\begin{definition}
+A \defined{regular} category is a lexcategory with pullback-stable image factorization. If furthermore every congruence is a kernel pair, we call it \defined{exact} (this is called \quote{effective regular} by some authors).
+\end{definition}
+
+\begin{definition}
+An \defined{extensive} category is a category $C$ with finite coproducts, on which the coproduct operation induces an equivalence between $C/a \times C/b$ and $C/(a \times b)$ for all objects $a, b \in C$.
+\end{definition}
+
+\begin{definition}
+A \defined{natural numbers object} (abbreviated \defined{NNO}) in a category with a terminal object is an object $N$ along with maps $z : 1 \to N$ and $s : N \to N$, which is initial among all objects with such structure, in the sense that for any other object $N'$ with maps $z' : 1 \to N'$ and $s : N' \to N'$, there is a unique map $m : N \to N'$ satisfying $m \circ z = z'$ and $m \circ s = s' \circ m$. \sTODOinline{Illustrate}
+
+More generally, a category with finite products is said to have \quote{list objects} if for every object $X$, there is an object $L$ with maps $z : 1 \to L$ and $s : X \times L \to L$, which is initial among all objects with such structure, in the sense that for any other object $L'$ with maps $z' : 1 \to L'$ and $s' : X \times L' \to L'$, there is a unique map $m : L \to L'$ satisfying $m \circ z = z'$ and such that $m \circ s = s' \circ (\id_X \times m)$.
+\end{definition}
+
+\begin{definition}\label{DefnIAU}
+An \defined{arithmetic universe} is a category which is exact and extensive with pullback-stable list objects (see \autocite{maietti10a}). An \defined{arithmetic functor} is one which preserves all this structure.
+\end{definition}
+
+We denote the initial arithmetic universe as $\IAU$.
+
+\begin{observation}\label{ComputableMeansIAUInternal}
+Structures internal to $\IAU$ can be thought of as codes for computably enumerable structures. Any computer program describing some computably enumerable structure induces a structure of that sort internal to $\IAU$. (That said, be cautioned that non-isomorphic structures in $\IAU$ can become isomorphic after applying the unique arithmetic functor to $\Set$, non-equal morphisms in $\IAU$ can become equal in $\Set$, etc! This is like how the same function can be computed by different computer programs, sometimes so different that there is no proof (in whatever fixed proof system) that they compute the same function.)
+\end{observation}
+
+There are many alternative characterizations of $\IAU$. For example, \autocite{maietti10a} observes that $\IAU$ is also the initial exact and extensive category with a pullback-stable NNO (thus, without presuming list objects in general). I believe the argument given in that paper actually shows furthermore that $\IAU$ is also the initial exact category with a pullback-stable NNO (thus, without presuming coproducts). \sTODOinline{Indeed, I believe it furthermore shows that any exact NNO-preserving functor out of IAU automatically preserves list objects and binary coproducts. It needn't preserve the initial object, but as the initial object in $\IAU$ is given by the equalizer of the two injections from 1 to 1 + 1 (by disjointness), if this is initial in the codomain as well, then the functor preserves the initial object as well.}
+
+\begin{definition}
+A \defined{topos} is a cartesian closed lexcategory with a subobject classifier. (This is sometimes called an \quote{elementary topos} in the literature, to distinguish from the notion of a \quote{Grothendieck topos}). If a topos has an NNO, we call it an an \defined{NNO-topos}.
+\end{definition}
+
+\subsection{Comma objects and their interaction with Kan extensions}
+
+\sTODOinline{I've been inconsistent about my notation for comma categories, between (f, g) and (f/g). I need to hunt down everywhere and switch it to a standardized notation. If we use the slash notation, perhaps we should note how slice categories are a special case of comma categories.}
+
+\begin{theorem}[The Comma-Kan Lemma] \label{CommaKan}
+Suppose, within some 2-category, we have the following comma object and left Kan extensions:
+
+% https://q.uiver.app/?q=WzAsNyxbNCwyLCJYIl0sWzQsNCwiXFxvbWVnYSJdLFsyLDQsIlkiXSxbMiwyLCJcXGNvbW1he2ZfWH17Zl9ZfSJdLFsxLDEsIkEiXSxbMCwwLCJCIl0sWzUsMV0sWzAsMSwiZl9YIl0sWzIsMSwiZl9ZIiwyXSxbMywyLCJcXHBpX1kiLDJdLFszLDAsIlxccGlfWCJdLFswLDIsIlxcZ2FtbWEiLDIseyJsZXZlbCI6Mn1dLFs0LDMsInMiLDFdLFs0LDUsInEiLDFdLFs1LDAsIlxcTGFuX3EgKHM7IFxccGlfWCkiXSxbNSwyLCJcXExhbl9xKHM7IFxccGlfWSkiLDJdLFszLDE0LCJcXGVwc2lsb25fWCIsMSx7InNob3J0ZW4iOnsic291cmNlIjoyMH19XSxbMywxNSwiXFxlcHNpbG9uX1kiLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjB9fV1d
+\[\begin{tikzcd}
+	B \\
+	& A &&&& {} \\
+	&& {\comma{f_X}{f_Y}} && X \\
+	\\
+	&& Y && \omega
+	\arrow["{f_X}", from=3-5, to=5-5]
+	\arrow["{f_Y}"', from=5-3, to=5-5]
+	\arrow["{\pi_Y}"', from=3-3, to=5-3]
+	\arrow["{\pi_X}", from=3-3, to=3-5]
+	\arrow["\gamma"', Rightarrow, from=3-5, to=5-3]
+	\arrow["s"{description}, from=2-2, to=3-3]
+	\arrow["q"{description}, from=2-2, to=1-1]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Lan_q (s; \pi_X)}", from=1-1, to=3-5]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Lan_q(s; \pi_Y)}"', from=1-1, to=5-3]
+	\arrow["{\epsilon_X}"{description}, shorten <=3pt, Rightarrow, from=3-3, to=0]
+	\arrow["{\epsilon_Y}"{description}, shorten <=3pt, Rightarrow, from=3-3, to=1]
+\end{tikzcd}\]
+
+Furthermore, suppose $f_X$ preserves the Kan extension $\Lan_q (s; \pi_X)$. (We notably do NOT make any such assumption on $f_Y$).
+
+Then $\Lan_q s : B \to \comma{f_X}{f_Y}$ exists and furthermore is preserved by both $\pi_X$ and $\pi_Y$.
+
+(Dually, we can turn all 2-cells around in this theorem, replacing the left Kan extensions with right Kan extensions and moving the preservation condition so that the functor on the codomain side of our comma category must preserve the corresponding Kan extension.)
+\end{theorem}
+\begin{proof}
+We may compute as follows: By the universal property of the comma object $\comma{f_X}{f_Y}$, the set of 1-cells from $B$ to this comma object whose projections match our two Kan extensions is given by the set of 2-cells between the top and bottom path from $B$ to $\omega$ in the above diagram. Since $f_X$ preserves the top Kan extension, the top path is itself a left Kan extension, and using its universal property, we find that the 2-cells from the top path to the bottom path are the same as 2-cells between two different paths from $A$ to $\omega$; specifically, from $s; \pi_X; f_X$ to $q; \Lan_q(s; \pi_Y); f_Y$. Such a 2-cell is given by the composition of $\gamma$ and $\epsilon_Y$.
+
+Thus, we do indeed get a 1-cell $m : B \to \comma{f_X}{f_Y}$ whose composition with each projection $\pi$ matches $\Lan_q(s; \pi)$. What remains is only to show that $m$ is indeed $\Lan_q s$.
+
+Let an arbitrary $k : B \to \comma{f_X}{f_Y}$ be given. By the universal property of the comma category again, we have that 2-cells from $m$ to $k$ are in correspondence with choices of 2-cells from $m ; \pi$ to $k ; \pi$ for each projection $\pi$, such that both resulting composite 2-cells from $m; \pi_X; f_X$ to $k ; \pi_y; f_Y$ are equal. But each $m ; \pi = \Lan_q(s; \pi)$, so a 2-cell from this to $k ; \pi$ amounts to a 2-cell from $s; \pi$ to $q; k ; \pi$. A choice of such 2-cells satisfying the coherence condition is, again by the universal property of the comma category $\comma{f_X}{f_Y}$, the same thing as a 2-cell from $s$ to $q; k$. Thus, we have shown $\Hom(m, k) = \Hom(s, (q; k))$, which establishes $m$ as satisfying the universal property defining $\Lan_q s$. This completes the proof. \sTODOinline{Add details to this last paragraph on the coherence conditions}
+
+(The dualized result of course follows automatically.) 
+\end{proof}
+
+\begin{note}\magicref{CommaKan} is perhaps best understood more modularly as the combination of two results concerning Kan extensions: One on the interaction of Kan extensions with products, and another on the interaction of Kan extensions with inserters. Comma objects can then be understood as a particular combination of products and inserters. However, as nearly all the use we will make of this idea is specifically concerning comma categories, we have written the lemma in this combined way, instead of breaking it down into those two steps.
+\end{note}
+
+\begin{corollary}\label{CommaCategoryColimits}
+Given a cospan of functors $f_X, f_Y$ from respective categories $X$ and $Y$, if $X$ and $Y$ both have colimits of a particular shape and $f_X$ preserves colimits of that shape, then the two projections out of $\comma{f_X}{f_Y}$ jointly create colimits of that shape.
+
+That is, $\comma{f_X}{f_Y}$ has colimits of that shape, both projections out of this comma category preserve colimits of that shape, and these projections jointly reflect colimits of that shape (i.e., a functor into the comma category preserves colimits of that shape whenever its compositions with both projections preserve colimits of that shape).
+
+(Dually, we have the corresponding statements where all instances of \quote{colimit} are turned into \quote{limit} and the first statement's limit preservation condition is put on $f_Y$ rather than $f_X$.)
+\end{corollary}
+\begin{proof}
+The existence of such colimits in $\comma{f_X}{f_Y}$, along with their preservation by both projections, follows from \magicref{CommaKan} within $\Cat$ by taking $A$ to be the generic category of the indicated shape and taking $B$ to be the terminal category, considering how colimits correspond to left Kan extensions along functors to the terminal category.
+
+The final claim (the joint reflection of such colimits) then follows from the fact that the forgetful functor from $\comma{f_X}{f_Y}$ into $X \times Y$, like any forgetful functor from a comma category to the corresponding product category, is conservative (that is, if the image of a morphism under this functor is invertible, the morphism was already invertible in the comma category). A conservative functor which preserves colimits, on a category which has those colimits, automatically also reflects colimits.
+\end{proof}
+
+\begin{corollary}\label{LexCatComma}
+Comma objects exist in $\LexCat$, constructed in the same way as in $\Cat$ (thus, preserved by the forgetful functor into $\Cat$). 
+
+(This corollary is so ubiquitously useful for us that we will not explicitly cite it each time we implicitly invoke it, but rather trust the reader to have absorbed it.)
+\end{corollary}
+\begin{proof}
+From \magicref{CommaCategoryColimits}, we see that when $f_X, f_Y$ are a co-span of finite limit preserving functors between categories which have finite limits, then the comma category $\comma{f_X}{f_Y}$ (the comma object in $\Cat$) is also a lexcategory and its projections are lexfunctors. Thus, this $\comma{f_X}{f_Y}$ and its projections exist within $\LexCat$. That these continue to comprise a comma object span within $\LexCat$ follows immediately from the fact that the forgetful functor $|-|$ from $\LexCat$ to $\Cat$ induces bijections between the sets of 2-cells $\Hom(f, g)$ and $\Hom(|f|, |g|)$ for any parallel 1-cells $f$ and $g$ in $\LexCat$ (that is, the 2-cells in $\LexCat$ between lexfunctors are just ordinary natural transformations, with no further property or structure).
+\end{proof}
+
+The above is paradigmatic of a situation which comes up often, for which it will be convenient to have terminology:
+
+\begin{definition}\label{CommaStableDefn}
+Let $D$ be a 2-category and let $Special$ be a sub-2-category of $D$. We will say a cell of $D$ is special if it lies in $Special$. We presume any invertible cell in $D$ whose domain or codomain is special is itself special (thus, membership in $Special$ is invariant under isomorphism in $D$), and we also presume that any 2-cell between special 1-cells is special.
+
+Suppose furthermore that $D$ has comma objects. And suppose for any comma object $\comma{f_X}{f_Y}$ in $D$ where $f_X$ is special and the domain of $f_Y$ is special, the comma object has special structure jointly created by its two projections. That is, $\comma{f_X}{f_Y}$ is special, its two projections are special, and for any 1-cell in $D$ from a special object to $\comma{f_X}{f_Y}$, we have that this $1$-cell is special whenever both of its compositions with the projections out of $\comma{f_X}{f_Y}$ are special.
+
+In this case, we say that the restriction of $D$ to $Special$ is \defined{left comma-stable}, or that $Special$ is left comma-stable within $D$. (Dually, if this property holds when we instead demand $f_Y$ to be special while allowing $f_X$ to be an arbitrary morphism of $D$ with special domain, then we say $Special$ is \defined{right comma-stable} within $D$.)
+\end{definition}
+
+In this language, \magicref{CommaCategoryColimits} shows that the restriction of $\Cat$ to categories having, and functors preserving, finite colimits is left comma-stable within $\Cat$. And dually, $\LexCat$ is right comma-stable within $\Cat$.
+
+\sTODOinline{More generally, our Comma-Kan lemma tells us that for any functor q : A -> B, the objects having, and maps preserving, left/right Kan extensions along q comprises a left/right comma-stable sub-category. The non-exactness portions of the following results are all instances of this.}
+
+We note here a number of left comma-stable sub-2-categories of $\LexCat$, all similarly demonstrable as corollaries of \magicref{CommaKan}:
+
+\begin{corollary}
+If $X$, $Y$, and $\omega$ are lexcategories with finite coproducts, $f_X : X \to \omega$ is a lexfunctor which preserves finite coproducts, and $f_Y : Y \to \omega$ is a lexfunctor (not necessarily preserving coproducts), then the projections out of the comma category $\comma{f_X}{f_Y}$ jointly create finite coproducts.
+
+If furthermore, finite coproducts are pullback-stable in $X$ and $Y$, then finite coproducts are pullback-stable in $\comma{f_X}{f_Y}$.
+
+If furthermore finite coproducts are disjoint in $X$ and $Y$ (i.e., these are extensive categories), then this is the case in $\comma{f_X}{f_Y}$ as well.
+
+In other words, the restriction of $\LexCat$ to lexcategories with finite coproducts, and lexfunctors preserving finite coproducts, is left comma-stable. And the further restriction of $\LexCat$ to extensive categories and such functors is also left comma-stable.
+\end{corollary}
+\begin{proof}
+The joint creation of finite coproducts is just a special case of \magicref{CommaCategoryColimits}. What remains to be shown are the inheritance of exactness properties by the comma objects.
+
+Let $Q$ be the initial lexcategory-with-finite-coproducts generated by morphisms $A_1, \ldots, A_n$ into an object $A$, along with another morphism $f$ into $A$. To say that $n$-ary coproducts are pullback stable in a lexcategory $C$ with finite coproducts is to say that every lexfunctor preserving finite coproducts from $Q$ to $C$ sends a particular morphism in $Q$ (the comparison morphism between the coproduct of the pullback and the pullback of the coproduct, for the generic objects $A_1, \ldots, A_n$ of $Q/A$ as pulled back along $f$ into $Q/\dom(f)$) to an isomorphism. Since the projections out of our comma category jointly preserve and reflect finite limit structure, finite coproduct structure, and invertibility, this property will hold in the comma category just in case it holds in both $X$ and $Y$.
+
+Disjointness is characterized by a similar invertibility condition and thus can be proven to hold in the comma category once it holds in both $X$ and $Y$ in the same way.
+\end{proof}
+
+\begin{corollary}
+The restriction of $\LexCat$ to regular categories and regular functors is left comma-stable. Furthermore, the restriction of $\LexCat$ to effective regular categories and regular functors is left comma-stable.
+\end{corollary}
+
+\begin{corollary}
+The restriction of $\LexCat$ to lexcategories with pullback-stable natural numbers objects, and lexfunctors preserving NNOs, is left comma-stable.
+
+Similarly, the restriction of $\LexCat$ to lexcategories with pullback-stable list objects, and lexfunctors preserving list objects, is left comma-stable.
+\end{corollary}
+
+Putting these all together, we have:
+\begin{corollary}\label{CommaStableArithmetic}
+The restriction of $\LexCat$ to arithmetic universes and arithmetic functors is left comma-stable.
+\end{corollary}
+
+Left comma-stability is of interest to us because of the following abstract theorem, which will be useful to us later in establishing \magicref{SpecialInitialIntrosp}:
+\begin{theorem}\label{CommaKanStrongSigmesque}
+Let $D$ be a 2-category and let $Special$ be a left comma-stable sub-2-category of $D$. We will say a cell of $D$ is special if it lies in $Special$. 
+
+Furthermore, suppose $Special$ has an initial object $0$.
+
+Then for any special object $\omega$, we have that the unique special map from $0$ to $\omega$ is furthermore initial within $D(0, \omega)$. In particular, it follows that the identity on $0$ is initial within $D(0, 0)$.
+\end{theorem}
+\begin{proof}
+Let $f_Y : 0 \to \omega$ be an arbitrary map in $D$. Let $f_X : A \to \omega$ be any special map into $\omega$ (two choices always available are the identity from $\omega$ to itself, or the unique special map from $0$ to $\omega$). Consider the following diagram, illustrating the comma object $\comma{f_X}{f_Y}$ of $D$, as well as unique special maps from $0$:
+
+% https://q.uiver.app/?q=WzAsNSxbMywxLCJBIl0sWzMsMywiXFxvbWVnYSJdLFsxLDMsIjAiXSxbMSwxLCJcXGNvbW1he2ZfWH17Zl9ZfSJdLFswLDAsIjAiXSxbMCwxLCJmX1giLDFdLFsyLDEsImZfWSIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFszLDJdLFszLDBdLFswLDIsIiIsMSx7ImxldmVsIjoyfV0sWzQsMiwiISA9IFxcaWQgPSBiIiwxXSxbNCwzLCIhIiwxXSxbNCwwLCIhID0gYSIsMV1d
+\[\begin{tikzcd}
+	0 \\
+	& {\comma{f_X}{f_Y}} && A \\
+	\\
+	& 0 && \omega
+	\arrow["{f_X}"{description}, from=2-4, to=4-4]
+	\arrow["{f_Y}"{description}, dashed, from=4-2, to=4-4]
+	\arrow[from=2-2, to=4-2]
+	\arrow[from=2-2, to=2-4]
+	\arrow[Rightarrow, from=2-4, to=4-2]
+	\arrow["{! = \id = b}"{description}, from=1-1, to=4-2]
+	\arrow["{!}"{description}, from=1-1, to=2-2]
+	\arrow["{! = a}"{description}, from=1-1, to=2-4]
+\end{tikzcd}\]
+Here, we use solid arrows to denote special $1$-cells. The dashed arrow $f_Y$ is a $1$-cell of $D$, not presumed special. The bottom right square is of course the one corresponding to the comma object. Special $1$-cells out of $0$ are denoted $!$ to indicate their uniqueness.
+
+Because the comma object is special (by left comma-stability), it has a unique special map from $0$. By the universal property of a comma object, along with our presumption that the projections jointly create special structure, this means there is a unique triple of special $a : 0 \to A$, special $b : 0 \to 0$, and 2-cell $: f_X \circ a \to f_Y \circ b$. Because of the initiality of $0$, we know that $a$ must be the unique special map from $0$ to $A$, while $b$ must be the identity on $0$. Thus, we conclude there is a unique 2-cell from this $f_X \circ a$ to $f_Y$. As $f_X \circ a$ must be the unique special map from $0$ to $\omega$, while $f_Y$ was an arbitrary map in $D$, we can conclude that the unique special map from $0$ to $\omega$ is initial within $D(0, \omega)$.
+\end{proof}
+
+\subsection{Initial models}
+\sTODOinline{Better title for this section, or move this material somewhere appropriate.}
+\begin{definition}\label{LexModelTerminology}
+Given a lexfunctor $F : T \to S$, we may sometimes call this a \defined{model} or \defined{internal model} of $T$ in $S$. If $F$ is initial within the category $\LexCat(T, S)$, then we naturally call this an \defined{initial model} of $T$ in $S$. Of course, as with any initial objects, if there is any initial model of $T$ in $S$, then there is a unique one up to unique isomorphism.
+
+If $S_1$ has an initial model of $T$ given by $F: T \to S_1$, and $H : S_1 \to S_2$ is a lexfunctor such that $H \circ F$ is an initial model of $T$ in $S_2$, then we say $H$ preserves initial models of $T$.
+\end{definition}
+
+\begin{lemma}\label{TermModelIsInitialForLex}
+For any lexcategory $T$, its global sections lexfunctor $\Hom_T(1, -) : T \to \Set$ is an initial model of $T$ in $\Set$.
+\end{lemma}
+\begin{proof}
+By the Yoneda lemma, for any functor $f : T \to \Set$, the natural transformations from $\Hom_T(1, -)$ to $f$ are in correspondence with the elements of $f(1)$. But if $f$ is a lexfunctor, then $f(1)$ has a unique element.
+\end{proof}
+
+\begin{observation}\label{InitialModelsAreLeftKanExtensions}
+Let $0$ be the initial lexcategory (i.e., the terminal category), and let $T$ and $S$ be arbitrary lexcategories. Then an initial model of $T$ in $S$ is the same thing as a left Kan extension of the unique lexfunctor $:0 \to S$ along the unique lexfunctor $: 0 \to T$.
+\end{observation}
+\begin{proof}
+This is immediate upon unraveling definitions.
+\end{proof}
+
+\begin{theorem}\label{InitialModelCommaStable}
+Let $T$ be a fixed lexcategory, and throughout the following, take \quote{initial model} to mean specifically \quote{initial model of $T$}.
+
+If $X$, $Y$, and $\omega$ are lexcategories with initial models, $f_X : X \to \omega$ is a lexfunctor preserving the initial model, and $f_Y : Y \to \omega$ is an arbitrary lexfunctor, then the comma lexcategory $\comma{f_X}{f_Y}$ has an initial model, jointly created by its two projections. (That is, for any lexcategory $Z$ with an initial model, a lexfunctor from $Z$ to $\comma{f_X}{f_Y}$ preserves the initial model if and only if both of its compositions with these projections preserve the initial model.)
+
+In other words, the restriction of $\LexCat$ to lexcategories having, and lexfunctors preserving, initial models of $T$ is left comma-stable.
+\end{theorem}
+\begin{proof}
+Thanks to \magicref{InitialModelsAreLeftKanExtensions}, this is the instance of \magicref{CommaKan} within $\LexCat$ where $A$ is taken to be the initial lexcategory and $B$ is taken to be $T$.
+\end{proof}
+
+\sTODOinline{Relate the following material in this section to the following section on presentations of quasi-equational theories.}
+\begin{definition}\label{FiniteLexTheory}
+A \defined{finitely axiomatized lex theory} is a lexcategory $T$ which is generated from the initial lexcategory by finitely many operations of freely adjoining a new object, freely adjoining a new morphism between existing objects, or freely making two existing parallel morphisms equal (all these free constructions are meant in the sense of free lexcategories, of course).
+\end{definition}
+
+\begin{theorem}\label{NNOToposInternalInitialFinite}
+Any NNO-topos has an initial internal model of any finitely axiomatized lex theory. Such initial internal models are furthermore preserved by functors preserving NNO-topos structure.
+\end{theorem}
+\begin{proof}
+This is a standard result, shown by carrying out in the internal logic of an NNO-topos the ordinary mathematical construction of an initial model of an essentially algebraic theory. The finite sets of defining sorts, operations, equations, etc, of the finitely axiomatized lex theory are given by finite coproducts of the terminal object. Beyond this, the key ingredient in the construction is the existence in the internal logic of an NNO-topos of suitable sets of well-founded branching trees (so-called W-types).
+
+In particular, we use such trees whose nodes are labelled by operations of the theory, and whose edges out of a node are labelled in correspondence with the arity of this operation, to represent the terms of the free model. Such trees can be represented in an NNO-topos by suitable partial functions from finite sequences of edge labels to node labels (finite sequences in turn can be represented by suitable partial functions on the natural numbers object). By impredicative quantification over powersets as is available in the internal logic of a topos, we may also restrict to the well-founded such trees, and subquotient these to give the well-defined terms of the algebraic theory modulo provable equality. Using similar techniques, we may build up the appropriate homomorphisms and uniqueness proofs to establish this as an initial model of the essentially algebraic theory.
+
+As all of this is standard, we omit the details.
+\end{proof}
+
+There is a stronger generalization of the above available to us, though it takes rather more care to prove:
+\begin{theorem}\label{AUInternalInitialFinite}
+Any arithmetic universe has an initial internal model of any finitely axiomatized lex theory. Such initial internal models are furthermore preserved by arithmetic functors.
+\end{theorem}
+\begin{proof}
+This standard result is the motivation for most of the interest in arithmetic universes. Details for the special case of finite product theories are given in \autocite{maietti05}, which notes also that the same argument can be extended to lex theories. This is also implicit in the constructions of \autocite{maietti03} and \autocite{maietti10a}, and is noted explicitly in \autocite{vickersSlides}.
+\end{proof}
+
+There is also a variant of \magicref{NNOToposInternalInitialFinite} of note:
+\begin{definition}\label{CountablyLexDefns}
+By \defined{countable products}, we mean products of collections of objects indexed by the natural numbers. A \defined{finitely axiomatized countably lex theory} is, a la \magicref{FiniteLexTheory}, a lexcategory with countable products which is generated from the initial lexcategory with countable products by finitely many operations of freely adjoining a new object, freely adjoining a new morphism between two existing objects, or freely making two existing parallel morphisms equal (all these free constructions are meant in the sense of free within the context of lexcategories with countable products and lexfunctors preserving countable products, of course).
+\end{definition}
+
+\begin{theorem}\label{CountableToposInitialInternalCountable}
+If $S$ is a topos with countable products, and $T$ is a finitely axiomatized countably lex theory, there is an initial lexfunctor preserving countable products from $T$ to $S$. Such initial internal models are furthermore preserved by functors preserving the structure of a topos with countable products.
+\end{theorem}
+\begin{proof}
+This is by the same techniques as in the proof of \magicref{NNOToposInternalInitialFinite}. The key observations are the following:
+
+We can carry out in the internal logic of any NNO-topos $S$ the standard mathematical construction of the initial model of any internal finitely axiomatized countably lex theory. This will be initial in an internal sense of structures having, and homomorphisms preserving, operations of countable arity; that is, operations of countable arity are interpreted by using the slice category $S/N$ where $N$ is the natural numbers object of $S$. (Note that this is potentially distinct from the category $S^{\mathbb{N}}$ which is the product of countably many copies of $S$. Thus, this is not strong enough to guarantee initiality in the \quote{external} sense of having an initial lexfunctor preserving countable products from $T$ to $S$, as there may be such lexfunctors from $T$ to $S$ which are not \quote{visible} internally.)
+
+Next, we note that a topos with countable products also has countable coproducts (by Paré's theorem on the construction of colimits from similarly shaped limits in a topos), and thus also has a natural numbers object given as the coproduct of countably many terminal objects. For such a topos with countable products $S$, we actually will have that $S/N$ and $S^{\mathbb{N}}$ coincide. Thus, in such a context, the construction from the above paragraph yields an initial model of $T$ in the same sense as required to establish the noted theorem.
+\end{proof}
+
+We make also the following observations:
+\begin{observation}\label{NNOToposAndAUAreFinitelyAxiomatized}
+The theory of (strict) NNO-toposes and the theory of (strict) arithmetic universes are finitely axiomatized lex theories.
+\end{observation}
+
+\begin{observation}\label{CountableProductToposIsFiniteCountablyLexTheory}
+The theory of (strict) toposes with countable products is a finitely axiomatized countably lex theory.
+\end{observation}
+
+\subsection{Quasi-equational theories}\label{QuasiTheoryTheory}
+\sTODOinline{We only make slight use of this section currently and perhaps it can ultimately be left out.}
+
+The significance of lexcategories with respect to logic is that they capture, in a presentation-independent way (a la Lawvere's functorial semantics), those logical theories given by various sorts, partially defined finitary operations on those sorts (whose domain of definition is given by the constraint that some finitely many other compositions of operations are simultaneously equal), and universal entailments between equations between compositions of such operations (more precisely, entailments from finite conjunctions of equations to equations).
+
+One can often make different choices of primitive sorts, operations, and laws for presenting ultimately the same essentially algebraic theory, in the broad sense of theory equivalence we are most ultimately interested in (having the same composite operations and derived laws, thus the same models, etc). The presentation-freeness of lexcategories means that lexcategories up to categorical equivalence are the same concept as such theories up to this broad sense of theory equivalence.
+
+However, sometimes it is useful to draw finer distinctions between different presentations of such a theory, or at any rate to be able to talk about compact syntactic presentations of these theories more directly.
+
+Many slightly different formalizations of such theory presentations have been given, but one of the cleaner approaches seems to be the notion of
+\defined{quasi-equational theory} proposed in \autocite{palmgrenvickers}. (The interested reader can find comparison to several other approaches spelled out in this paper.) We shall not here spell out the definition of quasi-equational theories but simply refer the reader to \autocite{palmgrenvickers}. We shall note in this subsection our notational conventions and the useful constructions or theorems we will need for the uses we will make of quasi-equational theories. Essentially all concepts and results in this subsection are taken from \autocite{palmgrenvickers}, although rephrased into the language of our own conventions around strict and non-strict categories.
+
+In \autocite{palmgrenvickers}, the concept of a \defined{model} of a quasi-equational theory $\theoryT$ within a lexcategory or strict lexcategory $S$ is defined, as well as the notion of \defined{homomorphism} between such models.
+
+These are given by suitable diagrams within $S$; specifically, a model is given by the selection of an object in $S$ for each sort in $\theoryT$, along with the selection of morphisms in $S$ with appropriate domain and codomain for each operation in $\theoryT$, required to satisfy a corresponding condition on such morphisms for each law of $\theoryT$. A homomorphism between two such models is given by the selection of a morphism in $S$ with appropriate domain and codomain for every sort in $\theoryT$, required to satisfy an appropriate condition for each operation of $\theoryT$. In particular, if $\theoryT$ is finitely specified, then specifying a model or homomorphism only involves specifying finitely much data subject to finitely many conditions. (And similarly if \quote{finite} is replaced by \quote{less than $\kappa$} for some infinite cardinal $\kappa$.)
+
+The collection of models of $\theoryT$ within lexcategory $S$, along with homomorphisms between them, comprises a category, which we will call $\modelsIn{\theoryT}{S}$. When $S$ is a strict lexcategory, then in the same way we get a strict category $\modelsIn{\theoryT}{S}$. (Indeed, if strict lexcategory $S$ presents the non-strict lexcategory $S'$, then the strict category $\modelsIn{\theoryT}{S}$ will present the non-strict category $\modelsIn{\theoryT}{S'}$. That is, any model of $\theoryT$ in non-strict $S'$ can be presented by some model of $\theoryT$ in strict $S$, regardless of what choices $S$ makes for how to impose or refrain from imposing equations on its objects.)
+
+This is all suitably functorial. Any lexfunctor $F: S_1 \to S_2$ takes models $M$ of $\theoryT$ in $S_1$ to models $F(M)$ of $\theoryT$ in $S_2$, and similarly for actions of $F$ upon homomorphisms between such models. Furthermore, natural transformations between lexfunctors also induce homomorphisms between the corresponding models. In this way, $\modelsIn{\theoryT}{-}$ acts as a 2-endofunctor on $\LexCat$, as well as a 1-endofunctor on $\StrictLexCat$, as well as a 2-endofunctor on $\StrictLexCatTwo$.
+
+It is shown in \autocite{palmgrenvickers} how there is a quasi-equational theory (which they call $\theoryT_{\mathrm{cart}}$ but which we shall call $\TheoryOfLexCat$) such that models of $\TheoryOfLexCat$ in $S$ correspond to internal lexcategories in $S$, and homomorphisms between these correpond to internal lexfunctors.
+
+More generally, they show how to associate to any quasi-equational $\theoryT$ another corresponding quasi-equational theory (which they call $\operatorname{Cart}\varpi \theoryT$ but which we shall call $\cartwith{\theoryT}$) such that a model of $\cartwith{\theoryT}$ in $S$ corresponds to an $S$-internal lexcategory $L$ along with a model of $\theoryT$ in the global aspect of $L$. 
+
+It is shown in \autocite{palmgrenvickers} how to associate to any quasi-equational theory $\theoryT$ a corresponding strict lexcategory $\classifying{\theoryT}$ called its classifying category. We may also use the name $\classifying{\theoryT}$ again for the non-strict lexcategory this presents.
+
+This has the property that there is a natural correspondence between $\LexCat(\classifying{\theoryT}, -)$ and $\modelsIn{\theoryT}{-}$. There is also a natural correspondence between $\StrictLexCatTwo(\classifying{\theoryT}, -)$ and $\modelsIn{\theoryT}{-}$ (this now meaning the strict version of $\modelsIn{\theoryT}{-}$). And finally, this last correspondence respects strict equality as well, in that there is a natural bijection between the sets $\StrictLexCat(\classifying{\theoryT}, -)$ and $\Ob(\modelsIn{\theoryT}{-})$.
+
+As noted above, whenever strict lexcategory $S$ presents non-strict lexcategory $S'$, we have that $\modelsIn{\theoryT}{S}$ presents $\modelsIn{\theoryT}{S'}$. In conjunction with the correspondences of the last paragraph, this means $\StrictLexCatTwo(\classifying{\theoryT}, S)$ will present $\LexCat(\classifying{\theoryT}, S')$. That is, any functor out of $\classifying{\theoryT}$ which preserves limits but not necessarily on-the-nose is naturally isomorphic to some functor which preserves limits on-the-nose.
+
+\begin{warningenv}
+Note that this last property does not hold when $\classifying{\theoryT}$ is replaced by an arbitrary strict lexcategory $C$! For an arbitrary strict lexcategory $C$ may impose equations on its objects (e.g., it may demand equality of $1 = 1 \times 1$ for the canonical terminal object $1$ and not mere isomorphism) which highly constrain the existence of strict lexfunctors out of $C$, while not so constraining functors whose limit preservation needn't be on the nose.
+\end{warningenv}
+
+Finally, we note that \autocite{palmgrenvickers} shows us how to take any strict lexcategory $T$ which presents a lexcategory $T'$ to some quasi-equational theory $\LexCatToTheory{T}$ such that $\LexCat(T', -)$ is in natural correspondence with $\modelsIn{\LexCatToTheory{T}}{-}$.
+
+More generally, given an arbitrary lexcategory $T'$, if we make a choice of strict lexcategory $T$ which presents $T'$, then we may for convenience use the name $\LexCatToTheory{T'}$ to refer to $\LexCatToTheory{T}$, even though this strictly speaking depends on the choice of $T$ and not merely on $T'$. Regardless of the exact quasi-equational theory produced, we will in any case still have the property that $\LexCat(T', -)$ and $\modelsIn{\LexCatToTheory{T'}}{-}$ are in correspondence. \sTODOinline{We may not actually use this abuse of language in the end after all, in which case we can delete this paragraph.}
+
+\begin{observation}
+All of the concepts and results in this subsection generalize completely smoothly to theories in correspondence with categories which not only have finite limits but furthermore have $k$-ary products, for all $k$ drawn from some fixed set of infinite cardinalities $K$. (Such categories in fact have all limits of diagrams whose object and morphism cardinalities are in $K$ or finite, by the usual reduction to products and binary equalizers.)
+\end{observation}
+
+\subsection{Localization}
+The reader is advised that we only ultimately make one use of the results in this section (at \magicref{Sigma1ModelIAUConnection} calling upon \magicref{LocalizeIntrosp}). Thus, the reader may skip this section unless and until interested in the details of that particular result.
+
+\begin{definition}
+For any category $C$, and any set of morphisms $M$ of $C$, we may consider freely adjoining inverses to the morphisms in $M$. This process is called \defined{localization}, and the resulting category is denoted $C[M^{-1}]$. Thus, we have a localization functor $f : C \to C[M^{-1}]$ such that $f$ sends every morphism in $M$ to an isomorphism, and for any $g : C \to D$ which also sends every morphism in $M$ to an isomorphism, there is a unique functor $h : C[M^{-1}] \to D$ such that $h \circ f = g$.
+\end{definition}
+
+\begin{lemma}
+Any localization functor is essentially surjective on objects (eso).
+\end{lemma}
+
+\begin{lemma}\label{LocalizingTransform}
+Let $C$ be a category, let $M$ be some set of morphisms of $C$, and let $f : C \to C[M^{-1}]$ be the corresponding localization. Then given any category $D$ and parallel functors $g_1, g_2 : C[M^{-1}] \to D$, we have that each natural transformation from $g_1 \circ f$ to $g_2 \circ f$ is the whiskering along $f$ of a unique natural transformation from $g_1$ to $g_2$. Thus, $\Cat(C[M^{-1}], D)$ comprises a full subcategory of $\Cat(C, D)$.
+\end{lemma}
+\begin{proof}
+Consider the comma category $\comma{\id_D}{\id_D}$. A functor $k : C \to \comma{\id_D}{\id_D}$ corresponds (via its composition with the two projections out of the comma category) to two functors $h_1, h_2 : C \to D$, along with a natural transformation from $h_1$ to $h_2$. As a morphism in a comma category is invertible just in case both of its projections are, we find that such $k$ sends all of $M$ to isomorphisms just in case each of $h_1$ and $h_2$ do. In this case, $k$ factors uniquely through $f$, providing us with a unique corresponding functor $k' : C[M^{-1}] \to \comma{\id_D}{\id_D}$ such that $k = k' \circ f$. But such a $k'$ corresponds to any natural transformation between the unique factorizations of $h_1$ and $h_2$ through $f$, whose whiskering along $f$ yields our original natural transformation from $h_1$ to $h_2$. \sTODOinline{Draw diagram}
+\end{proof}
+
+\begin{definition}\label{DefnLexLocalization}
+Let $C$ be a lexcategory. If there is some lexfunctor on $C$ (with any codomain), such that $M$ is the set of morphisms taken to isomorphisms by this lexfunctor, then we say $C[M^{-1}]$ is a \defined{lex localization}.
+\end{definition}
+
+Lex localizations admit a tractable explicit construction using the \quote{calculus of right fractions}, which in particular decomposes each morphism in $C[M^{-1}]$ as the inverse of a morphism from $M$ followed by a morphism from $C$. The details of this calculus of fractions construction are given in \autocite{gabrielzisman1967}, among other references (see also \autocite{BorceuxHandbook1} and \autocite{kashiwara2006}). 
+
+This calculus of fractions construction immediately gives us the following result:
+\begin{lemma}\label{LexLocalizationEso}
+If $f : C \to C[M^{-1}]$ is a lex localization, then for each object $c \in C$, the induced functor from $C/c$ to $C[M^{-1}]/f(c)$ is essentially surjective on objects.
+\end{lemma}
+
+We also have the following result:
+
+\begin{lemma}\label{LexLocalizationLemma}
+Lex localizations are not just localizations qua category but also qua lexcategory, in that if $f : C \to C[M^{-1}]$ is a lex localization, then $C[M^{-1}]$ is a lexcategory, $f$ is a lexfunctor, and any lexfunctor out of $C$ which factors through $f$ (necessarily uniquely) is such that this factorization is itself a lexfunctor.
+
+(There is of course a precisely dual result for categories with, and functors preserving, finite colimits.)
+\end{lemma}
+\begin{proof}
+This is given by the combination of Propositions 3.1, 3.2, and 3.4 from \autocite{gabrielzisman1967}.
+\end{proof}
+
+\begin{lemma}\label{ConservativeFaithfulLemma}
+If a lexfunctor is conservative (i.e., any morphism it sends to an isomorphism is already an isomorphism), then it is faithful.
+\end{lemma}
+\begin{proof}
+Let lexfunctor $f : C \to D$ and $m_1, m_2 : c_1 \to c_2$ in $C$ be given such that $f(m_1) = f(m_2)$. The equalizer of $f(m_1)$ and $f(m_2)$ is therefore an isomorphism. But this is the same as $f$ applied to the equalizer of $m_1$ and $m_2$, which therefore (by the conservativity of $f$) must already be an isomorphism. Thus $m_1$ and $m_2$ equal.
+\end{proof}
+
+\begin{lemma}\label{IsLexLocalizationLemma}
+Let $h : C \to D$ be a lexfunctor, let $M$ be the set of morphisms sent to isomorphisms by $h$, let $f : C \to C[M^{-1}]$ be the corresponding lex localization, and let $g : C[M^{-1}] \to D$ be the uniquely determined lexfunctor such that $h = g \circ f$.
+
+Then $g$ is conservative (and thus faithful, by \magicref{ConservativeFaithfulLemma}). Furthermore, $g$ is an equivalence of categories whenever, for every object $c \in C$, every object in $D/h(c)$ is isomorphic to $h$ applied to some object in $C/c$ (i.e., the action of $h$ between slice categories is eso).
+\end{lemma}
+\begin{proof}
+First, we show that $g$ is conservative. By the calculus of right fractions construction, each morphism $x$ in $C[M^{-1}]$ is of the form $f(m)^{-1}; f(y)$, where $m \in M$ and thus $f(m)$ is an isomorphism. So if $g(x)$ is an isomorphism, so is $g(f(m)); g(x) = g(f(m); x) = g(f(m); f(m)^{-1}; f(y)) = g(f(y)) = h(y)$. Thus, $y \in M$ as well, and thus $f(y)$ is an isomorphism as well, so that $f(m)^{-1}; f(y) = x$ is an isomorphism as well. This completes the proof that $g$ is conservative (and thus faithful).
+
+Now, suppose $h$ is such that its action between slice categories is eso. We already know that $g$ is faithful, so in order to show that $g$ is an equivalence, we must show that $g$ is eso and full.
+
+That $g$ is eso follows from the fact that $h = g \circ f$ is eso when acting on $C/1$.
+
+Since $f$ is eso and $h = g \circ f$, to show that $g$ is full, it suffices to show that for every $c_1, c_2 \in C$, each $m \in \Hom_D(h(c_1), h(c_2))$ is given by $g$ applied to some morphism in $\Hom_{C[M^{-1}]}(f(c_1), f(c_2))$. Begin by considering $\langle \id, m \rangle : h(c_1) \to h(c_1) \times h(c_2)$, as in the following commutative diagram:
+
+% https://q.uiver.app/?q=WzAsNCxbMiwwLCJoKGNfMSkiXSxbMiwxLCJoKGNfMSkgXFx0aW1lcyBoKGNfMikgPSBoKGNfMSBcXHRpbWVzIGNfMikiXSxbMCwxLCJoKGNfMSkiXSxbNCwxLCJoKGNfMikiXSxbMSwyLCJoKFxccGlfe2NfMX0pIl0sWzEsMywiaChcXHBpX3tjXzJ9KSIsMl0sWzAsMSwiXFxsYW5nbGUgXFxpZCwgbSBcXHJhbmdsZSIsMl0sWzAsMywibSJdLFswLDIsIlxcaWQiLDEseyJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+\[\begin{tikzcd}
+	&& {h(c_1)} \\
+	{h(c_1)} && {h(c_1) \times h(c_2) = h(c_1 \times c_2)} && {h(c_2)}
+	\arrow["{h(\pi_{c_1})}", from=2-3, to=2-1]
+	\arrow["{h(\pi_{c_2})}"', from=2-3, to=2-5]
+	\arrow["{\langle \id, m \rangle}"', from=1-3, to=2-3]
+	\arrow["m", from=1-3, to=2-5]
+	\arrow["\id"{description}, Rightarrow, no head, from=1-3, to=2-1]
+\end{tikzcd}\]
+
+Here, $\pi_{c_1}$ and $\pi_{c_2}$ are the projections out of $c_1 \times c_2$, and we keep in mind that as a lexfunctor, $h$ preserves this product cone.
+
+Next, by presumption, this $\langle \id, m \rangle$ is isomorphic, as an object of $D/h(c_1 \times c_2)$, to $h(n)$ for some $n \in C/(c_1 \times c_2)$. Thus, we obtain the following commutative diagram, for some isomorphism $j$:
+
+% https://q.uiver.app/?q=WzAsMyxbMSwwLCJoKGNfMSkiXSxbMSwxLCJoKGNfMSkgXFx0aW1lcyBoKGNfMikgPSBoKGNfMSBcXHRpbWVzIGNfMikiXSxbMCwwLCJoKFxcZG9tKG4pKSJdLFswLDEsIlxcbGFuZ2xlIFxcaWQsIG0gXFxyYW5nbGUiXSxbMiwxLCJoKG4pIiwxXSxbMiwwLCJqIiwxXSxbMCwyLCJqXnstMX0iLDEseyJjdXJ2ZSI6NX1dXQ==
+\[\begin{tikzcd}
+	{h(\dom(n))} & {h(c_1)} \\
+	& {h(c_1) \times h(c_2) = h(c_1 \times c_2)}
+	\arrow["{\langle \id, m \rangle}", from=1-2, to=2-2]
+	\arrow["{h(n)}"{description}, from=1-1, to=2-2]
+	\arrow["j"{description}, from=1-1, to=1-2]
+	\arrow["{j^{-1}}"{description}, curve={height=30pt}, from=1-2, to=1-1]
+\end{tikzcd}\]
+
+Putting these together, we find that $j = h(n) ; h(\pi_{c_1}) = h(n ; \pi_{c_1})$, as in the following commutative diagram:
+% https://q.uiver.app/?q=WzAsNCxbMSwwLCJoKGNfMSkiXSxbMSwyLCJoKGNfMSkgXFx0aW1lcyBoKGNfMikgPSBoKGNfMSBcXHRpbWVzIGNfMikiXSxbMCwwLCJoKFxcZG9tKG4pKSJdLFsyLDAsImgoY18xKSJdLFswLDEsIlxcbGFuZ2xlIFxcaWQsIG0gXFxyYW5nbGUiLDFdLFsyLDEsImgobikiLDFdLFsyLDAsImoiLDFdLFswLDMsIlxcaWQiLDEseyJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDMsImgoXFxwaV97Y18xfSkiLDJdXQ==
+\[\begin{tikzcd}
+	{h(\dom(n))} & {h(c_1)} & {h(c_1)} \\
+	\\
+	& {h(c_1) \times h(c_2) = h(c_1 \times c_2)}
+	\arrow["{\langle \id, m \rangle}"{description}, from=1-2, to=3-2]
+	\arrow["{h(n)}"{description}, from=1-1, to=3-2]
+	\arrow["j"{description}, from=1-1, to=1-2]
+	\arrow["\id"{description}, Rightarrow, no head, from=1-2, to=1-3]
+	\arrow["{h(\pi_{c_1})}"', from=3-2, to=1-3]
+\end{tikzcd}\]
+
+Thus, $j$ is an isomorphism in the range of $h$. Our setup is such that whenever any morphism of the form $h(x) = g(f(x))$ has an inverse, this is given by applying $g$ to an inverse of $f(x)$. Thus, $j^{-1} = g(y)$ where $y : f(c_1) \to f(\dom(n))$ is the inverse of $f(n; \pi_{c_1})$.
+
+Finally, keeping in mind that $h = g \circ f$, we have by the following commutative diagram that $m$ is given by $g$ applied to a morphism from $f(c_1)$ to $f(c_2)$:
+
+% https://q.uiver.app/?q=WzAsNCxbMiwwLCJoKGNfMSkiXSxbMiwxLCJoKGNfMSkgXFx0aW1lcyBoKGNfMikgPSBoKGNfMSBcXHRpbWVzIGNfMikiXSxbNCwxLCJoKGNfMikiXSxbMCwwLCJoKFxcZG9tKG4pKSJdLFsxLDIsImgoXFxwaV97Y18yfSkiLDJdLFswLDEsIlxcbGFuZ2xlIFxcaWQsIG0gXFxyYW5nbGUiLDJdLFswLDIsIm0iXSxbMCwzLCJqXnstMX0gPSBnKHkpIiwyXSxbMywxLCJoKG4pIiwyXV0=
+\[\begin{tikzcd}
+	{h(\dom(n))} && {h(c_1)} \\
+	&& {h(c_1) \times h(c_2) = h(c_1 \times c_2)} && {h(c_2)}
+	\arrow["{h(\pi_{c_2})}"', from=2-3, to=2-5]
+	\arrow["{\langle \id, m \rangle}"', from=1-3, to=2-3]
+	\arrow["m", from=1-3, to=2-5]
+	\arrow["{j^{-1} = g(y)}"', from=1-3, to=1-1]
+	\arrow["{h(n)}"', from=1-1, to=2-3]
+\end{tikzcd}\]
+
+Specifically, $m$ is given by $g$ applied to the following composition:
+
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJmKFxcZG9tKG4pKSJdLFsyLDAsImYoY18xKSJdLFsyLDEsImYoY18xKSBcXHRpbWVzIGYoY18yKSA9IGYoY18xIFxcdGltZXMgY18yKSJdLFs0LDEsImYoY18yKSJdLFsxLDAsInkiLDJdLFswLDIsImYobikiLDJdLFsyLDMsImYoXFxwaV97Y18yfSkiLDJdXQ==
+\[\begin{tikzcd}
+	{f(\dom(n))} && {f(c_1)} \\
+	&& {f(c_1) \times f(c_2) = f(c_1 \times c_2)} && {f(c_2)}
+	\arrow["y"', from=1-3, to=1-1]
+	\arrow["{f(n)}"', from=1-1, to=2-3]
+	\arrow["{f(\pi_{c_2})}"', from=2-3, to=2-5]
+\end{tikzcd}\]
+
+This completes the demonstration that $g$ is full, and thus completes the proof that $g$ is an equivalence.
+\end{proof}
+
+\begin{lemma}\label{ArithmeticLocalization}
+Let $C$ be an arithmetic universe, let some arithmetic functor from $C$ to another arithmetic universe be given, and let $M$ be the set of morphisms of $C$ which are sent to isomorphisms by said arithmetic functor. Then letting $f : C \to C[M^{-1}]$ be the corresponding localization (an \defined{arithmetic localization}), we have that this is also the localization qua arithmetic universe, in that $C[M^{-1}]$ is an arithmetic universe, $f$ is an arithmetic functor, and any arithmetic functor out of $C$ which factors (necessarily uniquely) through $f$ is such that this factorization is itself an arithmetic functor.
+\end{lemma}
+\begin{proof}
+This is all straightforward by the general techniques of \autocite{gabrielzisman1967}. We omit the details. \sTODOinline{Demonstrating that $C[M^{-1}]$ has NNOs and list objects is the one nonstraightforwardish aspect, for which it is useful to keep in mind that in an arithmetic universe, there is an isomorphism between \quote{lists of Xes, along with one Y} and \quote{lists of Xes, along with a sequence of Ys of length one greater, each Y being suitably related to the previous one in that applying some fixed isomorphism to Y_i yields the same result as applying some other fixed map to X x Y_i}.}
+\end{proof}
+
+\subsection{Miscellaneous}
+Here we collect various lemmas and definitions which we call upon at some point later in the document, which did not seem to fit anywhere else.
+
+\sTODOinline{Organize this, or determine what can be thrown out from here}
+\begin{observation}\label{InitialWrtSet}
+In our metatheory, we have access to the following principle: If $M$ is the term model of some finitely axiomatized lex theory of \quote{gadgets} (for example, the lex theory of NNO-toposes), and $\Set$ is also a gadget (but a non-\setsmall/ one), then $M$ not only is initial with respect to set-sized gadgets but also there is a unique homomorphism from $M$ to $\Set$.
+\end{observation}
+\begin{proof}
+The proof is by the exact same proof that shows $M$'s initiality with respect to \setsmall/ gadgets.
+
+Alternatively, the proof can be carried out like so: Firstly, for existence of a map from $M$ to $\Set$, we take the finitely many finitary operations of our theory and note that the hull definable from these within Set describes a \setsmall/ (indeed, countable) subgadget of $\Set$. $M$ will have by initiality a homomorphism into this subgadget, and thus into Set itself. As for uniqueness, consider any two homomorphisms from $M$ to $\Set$. Again, their ranges will be \setsmall/ subgadgets of $\Set$, and we can take the union of those ranges, close under the operations of our theory, and find some other \setsmall/ subgadget of Set containing them both. $M$ will have a unique homomorphism into this enveloping subgadget, and thus the parallel homomorphisms of $M$ must have been equal.
+\end{proof}
+
+Be cautioned, however, that the reasoning above only works in our metatheory, with typical principles available to us like the ability to reason about subcollections of Set. Analogous reasoning can fail internally; e.g., every NNO-topos $T$ is such that its self-indexing $T/-$ is an indexed NNO-topos, and such that it has an initial internal NNO-topos $T'$ constructed as a term model, and yet there need be no NNO-topos homomorphism from $T'$ to $T/-$. (Indeed, in the initial NNO-topos, there will not be such a homomorphism, by \Goedel/'s second incompleteness theorem considerations). Similarly for \quote{arithmetic universe} in place of \quote{NNO-topos}.
+
+\sTODOinline{Move the following somewhere where it belongs}
+\begin{theorem}\label{GlobalIsArithmeticOnIAU}
+The global sections functor $\Hom_{\IAU}(1, -)$ is the unique arithmetic functor from the initial arithmetic universe $\IAU$ to $\Set$.
+\end{theorem}
+\begin{proof}
+A unique arithmetic functor $!$ from IAU to $\Set$ is known to exist by the initiality of IAU (keeping in mind \magicref{InitialWrtSet}). What remains is only to show that this $!$ is the same as the global sections functor. By \magicref{TermModelIsInitialForLex}, we know that the global sections functor is initial among lexfunctors from $\IAU$ to $\Set$. But by \magicref{CommaKanStrongSigmesque} with \magicref{CommaStableArithmetic}, we know that $!$ is also initial among these. Thus, $!$ and the global sections functor are isomorphic (indeed, uniquely isomorphic), completing the proof.
+\end{proof}
+
+With this last theorem, we must be careful. As it invoked \magicref{InitialWrtSet}, its reasoning does not internalize. In particular, we do NOT have internal to $\IAU$ that the global sections functor from its internal initial arithmetic universe $\IAU'$ to the self-indexing $\IAU/-$ is arithmetic, or even that this preserves the initial object.\footnote{That this does not preserve the initial object can be seen from the combination of \magicref{IntrospLoeb} and the construction observed in \magicref{IAUAsIntrospCanonical}. Essentially, this would violate \Goedel/'s second incompleteness theorem.}
+
+\begin{definition}
+Given an endofunctor $F$ on a category, we say a morphism of the form $M : F(m) \to m$ is an $F$-\defined{algebra}, and dually, a morphism of the form $W : w \to F(w)$ is an $F$-\defined{coalgebra}.
+
+More generally, we say an $F$-algebra map from $M_1$ to $M_2$ is a commutative square of the following form:
+
+% https://q.uiver.app/?q=WzAsNCxbMCwxLCJtXzEiXSxbMCwwLCJGKG1fMSkiXSxbMSwwLCJGKG1fMikiXSxbMSwxLCJtXzIiXSxbMSwwLCJNXzEiLDJdLFsxLDIsIkYoeCkiXSxbMiwzLCJNXzIiXSxbMCwzLCJ4IiwyXV0=
+\[\begin{tikzcd}
+	{F(m_1)} & {F(m_2)} \\
+	{m_1} & {m_2}
+	\arrow["{M_1}"', from=1-1, to=2-1]
+	\arrow["{F(x)}", from=1-1, to=1-2]
+	\arrow["{M_2}", from=1-2, to=2-2]
+	\arrow["x"', from=2-1, to=2-2]
+\end{tikzcd}\]
+
+These compose in the obvious way, giving rise to a category of $F$-algebras, and in the obvious dual fashion, we also obtain a category of $F$-coalgebras.
+\end{definition}
+
+\begin{definition}\label{HylomorphismDefn}
+Given an endofunctor $F$, we say that a map $y : w \to m$ is an $F$-\defined{hylomorphism} from a coalgebra $W : w \to F(w)$ to an algebra $M : F(m) \to m$ just in case the following square commutes:
+
+% https://q.uiver.app/?q=WzAsNCxbMCwxLCJ3Il0sWzAsMCwiRih3KSJdLFsxLDAsIkYobSkiXSxbMSwxLCJtIl0sWzAsMSwiVyJdLFsxLDIsIkYoeCkiXSxbMiwzLCJNIl0sWzAsMywieCIsMl1d
+\[\begin{tikzcd}
+	{F(w)} & {F(m)} \\
+	w & m
+	\arrow["W", from=2-1, to=1-1]
+	\arrow["{F(x)}", from=1-1, to=1-2]
+	\arrow["M", from=1-2, to=2-2]
+	\arrow["x"', from=2-1, to=2-2]
+\end{tikzcd}\]
+
+In other words, just in case $x$ is a fixed point of $x \mapsto M \circ F(x) \circ W$.
+\end{definition}
+
+\sTODOinline{Note that algebra maps out of an isomorphism qua algebra correspond to hylomorphism maps out of the sme isomorphism qua coalgebra, and dually for maps into the isomorphism.}
+
+\begin{lemma}[Coalgebras As Strict Lexcategory]\label{BoxCoalgebrasInGeminal}
+Let $F$ be an arbitrary (not presumed strict) endolexfunctor on a strict lexcategory $C$. The category of $F$-coalgebras is a lexcategory, with its forgetful functor to $C$ creating finite limits (by the analogous reasoning to \magicref{CommaCategoryColimits} for inserters rather than comma categories; indeed, this category of coalgebras can be seen as a (non-full) sublexcategory of the comma category $\comma{\id}{F}$). As $C$ is in fact a strict lexcategory, we can thus equip the category of $F$-coalgebras as a strict lexcategory, with its forgetful functor to $C$ creating basic limits (note that it is fine here if $F$ does not preserve basic limits on the nose; all that mattered was that it preserves finite limits in the non-strict-sense).
+\end{lemma}
+
+\begin{theorem}\label{RepSmallPresheavesOnPresheaves}
+Let $C$ be any \setsmall/ category, and let $P$ in $\Psh{\Psh{C}}$ be given. This $P$ is $\Psh{C}$-\repsmall/ just in case $P$ turns \setsmall/ colimits in $\Psh{C}$ (i.e., \setsmall/ limits in $\op{\Psh{C}}$) into \setsmall/ limits in $\Set$.
+\end{theorem}
+\begin{proof}
+The necessity of this condition is clear, from the fact that any representable functor preserves limits. As for its sufficiency, we may consider the map $P(\yoneda(-)) : \op{C} \to \Set$. This is an object $X$ of $\Psh{C}$, and thus also represents a presheaf $\yoneda(X) = \Hom_{\Psh{C}}(-, X)$ on $\Psh{C}$. By the Yoneda lemma, this $\yoneda(X)$ agrees with $P$ on those objects of $\Psh{C}$ which are $C$-\repsmall/. As all objects in $\Psh{C}$ are \setsmall/ colimits of such objects (by the so-called co-Yoneda lemma), and both $P$ and any \repsmall/ presheaf turn \setsmall/ colimits into limits, it follows that this $\yoneda(X)$ agrees with $P$ in general.
+\end{proof}
+
+\begin{construction}\label{FunctorAs2Cell}
+Given any pullback-preserving functor $f : A \to B$ between lexcategories, we have that the action of $f$ on slice categories of $A$ also acts as an indexed lexfunctor between the $A$-indexed lexcategories $A/-$ and $B/f(-)$. We may refer to this indexed lexfunctor also by the same name $f$, in slight abuse of language. Thus, we obtain a diagram of the following sort:
+
+% https://q.uiver.app/?q=WzAsMyxbMCwwLCJBIl0sWzIsMCwiQiJdLFs0LDAsIlxcTGV4Q2F0Il0sWzEsMiwiQi8tIiwyXSxbMCwxLCJmIiwyXSxbMCwyLCJBLy0iLDAseyJjdXJ2ZSI6LTV9XSxbNSwxLCJmIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwfX1dXQ==
+\[\begin{tikzcd}
+	A && B && \LexCat
+	\arrow["{B/-}"', from=1-3, to=1-5]
+	\arrow["f"', from=1-1, to=1-3]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{A/-}", curve={height=-30pt}, from=1-1, to=1-5]
+	\arrow["f", shorten <=3pt, Rightarrow, from=0, to=1-3]
+\end{tikzcd}\]
+\end{construction}
+That is, given any object or morphism of a slice category $A/a$, we may apply $f$ to it (considered as a morphism or commutative triangle in $A$) to get an object or morphism of the slice category $B/f(a)$. And because finite limits in slice categories are computed via pullbacks, this action preserves those finite limits.
+
+\fileend

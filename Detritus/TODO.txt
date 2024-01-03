@@ -1,0 +1,179 @@
+NEW TODO NOTES:
+
+1. Replace "\wordsmall/" with "\repsmall/" throughout document.
+
+2. Write up size constraint thing for well-founded models of introspective theories.
+
+
+
+
+
+
+
+---
+Discuss "super-introspective" theories: Introspective theories whose internal category is equipped not just as a geminal category but furthermore as an introspective theory, and satisfying the coherence axiom that for any X, when you internalize the map from X to []X, you get the internal introspective theory's map from (internalization of X) to [](internalization of X).
+
+These are the same as geminal introspective theories such that the two underlying geminal category structures (from being a geminal X and from being an introspective theory) coincide.
+
+An example is given by a Sigma_1 theory with an internal version of itself, the same Sigma_1 theory. The internal thing being Sigma_1, it is not merely geminal but furthermore introspective.
+
+
+OLD TODO NOTES:
+
+
+What to do next:
+
+* Writing out all the uniqueness results for Loeb's theorem, and unifying them
+
+* Writing out geminal (geminal Ys) result.
+
+* Writing out locally geminal categories results.
+(This must've been about comparison with Kavvos's GL categories)
+
+* Writing out X -> []X extraction of introspective theories from geminal categories.
+
+* Finish uniqueness aspects of Loeb's theorem
+
+* Writing out all the examples of models in Models.tex:
+- Well-founded models
+- Models given by initial models of theories with internal initial models of themselves
+- Sigma_1 models relative to sigma_1 extensions of PA/ZF/etc
+
+9. Writing out relationship to GL modal logic (K4 is easy, and then 6 gives Löb's theorem; the fact that the logic we get doesn't go beyond GL modal logic follows easily from our well-founded models and the relationship between GL and well-founded models). The GLS modal logic can also be discussed, and the relationship between GL logic, GLS logic, GL categories, and introspective theories [there is also a logic GLT, with A |- []A as proper internalizable axiom |- [](A -> []A), but where unmodalized negation and implication are not around as operators; this should correspond to introspective theories]. It's worth noting that we have the ability to express []~A even when we don't have the presumption of a 0 object, by virtue of the non-representable total limit presheaf.
+
+100. Write out naive set theory thing. [And also naive untyped lambda calculus]. For naive set theory, it may be useful to consider notions like A isomorphic to []P(A x A) rather than A isomorphic to []P(A) or such things, just because ordered pairs are a pain in this world.
+----
+Speculative:
+
+Write out expository "Related work" thing about how in some sense, what we are focusing is the orthogonal complement to all the work that demonstrates the details of how arithmetic universes contain internal initial models of finitely specified lex theories: That gives us Gödel codes in a specific context, but we are focused on what can be done in any abstract context where we have Gödel codes. The two of these facts combine to tell us how arithmetic universes have the Gödel phenomenonon, but they are complementary legs. The part we are working on, people understand non-abstractly, but we wish to show the abstraction, to emphasize the bare minimum of machinery involved (lex categories, not even regular categories, much less coproducts, lists, etc) and also to bring out the categorical aspects of Löb's theorem (fixed points for presheaves, these needn't be proposition-valued, we get initial algebras and terminal coalgebras and they coincide, etc). Our free models demonstrate that the initiality is not core to GL phenomena, just one instance where it arises. Our free models allow us to consider working with this axiomatization taken as given, abstractly.
+
+Speculatively, we should be able to make an introspective theory or GL-category like the Sigma-1 or full PA models that has instead some uncomputable flavor, like doing the same thing over some oracle, and this should give the kind of model that people do not ordinarily consider, showing some value to the abstraction. [Not that people aren't aware of how Tarski's indefinability theorem applies over all these things too, but, yeah]
+
+Perhaps we can turn any semilattice model of GL modal logic into a corresponding GL-category (one where this semilattice appears as the subobjects of 1 or as the preorder reflection of the whole category), and similarly for GLT and introspective theories? That'd be great. Instead of just focusing on the subobjects of 1, we should also automatically get some corresponding fact for the full space by then using reg/lex completion or ex/lex completion. It will be much easier to at least show that any semilattice model of GL embeds into some introspective theory's subobjects, which suffices to show that GL is the appropriate modal logic for introspective theories.
+
+The right result of the above sort should be that given any GLS lattice T' and GL lattice C', with a meet and [] preserving homomorphism from the former to the latter, we can create a corresponding <T, C, ...> introspective theory.
+
+Actually, it may be easy to do something of the above sort for well-founded orders directly, and then appeal to the known relationship between GL and well-founded orders. To think about well-founded orders, it's something like working within the corresponding presheaf topos, but not quite. (Yes, this has now been worked out in the document.)
+
+In T-indexed world, it's like there are large sets (actual sets, arbitrary presheaves), and \repsmall/ sets (objects of T, representable presheaves). All arguments are just like that. An enriched category is like a large but locally \repsmall/ category, an internal category is like a \repsmall/ category. Many of our arguments do not depend on the \repsmallness/ of C, just its local \repsmallness/.
+
+***
+
+Talk about free monad extending [].
+
+Talk about naive set theory.
+
+Talk about how models needn't be computable, or arithmetically definable, or countable, or any such thing. We can add an arbitrary function from N to N or such things to a standard theory and still get another introspective theory.
+
+Sigma-1 construction can be seen as simple thing followed by Ex/Lex construction.
+
+Needn't have an NNO in models, I think. At any rate, the arithmetic content is clearly low, since arithmetic is not visible in the theory of GL-categories in any direct way.
+
+Write out non-lex 2-theory of introspective theories.
+
+Make the observation that any theorem which holds in all geminal categories also holds in all introspective theories, and conversely, any theorem which holds in all geminal categories also holds in all internal geminal categories, and such things, so that []^n A is true iff []^m A is true, except for that a thing may hold in all introspective theories without holding in all geminal categories. That thing. This belongs in "Automatic consistnecy results without models".
+
+Show models that are uncountable, uncomputable, etc, but otherwise similar to PA model. Establishing that GIT does not have to do with naturals, computability, etc.
+
+Note that we model GIT/G2IT/Loeb, but we do not model Rosser's theorem directly (the sharpening of GIT people often have in mind). The bother is as to the possibility of a consistent theory which proves []0 (we only rule out the possibility of a consistent theory proving ~[]0). We can rule this possibility if we restrict attention to geminal categories G for which there is a homomorphism to Set which takes G' to G. Then G cannot prove []0 without proving 0.
+
+Is there a notion of Artin gluing for introspective theories?
+
+------------
+Note that in "Gödel’s Incompleteness after Joyal", Lemma 6.12 appears to have an error. They should only get a modalized fixed point (like us), not an actual fixed point. The mistaken assertion appears to be " By construction we have f(t, n) = g(t)", when they should actually have f(t, n) = []g(t). This doesn't significantly affect their proof of Lob's theorem, however, as the Lob sentence they use is readily seen to be defined by a modalized fixed point.
+
+Note that the PA/ZFC/etc introspective theories can be seen to come from the introspective theory of the initial arithmetic universe like so: Within the initial AU, we have internal categories corresponding to all computably enumerable categories, such as sigma1 PA or arbitrary PA or the like. For any computably enumerable category C which is also manifestly an arithmetic universe, we also get an internal lexfunctor from the initial AU's internal AU to its internal C. This lets us equip (initial AU, C) as an introspective theory, and therefore C is a geminal category internal to AU; under the global points functor into Set, we get that C is a bonafide geminal category. We can then extract the maximal introspective theory within which C sits, to get an introspective theory (maximal, C). And when C is PA or Sigma1 PA or the like, we can see that Sigma1 PA sits within this maximal introspective theory as a suitable subcategory still containing C, so we can pull back to (Sigma 1 PA, C) as an introspective theory.
+
+Compare our generaliezd Lawvere fixed point theorem to the one in "substructural fixed-point theorems and the diagonal argument" by David Michael Roberts
+
+Our construction of introspective theories for the theory of initial toposes, etc, should come from something like this: Consider a general set up where we have two categories A (the free lexcat with an internal topos) and B (the free lexcat with an internal initial topos). We have a functor from A to B, and a functor from B to an internal category in A. This gives a functor from B to an internal category within itself. Furthermore, B is sigma1esque in some suitable sense as to give a natural transformation; the relevant thing is that we obviously get a natural transformation from the inclusion of A into B to (the inclusion of A into B followed by our endolexfunctor on B), by the fact that the inclusion of A into B is supposed to be the initial topos within B. If the inclusion of A into B is therefore "dense" enough, we then get a natural tranfsormation from identity to the endolexfunctor on B.
+
+For the initial arithmetic universe, we can take A = B = the initial arithmetic universe and an identity functor. Our sigma1esqueness follows from the comma category/gluing concerns.
+
+The sigma1 models of PA, ZFC, etc, can be seen as coming from the initial arithmetic universe by freely adjoining inverses to some morphisms (i.e., localizing, but for lexcategories) and this presumably makes the map from the initial arithmetic universe into sigma1PA "dense" in the suitable sense to conclude these are super-introspective theories.
+
+Or rather, ANY localization of the initial arithmetic universe, whether the localization of a computably enumerable set of maps or not or not, should be sigma1esque. The fact that PA, ZFC, are computably enumerable plays a role just in ensuring that they map into the globalization of an internal category in the initial arithmetic universe.
+
+One kind of model we can consider that others haven't is a coproduct qua introspective theory of a logicky introspective theory (e.g., sigma1 PA) with a presheafy introspective theory (e.g., presheaves over omega).
+
+Any topos with countable products (thus also countable limits and countable colimits, list objects, and NNO) has an internal initial topos with countable products. (Indeed, an initial internal model of any theory given by countably or finitely many operations of countable or finite arity. The key thing is to be able to represent countably or finitely branching labelled well-founded trees. We can represent such trees as suitable labelled subsets of the (non-well-founded) complete countably branching tree (which is given by lists of naturals); note that we have only finitely many tree constructors in mind (even though some of those constructors have infinite arity), which allows us to define the suitable notion internally of acceptably labelled trees. This is a W-type for a certain infinitary constructor. The presence of countable products ensures that the internal notion of "a countable collection of Xes" suitably matches the external one; thus, any model of a countable theory internal to the topos as far as the external univerese is concerned is also one recognized internally to the topos as a model of said theory, in the sense of yielding appropriate diagrams in the slice category over N.). This gives us a geminal topos-with-countable-products, which is both uncountable and contains all kinds of uncomputable structure (e.g., all maps from N to 2).
+
+Investigate relativizing our well-founded introspective theory construction to a Set which is itself an introspective theory.
+
+The difference between our well-founded models which have geminal categories which do not validate ~~[]0, and the ones which do validate ~~[]0, is like the difference between "strong induction" and "ordinary induction" so far as the Lob principle's interpretation goes. The relationship between these two forms of induction gives us a relationship between morphisms []A |- A for the two different box operators we might consider.
+
+Our introspective theories are like extensional dependent type theory with sigma and identity types and guarded recursion with also a universe U (with u : U leading to el(U) : Type) such that []U and [](Sigma x : U, y : U. el(x) -> el(y)) are both coded by elements of U. When universes are presumed to be cartesian closed, our presumption is something like that [](Sigma x : U. el(x)) is coded by an element of U.
+
+-------------
+
+1. Models based on initiality
+2. Lob's theorem uniqueness
+3. Presheaf models
+4. Geminal categories
+5. Cleanup
+6. Modally naive set theory
+
+If something is off narrative, feel free to skim instead of going into detail. A clean story is better than a messy attempt at exhaustiveness. Write the way you would write in chat, and we can fill in more bureaucracy as requested later.
+
+-------------------
+
+0. Cleanup terminology around internal, included, interior, etc.
+1. Add stuff to preliminaries on quasi-equational theories
+2. Add stuff to preliminaries or elsewhere on strictifying initializing lexcategories
+3. Discuss models based on arithmetic universes. Discuss here the business of localizing arithmetic universes.
+4. Discuss models based on initializing lexcategories.
+5. Loeb's theorem initiality section cleanup. (Make note about us using inner-strict introspective theories here. There's absolutely no difficulty in inner-strictifying, it's just making a choice of an internal category, a choice we are definitionally presumed to be able to make)
+6. Loeb's theorem full cleanup. (Including Yonofsky bit)
+7. Cartesian closed categories and modal logic.
+8. Soundnesses (basic theory, + results for models based on initiality or arithmetic universes).
+9. Set as a strict universe, initiality results extending to maps into Set
+10. All presheaf model results.
+11. All geminal category results.
+12. All cleanup. (Add all notation to the index)
+13. Modally naive set theory.
+
+----
+Scratch notes:
+
+In the inito-geminal section:
+
+Inito-geminal like the initial NNO-topos.
+
+Introspective like the theory of an initial NNO-topos. [This uses our Comma-Kan lemma]
+
+Super-duper-introspective like the initial arithmetic universe. [We need our Comma-Kan lemma to show the IAU is an introspective theory, incidentally]
+
+Super-(duper-)introspective like localizations of the IAU (localizations qua lexcategory). [By "super-introspective", I mean an introspective theory with an internal introspective theory satisfying such and such coherence conditions. By super-duper, I mean furthermore that there is a lexfunctor to Set taking the internal super-introspective theory to the external one. Localization produces a super-duper introspective theory if the maps we localize on are indeed (in the canonical model in Set) isomorphisms.]
+
+Show how localizations of the IAU can be explicitly described (using a class of dense subobjects to localize). Show that these localizations are also arithmetic universes. Relate to our initial description of the PA sigma_1 model.
+
+---
+
+STUFF TO FINISH THE MODELS CHAPTER:
+1.1: Comma categories for self-initializing and super-initializing theories
+1.2: Arithmetic universes, and their localization
+1.3: Uncountable model (free topos on countable products)
+2. All stuff dealing with presheaf models.
+
+CLEANUP:
+3. Threading the two models from the first chapter through other chapters to guide the reader.
+4. Improving the introduction.
+5. General cleanup (making everything readable + going to every TODO note everywhere and either dealing with it or hiding it).
+
+LAST BITS IT WOULD BE NICE TO INCLUDE, NOT STRICTLY NECESSARY BEFORE SENDING SOMETHING TO DANA:
+6. Extracting introspective theories from geminal categories.
+7. Chapter on applications to modally naive set theory.
+
+-------
+
+Perhaps we should define a tree-category (with globalization) as some functor : L -> Cat, along with suitable functors from L(c) back into L (globalization), along with some suitably associative way of turning multiply internal structures into single internal structures. Need to have inducedhomo also.
+
+BigLexCat(Th(Lex), Set) maps to BigLexCat/Set (comma category taken with lax triangles). Furthermore, given any S in BigLexCat(Th(Lex), Set), mapping to Z -> Set in BigLexCat/Set, if we also consider an f : Th(Lex) -> Z, we have a canonical map from f; Z to S.
+
+Better yet: LexCat equipped with both lexfunctors and prolexfunctors is such that every object has an initial prolexfunctor to a designated object 1 (it's not important that 1 be initial or terminal here, probably). Furthermore, there is the object Th(Lex) such that ProLexCat(Th(Lex), 1) maps back into LexCat, in a suitable sense. And for every L in LexCat, there is a designated prolexfunctor from Th(Lex) to L such that each lexfunctor from Th(Lex) to L has a designated map into this, hm... And this designated ProLexFunctor from Th(Lex) to L, followed by the initial prolexfunctor from L to 1, gives a ProLexFunctor from Th(Lex) to 1 corresponding to L. Also the designated maps in ProLexCat(Th(Lex), L) become initial maps after we whisker with the initial map in ProLexCat(L, 1).
+
+We can talk about geminal categories abstractly relative to a tree category.
+
+Also, in the case where C is 2-categorical, we can talk about introspective theories abstractly relative to a tree category.
+
+Perhaps all initiality results on geminal categories and on models constructed by initiality properties follow from this framework purely abstractly, without invoking anything actually using lexcategory structure.

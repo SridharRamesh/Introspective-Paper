@@ -1,0 +1,102 @@
+There has unfortunately been a lot of related work done in the years since I stopped thinking about this. :(
+
+We always knew to cite Maietti's work on arithmetic universes. There is now also "Gödel incompleteness through Arithmetic Universes after A. Joyal" (2020) by Joost van Dijk, Alexander Gietelink Oldenziel.
+
+There's also some stuff on coalgebra/algebra coincidence we might want to cite, from Adamek, Milius, and Moss.
+
+Maybe cite "Godel-Rosser's Incompleteness Theorems for Non-Recursively Enumerable Theories" by Salehi and Saraji? I haven't bothered to read this and don't particularly intend to.
+
+Cite Lawvere and Yanofsky on diagonalization in cartesian closed categories.
+
+There's "Reasoning in Arithmetic Universes" by Alan Morrison, which talks about how arithmetic universes have internal free models of finite sketches.
+
+See "Topos Semantics for Higher-Order Modal Logic" by Awodey et al.
+
+---
+To check:
+
+https://arxiv.org/pdf/1602.04860.pdf (DUAL-CONTEXT CALCULI FOR MODAL LOGIC, Kavvos). There is a "Godel-Lob category" concept here that is similar to the locally introspective version of our Godel-Lob categories.
+
+https://arxiv.org/pdf/1309.0895.pdf (Guard Your Daggers and Traces: On The Equational Properties of Guarded (Co-)recursion: Milius et al). In the terminology of this, we are dealing with "unique guarded fixpoint categories". There's also an example here concerning complete metric spaces and the Banach fixed point theorem. This is likely a locally introspective theory with Lob's theorem fixed points. Can it be made an introspective theory? Probably not, but that'd be great.
+
+https://arxiv.org/pdf/1208.3596.pdf (FIRST STEPS IN SYNTHETIC GUARDED DOMAIN THEORY: STEP-INDEXING IN THE TOPOS OF TREES: Birkedal et al). This is similar to the well-founded Kripke models we will deal with.
+
+https://drops.dagstuhl.de/opus/volltexte/2019/11436/pdf/LIPIcs-CALCO-2019-8.pdf (Coinduction in Flow: The Later Modality in Fibrations, by Basold)
+
+https://www.sciencedirect.com/science/article/abs/pii/S0019357717301167 (Lewis meets Brouwer: Constructive strict implication)
+
+https://arxiv.org/pdf/1708.05607.pdf (Constructive Modalities with Provability Smack). This is useful not directly, but because it has references to the existing work on unique propositional fixed points for GL modal logic. It also discusses SL modal logic.
+
+Perhaps see "Note on Some Fixed Point Constructions in Provability Logic" by Lindstrom.
+
+https://arxiv.org/pdf/1712.09302.pdf (On the Semantics of Intensionality and Intensional Recursion, by Kavvos)
+
+https://arxiv.org/pdf/1606.05223.pdf (Guarded Cubical Type Theory:
+Path Equality for Guarded Recursion, by Birkedal et al)
+
+https://arxiv.org/pdf/1501.02925.pdf (Programming and Reasoning with
+Guarded Recursion for Coinductive Types, Birkedal et al)
+
+https://users-cs.au.dk/birke/papers/sgdtuniverse-conf.pdf (Intensional Type Theory with Guarded Recursive Types qua Fixed Points on Universes, Birkedal et al)
+
+https://pure.itu.dk/portal/files/82370381/gdtt.pdf (Guarded Dependent Type Theory
+with Coinductive Types, Birkedal et al)
+
+https://arxiv.org/pdf/1208.3596.pdf (FIRST STEPS IN SYNTHETIC GUARDED DOMAIN THEORY, Birkedal et al)
+
+https://golem.ph.utexas.edu/category/2014/04/on_two-dimensional_monad_theory.html (For strictifying constructions)
+
+https://www.sciencedirect.com/science/article/pii/0022404989901606 (Two-dimensional monad theory, by Blackwell et al, for strictifying constructions)
+
+https://arxiv.org/pdf/math/0702535.pdf (A 2-CATEGORIES COMPANION, by Lack, for strictifying constructions)
+
+https://mathoverflow.net/questions/346687/free-models-of-finitely-presented-essentially-algebraic-theories-in-elementary-t (Free models of finite lex theories)
+
+Partial Horn logic and cartesian categories (Palmgren and Vickers), at https://core.ac.uk/download/pdf/82110032.pdf [referenced by the above MathOverflow question]
+
+Power-Set Functors and Saturated Trees (Adamek et al, https://core.ac.uk/download/pdf/62916431.pdf). Perhaps of note for the von Neumann/cumulative hierarchy style model.
+
+"Categorical Logic and Type Theory", by Bart Jacobs, for stuff about simple slice categories, fibrations, etc.
+
+"A Very Modal Model of a Modern, Major, General Type System": Lambda calculus that seems closely related, which could be useful for defining the models over well-founded relations. This cites Nakano, and Nakano continues to endorse X |- []X (or |> X in the notation of this paper). This paper does not use the analogue of X |- []X, though. However, it seems to be based on preorders and not more general categories, in the sense that types are sets of values compared by inclusion; meet is intersection rather than Cartesian product and so on.
+
+Similarly, see the following two Nakano papers:
+
+Nakano. A modality for recursion
+
+Nakano. Fixed-point logic with the approximation modality and its Kripke completeness.
+
+Non-Well-Foundedness of Well-Orderable Power Sets. T. E. Forster and J. K. Truss. This mentions, in passing in its introduction, that there cannot be an infinite decreasing sequence of cardinals, each at least as large as the powerset of the next, even without presumptions about Choice or Foundation. This is also a consequence of our introspective theories based on well-founded sets: this is precisely the condition that stops us from generalizing such introspective theories to non-well-founded sets (as is necessary, as otherwise Loeb's theorem within these introspective theories would prove the underlying poset to be well-founded after all). See also discussion of "Specker trees".
+
+"Notes on Type Systems" by Voevodsky discusses distinction between categories in strict and non-strict sense (with different terminology) in its introduction. It also apparently discusses the process of splitting fibrations somewhere, but I can't quite see where that is.
+
+THE GUARDED LAMBDA-CALCULUS by Birkedal, Bizjak, et al
+
+Denotational semantics for guarded dependent
+type theory by Bizjak, MØGELBERG, et al.
+
+"Unifying Recursive and Co-recursive Definitions in Sheaf Categories" by Pietro Di Gianantonio Marino Miculan.
+
+"UNIVALENCE FOR INVERSE DIAGRAMS AND HOMOTOPY
+CANONICITY" by Shulman seems to anticipate our construction of universes on well-founded semicategories (called there "inverse categories").
+
+This is then used in "Intensional Type Theory with Guarded Recursive Types qua Fixed Points on Universes" by Birkedal et al. Theorem V.8. there also seems to anticipate our proof of the uniqueness of fixed points.
+
+Definition 7.14 of "A General Framework for the Semantics of Type
+Theory" by Uemura, or section 5.4 of Uemura's PhD thesis ("Abstract and Concrete Type Theories"
+
+"Realising Intensional S4 and GL Modalities"
+
+"Can Modalities Save Naive Set Theory?" by Dana Scott et al
+
+"GENERALISED ALGEBRAIC THEORIES AND CONTEXTUAL CATEGORIES" by Cartmell (under Dana Scott) discusses the appropriate notion of essentially algebraic theory where some types are indexed by non-set-types (as in the theory of categories).
+
+"Partial Horn logic and cartesian categories" by Palmgren and Vickers discusses the proof (internalizable to toposes, etc) that free models of essentially algebraic theories exist.
+
+In the same vein as the two previous, see also "A NOTE ON GENERALIZED ALGEBRAIC THEORIES AND CATEGORIES WITH FAMILIES" by Coquand, Escardo, et al.
+
+See the theorem at https://ncatlab.org/nlab/show/walking+structure for the proof that the walking X's internal X, when globalized, becomes the initial X.
+
+"A Note on Russell's Paradox in Locally Cartesian Closed Categories" by Pitts and Taylor discusses essentially our Lob's theorem for introspective locally cartesian closed categories (where it implies that any such thing is degenerate).
+
+https://www.cs.bham.ac.uk/~sjv/PalmgrenMem.pdf mentions some Maietti references on the Initial Model Theorem in AUs.

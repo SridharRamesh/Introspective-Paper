@@ -1,0 +1,569 @@
+\filestart
+
+\section{\Loeb/'s theorem}\label{LoebChapter}
+\subsection{Preview}
+In this chapter, we prove our most important theorem, justifying the significance of the simple concept of introspective theories. We show how every introspective theory automatically satisfies a general version of \Loeb/'s theorem, acting as the construction of general fixed points. We will also see how \Loeb/'s theorem is in full generality a phenomenon linked to presheaves, and not only constrained to representable presheaves.
+
+The key results of this chapter are those covered in \magicref{PreIntrospDiagSection} and \magicref{IntrospDiagSection}, culminating in \magicref{IntrospLoeb}, our most important theorem. All material in those sections is original to this work.
+
+The material on the \Loeb/ property in general categories in \magicref{LoebPropertySection} includes some observations which can also be found (either explicitly or implicitly) in existing literature. We give our own exposition of this material, which felt important to include in a clean and complete exposition of the significance of our key results. In particular, we confirm how these general \Loeb/ property results continue to be applicable in our particular introspective theory context, even without common presumptions such as cartesian closure, and even with care taken to distinguish the roles of $T$, $C$, and $\Psh{C}$ in a general introspective theory $\langle T, C \rangle$.
+
+The discussion in \magicref{LawvereFPTSection} concerns Lawvere's fixed point theorem, which of course is not original to us, but we also include some reframing and generalization of this which is due to us rather than Lawvere. The discussion in \magicref{LawvereFPTReduxSection} compares our reframing to some other reframings of Lawvere's fixed point theorem in the existing literature.
+
+The sole theorem in \magicref{NoSmallSelfIndexing} is the same theorem as proven in \autocite{PittsTaylor1989}. We re-note it here simply to observe that it follows as a special case of our more general \magicref{IntrospLoeb}.
+
+\subsection{The \Loeb/ property in abstract}\label{LoebPropertySection}
+\begin{definition}\label{LoebPropertyDefn}
+Let $D$ be any category with a terminal object and let $\Box : D \to D$ be a terminal-object-preserving endofunctor on $D$. We say $\Box$ has the \defined{\Loeb/ property} if, for every object $\Omega$ of $D$ and every morphism $\loebNeg : \Box \Omega \to \Omega$, there exists a morphism $\omega : 1 \to \Omega$ making the following square commute:
+% https://q.uiver.app/#q=WzAsNCxbMCwxLCIxIl0sWzEsMCwiXFxCb3ggXFxPbWVnYSJdLFsxLDEsIlxcT21lZ2EiXSxbMCwwLCJcXEJveCAxIl0sWzEsMiwiXFxsb2ViTmVnIl0sWzAsMiwiXFxvbWVnYSIsMl0sWzMsMCwiIiwwLHsibGV2ZWwiOjIsInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCJcXEJveCBcXG9tZWdhIl1d
+\[\begin{tikzcd}[ampersand replacement=\&]
+	{\Box 1} \& {\Box \Omega} \\
+	1 \& \Omega
+	\arrow["\loebNeg", from=1-2, to=2-2]
+	\arrow["\omega"', from=2-1, to=2-2]
+	\arrow[Rightarrow, no head, from=1-1, to=2-1]
+	\arrow["{\Box \omega}", from=1-1, to=1-2]
+\end{tikzcd}\]
+
+In other words, for every $\Omega \in D$ and $\loebNeg : \Box \Omega \to \Omega$, there is a fixed point of $\omega \mapsto \loebNeg \circ (\Box \omega) : \Hom_D(1, \Omega) \to \Hom_D(1, \Omega)$.
+
+If such fixed points are furthermore always unique, we say $\Box$ has the \defined{\Loeb/ property with uniqueness}. (Note that the \Loeb/ property with uniqueness is the same as saying that the unique map $: \Box 1 \to 1$ is an initial $\Box$-algebra.)
+\end{definition}
+
+\begin{observation}\label{KnasterTarskiExample}
+For example, the identity endofunctor on the category of complete lattices and monotonic maps between them has the \Loeb/ property (this amounts to the Knaster-Tarski fixed point theorem). However, this does not have the \Loeb/ property with uniqueness.
+\end{observation}
+
+In this chapter, we will establish that for every introspective theory $\langle T, C \rangle$, each aspect of each of $\Box_{T/-}$, $\Box_C$, and $\Box_{\Psh{C}}$ has the \Loeb/ property with uniqueness. That such a strong result follows from such a minimal and simple categorical structure motivates much of our interest in the concept of introspective theories.
+
+But before we establish this version of \Loeb/'s theorem for introspective theories in particular, we will develop the theory of the \Loeb/ property and its consequences a little further in abstract. 
+
+\begin{theorem}\label{LoebTransfer}
+Let $D$ and $E$ be categories with terminal objects, and let $M : D \to E$ and $N : E \to D$ be functors preserving terminal objects. Suppose $NM : D \to D$ has the \Loeb/ property. Then so does $MN : E \to E$. Furthermore, if $NM$ has the \Loeb/ property with uniqueness, then so does $MN$.
+\end{theorem}
+\begin{proof}
+This is by the general theorem\sTODOinline{Note as a lemma in Preliminaries?} that fixed points of a composition of functions are in bijection with fixed points of any cyclic rearrangement of that composition (as $f$ and $g$ themselves restrict to inverse maps between fixed points of $gf$ and $fg$). In particular, letting $comp_x(y) = x \circ y$, the fixed points of $\omega_E \mapsto comp_{\loebNeg}(M(N(\omega_E)))$ are in bijection with the fixed points of $\omega_D \mapsto N (comp_{{\loebNeg}}(M(\omega_D)))$, which is to say, of $\omega_D \mapsto comp_{N({\loebNeg})}(N (M (\omega_D)))$.
+
+The latter fixed points must exist (or exist uniquely) if $NM : D \to D$ has the \Loeb/ property (or the \Loeb/ property with uniqueness, respectively), and thus in such cases so do the former fixed points, establishing the corresponding property for $MN : E \to E$.
+\end{proof}
+
+\sTODOinline{The above is a special case of Eppendahl's observations on algebra-initial coalgebras in \quote{Coalgebra-to-Algebra Morphisms}.}
+
+\begin{theorem}\label{LoebPropertyLexUniqueness}
+Let $D$ be any lexcategory\sTODOinline{Or any category with terminal object and equalizers, but for now we will go ahead and presume binary products as well for convenience}, and let $\Box : D \to D$ be a terminal-object-preserving endofunctor on $D$. If $\Box$ has the \Loeb/ property, then it furthermore has the \Loeb/ property with uniqueness.
+\end{theorem}
+\begin{proof}
+We must show that, given any two commutative squares as below (with the same $\loebNeg$ on the right hand side of each), the morphisms $\omega$ and $\psi$ are equal:
+
+% https://q.uiver.app/?q=WzAsOCxbMywxLCIxIl0sWzQsMCwiXFxCb3ggXFxPbWVnYSJdLFs0LDEsIlxcT21lZ2EiXSxbMywwLCJcXEJveCAxIl0sWzAsMCwiXFxCb3ggMSJdLFsxLDAsIlxcQm94IFxcT21lZ2EiXSxbMSwxLCJcXE9tZWdhIl0sWzAsMSwiMSJdLFsxLDIsIlxcbG9lYk5lZyJdLFswLDIsIlxccHNpIiwyXSxbMywwLCIiLDAseyJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIlxcQm94IFxccHNpIl0sWzQsNSwiXFxCb3ggXFxvbWVnYSJdLFs1LDYsIlxcbG9lYk5lZyJdLFs0LDcsIiIsMix7ImxldmVsIjoyLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzcsNiwiXFxvbWVnYSIsMl1d
+\[\begin{tikzcd}
+	{\Box 1} & {\Box \Omega} && {\Box 1} & {\Box \Omega} \\
+	1 & \Omega && 1 & \Omega
+	\arrow["\loebNeg", from=1-5, to=2-5]
+	\arrow["\psi"', from=2-4, to=2-5]
+	\arrow[Rightarrow, no head, from=1-4, to=2-4]
+	\arrow["{\Box \psi}", from=1-4, to=1-5]
+	\arrow["{\Box \omega}", from=1-1, to=1-2]
+	\arrow["\loebNeg", from=1-2, to=2-2]
+	\arrow[Rightarrow, no head, from=1-1, to=2-1]
+	\arrow["\omega"', from=2-1, to=2-2]
+\end{tikzcd}\]
+
+Let $h : H \to 1$ be the equalizer of $\omega$ and $\psi$.  We will have that $\omega = \psi$ just in case $h$ is an isomorphism. As this $h$ is monic, making $H$ a subobject of $1$, we will have that $h$ is an isomorphism just in case there is any map from $1$ to $H$.
+
+Thanks to the \Loeb/ property, this in turn occurs just in case there is some map from $\Box H$ to $H$. And by the definition of $H$ as an equalizer, this occurs just in case there is some map from $\Box H$ to $1$ which gives equal results when composed with $\omega$ and with $\psi$.
+
+But the map $\Box h : \Box H \to 1$ does indeed have this property, as seen in the following commutative diagram (where the top left square commutes because $h; \omega = h; \psi$):
+
+% https://q.uiver.app/?q=WzAsOCxbMCwyLCIxIl0sWzEsMSwiXFxCb3ggXFxPbWVnYSJdLFsxLDIsIlxcT21lZ2EiXSxbMCwxLCJcXEJveCAxIl0sWzAsMCwiXFxCb3ggSCJdLFsxLDAsIlxcQm94IDEiXSxbMiwwLCIxIl0sWzIsMSwiXFxPbWVnYSJdLFsxLDIsIlxcbG9lYk5lZyJdLFswLDIsIlxccHNpIiwyXSxbMywwLCIiLDAseyJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIlxcQm94IFxccHNpIl0sWzQsMywiXFxCb3ggaCIsMl0sWzQsNSwiXFxCb3ggaCJdLFs1LDEsIlxcQm94IFxcb21lZ2EiLDJdLFs1LDYsIiIsMCx7ImxldmVsIjoyLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzYsNywiXFxvbWVnYSJdLFsxLDcsIlxcbG9lYk5lZyJdXQ==
+\[\begin{tikzcd}
+	{\Box H} & {\Box 1} & 1 \\
+	{\Box 1} & {\Box \Omega} & \Omega \\
+	1 & \Omega
+	\arrow["\loebNeg", from=2-2, to=3-2]
+	\arrow["\psi"', from=3-1, to=3-2]
+	\arrow[Rightarrow, no head, from=2-1, to=3-1]
+	\arrow["{\Box \psi}", from=2-1, to=2-2]
+	\arrow["{\Box h}"', from=1-1, to=2-1]
+	\arrow["{\Box h}", from=1-1, to=1-2]
+	\arrow["{\Box \omega}"', from=1-2, to=2-2]
+	\arrow[Rightarrow, no head, from=1-2, to=1-3]
+	\arrow["\omega", from=1-3, to=2-3]
+	\arrow["\loebNeg", from=2-2, to=2-3]
+\end{tikzcd}\]
+
+This completes the proof.
+\end{proof}
+
+\begin{remark}
+Note that \magicref{LoebPropertyLexUniqueness} makes essential use of the structure available in a lexcategory. We can see this by considering the example from \magicref{KnasterTarskiExample}, which has the \Loeb/ property but not the \Loeb/ property with uniqueness. This is possible as the category of complete lattices and arbitrary monotonic maps lacks equalizers.
+\end{remark}
+
+The application of these abstract results to locally introspective theories in particular is like so:
+
+\begin{theorem}\label{LoebTransferIntrosp}
+If $\langle T, C \rangle$ is a locally introspective theory and $t$ is an object of $T$ such that at least one of $\Box_{T/-}$, $\Box_C$, or $\Box_{\Psh{C}}$ has the \Loeb/ property (without presumed uniqueness) at its $t$-aspect, then all three have the \Loeb/ property with uniqueness at their $t$-aspect.
+
+If this happens for every $t \in T$, we say this locally introspective theory itself has the \defined{\Loeb/ property}.
+\end{theorem}
+\begin{proof}
+By \magicref{LoebTransfer}, when considering the definitions of the various $\Box$ operators given via the triangle at \magicref{BoxDefn}, we find that if any of these $\Box$ operators have the \Loeb/ property at their $t$-aspect, then all three do. By \magicref{LoebPropertyLexUniqueness}, we can furthermore conclude the \Loeb/ property with uniqueness.
+\end{proof}
+
+\sTODOinline{
+I am removing the following for now as possibly a distraction.
+\begin{remark}
+In the above proof, we used \magicref{LoebTransfer} to transfer the \Loeb/ property from $\Box_C$ to $\Box_{T/-}$. Later, via \magicref{IntrospAsGeminal}, we will learn an alternative reason why we can automatically transfer properties which hold of $C$ in all introspective theories $\langle T, C \rangle$ to properties which hold of $T$ in all introspective theories $\langle T, C \rangle$.
+\end{remark}
+}
+
+\magicref{LoebPropertyLexUniqueness} is only a special case of a much broader and important theorem which we now discuss. For convenience of exposition, we take $\Box$ in the following to be a lexfunctor, though this can be relaxed.
+
+\begin{theorem}\label{CoalgToAlg}
+Let $D$ be any lexcategory and let $\Box : D \to D$ be a lexfunctor. Let $E$ be any \repsmall/ $D$-indexed category. (Note that $\Box$ acting on $E$ induces also another \repsmall/\sTODOinline{Is this \repsmall/ when $\Box$ is not lex? It may be that we actually are using some kind of left Kan extension here, and the result will not be \repsmall/ in such cases. At any rate, it seems the better thing to do is to return to how I originally framed this from line 312 in commit commit 375fa9c.} $D$-indexed category $\Box E$ \sTODOinline{Note in preliminaries how the choice of internal category presenting these indexed categories doesn't matter, as $\Box$ acts on the internal functors between these too}, as well as a functor from each $d$-defined aspect of $E$ to the $(\Box d)$-defined aspect of $\Box E$, for $d \in D$. In particular, as $\Box$ is terminal-object-preserving, $\Box$ acts as a functor from the global aspect of $E$ to the global aspect of $\Box E$.) 
+
+Suppose also given a $D$-indexed functor $f : \Box E \to E$, and let the endofunctor $F$ on the global aspect of $E$ be given by first applying $\Box$ to arrive in the global aspect of $\Box E$, then applying $f$ to arrive back in the global aspect of $E$.
+
+If $\Box$ has the \Loeb/ property, then there is an $F$-hylomorphism (as in \magicref{HylomorphismDefn}) between any $F$-coalgebra $W : w \to F(w)$ and any $F$-algebra $M : F(m) \to m$ in the global aspect of $E$. And if $\Box$ furthermore has the \Loeb/ property with uniqueness, then this hylomorphism is unique.
+\end{theorem}
+\begin{proof}
+A hylomorphism from $W$ to $M$ is a fixed point of $x \mapsto M \circ F(x) \circ W : \Hom_E(w, m) \to \Hom_E(w, m)$. But as $F(x) = f(\Box x)$, this is the same as a fixed point for $x \mapsto g(\Box x)$ where $g(-)$ is defined by $M \circ f(-) \circ W : \Box \Hom_E(w, m) \to \Hom_E(w, m)$. 
+
+The hylomorphisms from $W$ to $M$ are thus the same as the fixed points given by the \Loeb/ property with respect to this $g$. This completes the proof.
+\end{proof}
+
+\sTODOinline{The above theorem \magicref{CoalgToAlg} generalizes a little further than we've stated it. It is not quite necessary that $E$ be \repsmall/ overall, nor that $D$ have any limits beyond a terminal object. It would suffice for the hom-sets between globally defined objects of $E$ to be \repsmall/ (this is the structure of an enriched category). But it seems not worth the extra hassle of explaining what $\Box E$ means in that situation right now, and every use we will make of this is anyway covered by the description above.}
+
+We now demonstrate how \magicref{LoebPropertyLexUniqueness} can be seen as a special case of \magicref{CoalgToAlg} (at least, in the case where $\Box$ is a lexfunctor):
+\begin{corollary}\label{LoebPropertyLexUniquenessRedux}
+Let $D$ be any lexcategory\sTODOinline{Or any category with terminal object and equalizers, but for now we will go ahead and presume binary products as well for convenience}, and let $\Box : D \to D$ be a lexfunctor. If $\Box$ has the \Loeb/ property, then it furthermore has the \Loeb/ property with uniqueness.
+\end{corollary}
+\begin{proof}
+Let $E$ be an arbitrary object of $D$ (thus, a \repsmall/ $D$-indexed set) and let us construe this also as a \repsmall/ $D$-indexed discrete category. Let $f : \Box E \to E$ be an arbitrary map in $D$, and as above, let us take $F : \Hom_D(1, E) \to \Hom_D(1, E)$ to be given as the composition of $\Box : \Hom_D(1, E) \to \Hom_D(1, \Box E)$ with $f \circ - : \Hom_D(1, \Box E) \to \Hom_D(1, E)$.
+
+As $E$ is a discrete category, observe that any $F$-coalgebra or $F$-algebra in the global aspect of $E$ amounts to a fixed point of $f \circ \Box(-) : \Hom_D(1, E) \to \Hom_D(1, E)$. The \Loeb/ property tells us such fixed points exist, while \magicref{CoalgToAlg} tells us there is a hylomorphism between any such fixed points. But as $E$ is a discrete category, such a hylomorphism amounts to just an equality between the two elements of $\Hom_D(1, E)$. Thus, any two such fixed points are equal, which is to say, we have the \Loeb/ property with uniqueness.
+\end{proof}
+(It is perhaps easy to miss how the presumption of equalizers in $D$ has been used in the argument for \magicref{LoebPropertyLexUniquenessRedux}. At one point within its invocation of \magicref{CoalgToAlg}, the argument considers the object $\Box \Hom_E(w, m)$ for parallel $w, m \in \Hom_D(1, E)$. As such, it depends upon the fact that $\Hom_E(w, m)$ is a \repsmall/ $D$-indexed set. This object $\Hom_E(w, m)$ of $D$ is given by an equalizer between parallel maps from $1$ to $E$ in $D$; this is where the fact that $D$ is a lexcategory is essential.)
+
+\begin{corollary}\label{InitialTerminalCoincidence}
+Consider the same setup as of \magicref{CoalgToAlg}, and presume $\Box$ has the \Loeb/ property with uniqueness (as we now know follows automatically from the \Loeb/ property on a lexcategory). Then any fixed point of $F$ (in the sense of an object $e$ of the global aspect of $E$ along with an isomorphism between $e$ and $F(e)$) is simultaneously an initial $F$-algebra and a terminal $F$-coalgebra. In particular, any two such fixed points are isomorphic, via a unique $F$-algebra isomorphism.
+\end{corollary}
+\begin{proof}
+In that context, \magicref{CoalgToAlg} says that every $F$-coalgebra has a \emph{unique} hylomorphism into every $F$-algebra. In the particular case that the coalgebra is invertible, this can be read as a morphism between algebras, and establishes that the coalgebra's inverse is an initial algebra. Dually, for any invertible algebra, this establishes its inverse as a terminal coalgebra.
+\end{proof}
+
+\sTODOinline{Link this to \magicref{IntrospTyConFixedPoints}. Note after our later bootstrapping section that this uniqueness means that ultimately, the apparent dependence on various arbitrary choices in our proof of the bootstrapping theorem doesn't matter in the end. We get the same result no matter what.}
+
+\begin{remark}
+The argument we have given for \magicref{CoalgToAlg} and thus for \magicref{InitialTerminalCoincidence} is essentially the same as that given for Lemma 7.6 in \autocite{birkedal2011first}. For convenience for our purposes, we have framed this in terms of internal categories, though in \autocite{birkedal2011first} it is more properly framed as about enriched categories more generally. On the other hand, this argument is given in \autocite{birkedal2011first} in a context where the uniqueness of the \Loeb/ property has already been presumed, whereas we have noted that this argument can also be given in a context where only the weaker \Loeb/ property without uniqueness has been presumed, and then this argument can be used to in fact derive said uniqueness in a lexcategory.
+
+Arguments establishing that the weaker \Loeb/ property entails the \Loeb/ property with uniqueness in contexts with identity types have been noted in the literature on guarded recursion. For example, as Theorem V.8 in \autocite{birkedal2013universes} and as Theorem 9.5 in \autocite{birkedal2021Multimodal}. However, we are unaware of any prior observation in the literature that this uniqueness can also be understood as a special case of the existence of coalgebra-to-algebra hylomorphisms, unifying those arguments.
+\end{remark}
+
+\begin{theorem}\label{CCCLoebUniqueness}
+The identity endofunctor on a cartesian closed category has the \Loeb/ property with uniqueness just in case the category is the trivial terminal category.
+\end{theorem}
+\begin{proof}
+Taking $\Box$ to be this identity endofunctor and applying the \Loeb/ property with uniqueness to the morphism $\id_{B^A} : \Box(B^A) \to (B^A)$, for arbitrary objects $A$ and $B$, we find that each $B^A$ has a unique global element, which is to say, there is a unique map between any pair of objects. Thus all objects become isomorphic to the terminal object.
+\end{proof}
+
+\begin{corollary}\label{CCCLoebLex}
+The identity endofunctor on a cartesian closed category with equalizers has the \Loeb/ property just in case the category is the trivial terminal category.
+\end{corollary}
+\begin{proof}
+By combining \magicref{CCCLoebUniqueness} and \magicref{LoebPropertyLexUniqueness}.
+\end{proof}
+
+\begin{observation}
+The example from \magicref{KnasterTarskiExample} shows that it is possible for the identity endofunctor on a nontrivial cartesian closed category to have the \Loeb/ property, so long as neither uniqueness nor equalizers are presumed.
+\end{observation}
+
+\subsection{Lawvere's fixed point theorem}\label{LawvereFPTSection}
+Let us refresh the reader on Lawvere's fixed point theorem \autocite{lawvere1969diagonal}, which captures the general structure of many diagonalization arguments and their relationship to cartesian closed structure. We shall first review a proof of Lawvere's fixed point theorem close in spirit to Lawvere's framing of his result.
+
+Then we will note a slight generalization for which essentially the same argument applies. Then in the next section we will turn this generalization into a result in the context of general pre-introspective theories. Then we will specialize further down to introspective theories, and observe a wonderful \quote{bootstrapping} phenomenon which arises there, which shall ultimately provide us with the \Loeb/ property in that context, which is our main result.
+
+\openNamed{theorem}{Lawvere's Fixed Point Theorem}\label{LawveresFixedPointTheorem}
+Let $T$ be an arbitrary category. Let $X$ be an object of $T$ and let $\Omega$ be any $T$-indexed set. Suppose also given some map $\App' : X \to \Omega^X$ (equivalent to the data of a map $\App : X \times X \to \Omega$).
+
+Let $\point$ be any object of $T$. By a \quote{point} of a $T$-indexed set, we shall mean an element of its aspect at $\point$ (equivalent to the data of a map into it from $\point$).
+
+Suppose $\App$ has the surjectivity-like property that, for every map $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have that $\App(f, x) = F(x)$.
+
+Then for any map $\loebNeg : \Omega \to \Omega$, there exists a point $\omega$ of $\Omega$ such that $\omega = \loebNeg(\omega)$. That is to say, $\loebNeg$ has a fixed point.
+\closeNamed{theorem}
+\begin{proof}
+Let $F : X \to \Omega$ be the following composition:
+
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJYIl0sWzIsMCwiWCBcXHRpbWVzIFgiXSxbMywwLCJcXE9tZWdhIl0sWzQsMCwiXFxPbWVnYSJdLFswLDEsIlxcbGFuZ2xlIFxcaWRfWCwgXFxpZF9YIFxccmFuZ2xlIl0sWzEsMiwiXFxBcHAiXSxbMiwzLCJcXGxvZWJOZWciXV0=
+\[\begin{tikzcd}
+	X && {X \times X} & \Omega & \Omega
+	\arrow["{\langle \id_X, \id_X \rangle}", from=1-1, to=1-3]
+	\arrow["\App", from=1-3, to=1-4]
+	\arrow["\loebNeg", from=1-4, to=1-5]
+\end{tikzcd}\]
+
+That is, for any generalized element $x$ of $X$, we have that $F(x) = \loebNeg(\App(x, x))$.
+
+We know there exists a point $f$ of $X$ which corresponds with $F$ in the manner of our surjectivity-like supposition on $\App$. Now consider the instance of this surjectivity-like supposition where $x = f$. This tells us that $\App(f, f) = F(f)$. But $F(f) = \loebNeg(\App(f, f))$.
+
+Thus, taking $\omega = \App(f, f)$, we have that $\omega = \loebNeg(\omega)$ as desired.
+\end{proof}
+
+Let us make a few remarks on the scope of generality of this theorem.
+
+Lawvere originally states this theorem specifically for the case where $T$ is a cartesian closed category, but later in \autocite{lawvere1969diagonal} notes that this implies the theorem just as well for the case where $T$ is merely a category with finite products, as any category can be embedded as a full subcategory of a cartesian closed category in a way which preserves any products or exponentials already present (via the Yoneda embedding). \autocite{lawvere1969diagonal} does not explicitly consider examples where the original category of interest $T$ lacks finite products, such that $X \times X$ is not an object of $T$, nor consider taking $\Omega$ to be merely a $T$-indexed set rather than an object of $T$, but of course these are covered in the same way by the same insight that we can work in $\Psh{T}$ instead of $T$.
+
+Having observed that we can just as well frame the theorem with any of its objects drawn from $\Psh{T}$ rather than $T$, the reader might then well wonder why in our framing we have allowed some objects to be in $\Psh{T}$ but still constrained others (such as $X$) to come from $T$. We chose this particular framing partly as this is closest to the applications we have in mind, and also partly for what amount to stylistic reasons. In particular, having stated the theorem in this form, interpreting the surjectivity condition on $\App$ only requires quantification over the set of morphisms from object $X$ to presheaf $\Omega$ (i.e., the set $\Omega(X)$), instead of requiring quantification over the class of natural transformations from a presheaf $X$ to another presheaf $\Omega$ (which is potentially a proper class, if $T$ is proper-class-sized). But this is not really of much importance, and again the more general form of the theorem follows readily from the ostensibly less general one.
+
+\autocite{lawvere1969diagonal} also only states this theorem in the particular case where $\point$ is a terminal object. In general, we can always pass from $T$ to a slice category $T/\point$, and in so doing we will turn what was $\point$-defined data in $T$ into globally defined data in $T/\point$ (a la \magicref{AspectIsSliceGlobal}). So constraining $\point$ to be a terminal object does not constrain the theorem excessively. However, it does constrain the theorem slightly, in that interpreting the surjectivity precondition in $T/\point$ in this way results in a stronger (that is, less often satisfied) surjectivity precondition than in the more flexible framing of the theorem we have given: The surjectivity condition in $T/\point$ would amount to requiring that for every $F : \point \times X \to \Omega$ in $\Psh{T}$, we could find a corresponding $f$. However, we have only required surjectivity with respect to the more constrained set of $F : X \to \Omega$ in $\Psh{T}$.
+
+We do not actually need this extra flexibility for proving our main result. For our purposes, just like Lawvere's, it would suffice to always take $\point$ to be a terminal object. But we note the availability of this flexibility all the same (if only for the purpose of comparison at the end of this chapter to other variants on Lawvere's fixed point theorem recently noted in the literature, such as \magicref{MagmoidalFixedPointTheorem}).
+
+Even this loosened surjectivity presumption is still far overkill as far as the needs of the argument go. All that really matters is for one specific definable value to be in the range of $\App'$. But in general practice and for our particular purposes, this is always established because of some such surjectivity condition anyway, so that seems the most useful framing in which to give the theorem.
+
+Having said all that about the wide applicability of \magicref{LawveresFixedPointTheorem}, we actually will need to generalize it slightly further for our purposes. Having given the above discussion of the traditional theorem to prime the reader's intuitions through familiarity, we now put forward the following simple generalization:
+
+\openNamed{theorem}{Self-Related Point Theorem}\label{SelfRelatedPointTheorem}
+Let $T$ be an arbitrary category. Let $\point$ and $X$ be objects of $T$ and let $\Omega$ be any $T$-indexed set. Suppose also given some map $\App' : X \to \Omega^X$ (equivalent to the data of a map $\App : X \times X \to \Omega$).
+
+As before, we shall use \quote{point of} as shorthand for \quote{element of the $\point$-aspect of}.
+
+Suppose also given a binary relation $R$ on the points of $\Omega$. (We needn't presume $R$ to be symmetric or transitive or any such thing.). And suppose $\App$ has the surjectivity-like property that, for every morphism $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have $R(\App(f, x), F(x))$.
+
+Then there exists a point $\omega$ of $\Omega$ such that $R(\omega, \omega)$. That is to say, $R$ has a self-related point.
+\closeNamed{theorem}
+\begin{proof}
+Let $F : X \to \Omega$ be the following composition:
+
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJYIl0sWzIsMCwiWCBcXHRpbWVzIFgiXSxbMywwLCJcXE9tZWdhIl0sWzQsMF0sWzAsMSwiXFxsYW5nbGUgXFxpZF9YLCBcXGlkX1ggXFxyYW5nbGUiXSxbMSwyLCJcXEFwcCJdXQ==
+\[\begin{tikzcd}
+	X && {X \times X} & \Omega & {}
+	\arrow["{\langle \id_X, \id_X \rangle}", from=1-1, to=1-3]
+	\arrow["\App", from=1-3, to=1-4]
+\end{tikzcd}\]
+
+That is, for any generalized element $x$ of $X$, we have that $F(x) = \App(x, x)$.
+
+We know there exists a point $f$ of $X$ in accordance with our surjectivity-like supposition on $\App'$. Now consider the instance of the surjectivity-like supposition where $x = f$. This tells us that $R(\App(f, f), F(f))$. But $F(f) = \App(f, f)$.
+
+Thus, we have found a point of $\Omega$ which is related to itself by $R$, as desired.
+\end{proof}
+
+It may not be obvious that this generalizes \magicref{LawveresFixedPointTheorem}. The following shows how this is so:
+
+\openNamed{corollary}{Relatedly-Fixed Point Theorem}\label{RelatedlyFixedPointTheorem}
+Consider the same setup as of \magicref{SelfRelatedPointTheorem}, and furthermore, suppose given $\loebNeg : \Omega \to \Omega$.
+
+Then there exists a point $\omega$ of $\Omega$ such that $R(\omega, \loebNeg(\omega))$. We might describe this as \quote{$\omega$ is an $R$-fixed point of $\loebNeg$}.
+\closeNamed{corollary}
+\begin{proof}
+Consider the binary relation $R_{\loebNeg}$ on points of $\Omega$ given by $R_{\loebNeg}(\omega_1, \omega_2) = R(\omega_1, \loebNeg(\omega_2))$.
+
+We have been given the supposition that, for every morphism $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have $R(\App(f, x), F(x))$.
+
+As this holds for arbitrary $F : X \to \Omega$, this also holds when an arbitrary $F$ is replaced by $\loebNeg \circ F : X \to \Omega$. That is to say, for every $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have $R(\App(f, x), (\loebNeg \circ F)(x))$, which is to say, $R_{\loebNeg}(\App(f, x), F(x))$.
+
+But this is precisely the surjectivity supposition we need in order to invoke \magicref{SelfRelatedPointTheorem} with $R_{\loebNeg}$ in place of $R$. Doing so, we obtain a point $\omega$ of $\Omega$ such that $R_{\loebNeg}(\omega, \omega)$, which is to say $R(\omega, \loebNeg(\omega))$, as desired.
+\end{proof}
+
+Now we can see that \magicref{LawveresFixedPointTheorem} is of course the instance of \magicref{RelatedlyFixedPointTheorem} where the relation $R$ is taken to be equality. But \magicref{RelatedlyFixedPointTheorem} is strictly more general in allowing the use of an arbitrary relation.
+
+(As for the relation between \magicref{RelatedlyFixedPointTheorem} and \magicref{SelfRelatedPointTheorem}, each is an instance of the other. We above obtained \magicref{RelatedlyFixedPointTheorem} as a corollary of \magicref{SelfRelatedPointTheorem}. But also conversely, \magicref{SelfRelatedPointTheorem} is the special case of \magicref{RelatedlyFixedPointTheorem} where $g$ is taken to be $\id_{\Omega}$.)
+
+At any rate, we shall find the added flexibility of allowing a relation in place of equality to be valuable in the next sections, as we begin to specialize towards our application in introspective theories.
+
+\subsection{Presheaf diagonalization for pre-introspective theories}\label{PreIntrospDiagSection}
+\openNamed{theorem}{Pre-introspective Diagonalization}\label{PreIntrospDiag}
+Let $\langle T, C, \introS, \introN \rangle$ be a pre-introspective theory. Let $\point_T$ be the terminal object of $T$ and let $\point_C$ be the terminal object of $C$.\footnote{We use this $\star$ notation rather than $1$ notation so that we can make the observation that this theorem's proof actually applies more generally, not depending on any limit structure. It would suffice to let $T$ be any category, let $C$ be a $T$-indexed category, let $\introS$ be a functor from $T$ to the global aspect of $C$, let $\introN$ be a map from $t$ to $\Hom_C(\point_C, \introS(t))$, natural in $t \in T$, let $\point_T$ be any object of $T$, and let $\point_C$ be any globally defined object of $C$. Knowing that the proof makes no use of limit structure may make it easier to follow.} Throughout the following, we use \quote{point of} as shorthand for \quote{element of the $\point_T$-aspect of}.
+
+Furthermore, let $P$ be a $(T, C)$-indexed set, in the sense of \magicref{PreliminariesMultipleIndexing}. We will write in the following $P(c)$ to mean the $T$-indexed set $t \mapsto P(t, c)$, for globally defined objects $c$ of $C$.
+
+Suppose also given some object $\Omega \in T$ with a map $\quotient : \Omega \to P(\point_C)$ such that the induced function $\quotient \circ - : \Hom(X \times X, \Omega) \to \Hom(X \times X, P(\point_C))$ is surjective.
+
+Suppose also given some object $X \in T$ and map $\alpha : X \to P(\introS(X))$. We also make a surjectivity-like assumption on $\alpha$. Specifically, we suppose that for every global element $p$ of $P(\introS(X))$, there is a point $x$ of $X$ such that $\alpha(x) = p$, as points of $P(\introS(X))$.
+
+Finally, let $\loebNeg$ be a globally defined element of $P(\introS(\Omega))$.
+
+Then we obtain a point $\omega$ of $\Omega$, such that $\quotient(\omega) = \pullAlong{\introN_{\Omega}(\omega)} \loebNeg$.
+\closeNamed{theorem}
+\begin{proof}
+We shall show how this is an instance of \magicref{SelfRelatedPointTheorem}.
+
+We define $\App : X \times X \to \Omega$ like so: Consider the two projection maps $\pi_1, \pi_2 : X \times X \to X$, as the two generic $(X \times X)$-defined elements of $X$. We thus obtain also $(X \times X)$-defined elements $\alpha(\pi_1)$ of $P(\introS(X))$ and $\introN_{X}(\pi_2)$ of $\Hom_C(\point_C, \introS(X))$. Combining these via the presheaf action of $P$, we get $\pullAlong{( \introN_{X}(\pi_2) )} ( \alpha(\pi_1) )$ as an $(X \times X)$-defined element of $P(\point_C)$. By the surjectivity presumption on $\quotient$, we find a preimage of this under the action of $\quotient : \Omega \to P(\point_C)$. We take this preimage to be our $\App : X \times X \to \Omega$. Thus, for any generalized elements $x_1, x_2$ of $X$ with the same domain, we have that $\quotient(\App(x_1, x_2)) = \pullAlong{( \introN_{X}(x_2) )} ( \alpha(x_1) )$.
+
+We must now establish an appropriate surjectivity supposition on $\App$ for invoking \magicref{SelfRelatedPointTheorem}. 
+
+Let an arbitrary $F : X \to \Omega$ be given. We then have that $\introS(F) : \introS(X) \to \introS(\Omega)$ in the global aspect of $C$. We can apply the action of $P$ along this morphism to $\loebNeg$ (a global element of $P(\introS(\Omega))$), thus obtaining a global element $\pullAlong{\introS(F)} \loebNeg$ of $P(\introS(X))$. By the surjectivity-like assumption on $\alpha$ we made, we now have a corresponding point $f$ of $X$, such that $\alpha(f) = \pullAlong{\introS(F)} \loebNeg$ (the right side here having been reinterpreted from a global element into a point).
+
+It follows that for every point $x$ of $X$, we have that $\pullAlong{\introN_{X}(x)} \alpha(f) = \pullAlong{\introN_{X}(x)} \pullAlong{\introS(F)} \loebNeg$.
+
+Note that by the definition of $\App$, we have that $\quotient(\App(f, x)) = \pullAlong{( \introN_{X}(x) )} \alpha(f)$.
+
+Also note that by \magicref{SWithN}, we have that $\introS(F) \circ_C \introN_{X}(x) = \introN_{\Omega}(F(x))$. Thus, by the functoriality of $P$, we have that $\pullAlong{\introN_{X}(x)} \pullAlong{\introS(F)} \loebNeg =  \pullAlong{\introN_{\Omega}(F(x))} \loebNeg$.
+
+Combining these last three paragraphs, we have that $\quotient(\App(f, x)) =  \pullAlong{\introN_{\Omega}(F(x))} \loebNeg$.
+
+If we define the relation $R(\omega_1, \omega_2)$ as the equation $\quotient(\omega_1) = \pullAlong{\introN_{\Omega}(\omega_2)} \loebNeg$ accordingly, we have now established the surjectivity supposition required in order to invoke \magicref{SelfRelatedPointTheorem}. From this invocation, we get a point of $\Omega$ which is related by $R$ to itself, which is just what we desired, completing the proof.
+\end{proof}
+\begin{corollary}\label{PreIntrospDiagSpecialization}
+In many cases we are interested in (though not all!), we furthermore take $P(\point_C)$ to be $T$-\repsmall/ and take $\Omega$ to be $P(\point_C)$, with $\quotient : \Omega \to P(\point_C)$ as the identity map between these. We then automatically have that the aspect of $\quotient$ at ${X \times X}$ is surjective as required.
+\end{corollary}
+
+\begin{theorem}\label{PreIntrospDiagFromIso}
+Suppose given a locally introspective theory $\langle T, C, \introS, \introN \rangle$ and an object $P$ in the global aspect of $\Psh{C}$.
+
+If there is any object $X$ of $T$ with an isomorphism from $X$ to $P(\introS(X))$, then, within the global aspect of $\Psh{C}$, for every $\loebNeg : \Box P \to P$, we obtain an $\omega : 1 \to P$, such that $\omega = g \circ \omega'$, where $\omega' = \Box_{\Psh{C}}(\omega) : 1 \to \Box P$. In other words, we obtain the instance of the \Loeb/ property constrained specifically to $P$.
+
+We get the same result also if, within $\Glob{C}$, there is any object $Y$ along with an isomorphism from $Y$ to $\introS(P(Y))$.
+\end{theorem}
+\begin{proof}
+Any isomorphism $\alpha : X \to P(\introS(X))$ (or even just a retraction) will automatically satisfy the surjectivity-like precondition allowing us to invoke \magicref{PreIntrospDiag} via \magicref{PreIntrospDiagSpecialization}, which takes $\Omega$ as $P(\point_C)$ and $\quotient$ as identity. Everything follows immediately from this, but has just been Yoneda-ized in its phrasing.
+
+Specifically, keep in mind via the Yoneda lemma that the data of a map from $c \in C$ to $P \in \Psh{C}$ is the same as an element of $P(c)$. In this way, our $\loebNeg : \Box P \to P$ can be seen as indeed an element of $P(\Box P) = P(\introS(P(\point_C))) = P(\introS(\Omega))$, as required.
+
+The invocation of \magicref{PreIntrospDiag} via \magicref{PreIntrospDiagSpecialization} will give us a global element $\omega$ of $\Omega = P(\point_C)$ such that $\omega = \pullAlong{\omega'}{\loebNeg}$, where $\omega' = \introN_{\Omega}(\omega)$ is a global element of $\Box P(\point_C)$. Again, by the Yoneda lemma, such an $\omega$ corresponds to a map from $1$ to $P$ in the global aspect of $\Psh{C}$, such an $\omega'$ corresponds to a map from $1$ to $\Box P$ (specifically, $\omega' = \Box \omega$, by \magicref{SMatchesN}), and our equation relating $\omega$ and $\omega'$ is that that $\omega = \loebNeg \circ \omega'$.
+
+For the last remark about starting from a fixed point for $\introS(P(-))$ rather than a fixed point for $P(\introS(-))$, observe that if we have a $Y$ isomorphic to $\introS(P(Y))$, then by taking $X$ to be $P(Y)$, we obtain an $X$ isomorphic to $P(\introS(X))$.\footnote{This is a special case of the bijective correspondence between fixed points of cyclic rearrangements of compositions, which we also observed within the proof of \magicref{LoebTransfer}.}
+
+\sTODOinline{That is, let $F$ and $G$ be arbitrary covariant or contravariant functors, not necessarily of the same variance as each other. Note that fixed points up to isomorphism of $F \circ G$ are in correspondence with fixed points up to isomorphism of $G \circ F$, with the functors $G$ and $F$ carrying out the two directions of the correspondence. (For that matter, we can also observe that values $X$ which retract onto $F(G(X))$ induce values $Y$ which retract onto $G(F(Y))$, although this is no longer a 1 : 1 correspondence). In this particular case, this means that fixed points up to isomorphism of the contravariant endofunctor $P(\introS(-))$ on $T$ are in correspondence with fixed points up to isomorphism of the contravariant endofunctor $\introS(P(-))$ on the global aspect of $C$. \TODOinline{Make something in the preliminaries about fixed points of compositions and cyclic change of composition, then cite it here and elsewhere in this chapter}}
+\end{proof}
+
+\sTODOinline{We note in passing that the above argument can be understood as working just the same in the context of a merely pre-introspective finite product theory. This just requires some care when interpreting the $\Box$ notation and discussing maps from objects of $C$ to objects of $\Psh{C}$, given the concerns from magicref{BoxNotationSmallnessConcerns}. Without local introspectiveness, $C$ is no longer a full subcategory of $\Psh{C}$, and thus, $\Box_{\Psh{C}}$ is no longer an endofunctor on $\Psh{C}$, but can still be understood as a functor from $\Psh{C}$ to $C$. Furthermore, in such a context, we can still make sense of maps from objects of $C$ to objects of $\Psh{C}$ in the manner of the Yoneda lemma, or by seeing both $C$ and $\Psh{C}$ as full subcategories of the wider category of arbitrary $(T, C)$-indexed sets with no representability conditions.
+
+Also nothing above depends on having equalizers, so it would work in a "pre-introspective finite product theory", but I got rid of this concept from the document for now.
+
+Indeed, I'm getting rid of this whole note from the document for now.}
+
+\subsection{Bootstrapping to \Loeb/'s theorem for introspective theories}\label{IntrospDiagSection}
+This last theorem gives us an instance of the \Loeb/ property, but comes with the precondition of a certain isomorphism.
+
+Incredibly, we can bootstrap away this isomorphism precondition, in the context of an introspective theory. That is, in the context of an introspective theory, we can use one particular instance of \magicref{PreIntrospDiag} itself to provide the very isomorphisms necessary in order to then re-invoke \magicref{PreIntrospDiag} via \magicref{PreIntrospDiagFromIso}.
+
+Our plan is to consider the $(T, C)$-indexed set $P$ such that $P(t, c)$ is the set of isomorphism classes of $C(t)/c$, with the action of $P$ on morphisms of $C$ being given by pullback (while the action of $P$ on morphisms of $T$ is given by the reindexing action of the $T$-indexed category $C$).\footnote{Note that this $(T, C)$-indexed set $P$ is NOT presumed to be $T$-representable! Indeed, we cannot generally hope for this, as we do not presume $T$ to have any regularity or exactness properties such that we could carry out internal to $T$ such quotienting constructions as would yield the object of isomorphism classes of $C$.}
+
+\sTODOinline{Perhaps note the following nuances or perhaps not:
+
+Note that this $P$ will not in general be $T$-\repsmall/, because $T$ does not in general have quotient objects. However, this will cause no difficulties.
+
+Note also that this $P$ is well-defined even though $C$ is taken only as a category and not a strict category, as even though a category does not have a well-defined set of objects, it still has a well-defined set of isomorphism classes of objects.}
+
+In more detail, for any fixed $t$ and any morphism $m : c_1 \to c_2$ of $C(t)$, the action $P(t, m) : P(t, c_2) \to P(t, c_1)$ is given by pullback in the lexcategory $C(t)$ along $m$; that is, this is given by $\pullAlong{m} : C(t)/c_2 \to C(t)/c_1$ considered as taking isomorphism classes of objects to isomorphism classes of objects\sTODOinline{Maybe move all this to the Preliminaries in the section on doubly-indexed sets}. Note that this reindexing along morphisms in $C$ is indeed strictly functorial, because we are working with isomorphism classes of objects rather than with objects simpliciter.
+
+We now choose any internal category $C_{strict}$ in $T$ which presents $C$ (by definition, such an internal category exists in an introspective theory; there may be multiple non-isomorphic such internal categories presenting $C$, but any will do for our purposes) and we take $\Omega$ to be $\Ob(C_{strict})$, with $\quotient : \Omega \to P(\point_C)$ sending each object of each aspect of $C_{strict}$ to its isomorphism class within the corresponding aspect of $C$. Note that every component of $\quotient$ as a natural transformation between presheaves on $T$ is surjective (because $C$ is presented by $C_{strict}$, the isomorphism classes of $C$ and of $C_{strict}$ are the same, and there is clearly a surjection from the objects of $C_{strict}$ (at any aspect) onto the isomorphism classes of $C_{strict}$ (at the same aspect)). Thus in particular the component of $\quotient$ at the object $X \times X$ of $T$ is surjective. \sTODOinline{Mention something about how this is a well-defined map of indexed sets; that is, $\quotient$ interacts appropriately with pullback}. 
+
+We take $X$ to be the subobject of $\Mor(C_{strict})$ comprising those morphisms whose codomain is $\introS(\Mor(C_{strict}))$. That is, the object given by the following equalizer diagram.
+
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJYIl0sWzEsMCwiXFxNb3IoQ197c3RyaWN0fSkiXSxbMywwLCJcXE9iKENfe3N0cmljdH0pIl0sWzIsMSwiMSJdLFswLDEsImkiLDIseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJtb25vIn19fV0sWzEsMiwiXFxjb2QiXSxbMSwzLCIhIiwyXSxbMywyLCJcXGludHJvUycoXFxNb3IoQ197c3RyaWN0fSkpIiwyXV0=
+\[\begin{tikzcd}
+	X & {\Mor(C_{strict})} && {\Ob(C_{strict})} \\
+	&& 1
+	\arrow["i"', tail, from=1-1, to=1-2]
+	\arrow["\cod", from=1-2, to=1-4]
+	\arrow["{!}"', from=1-2, to=2-3]
+	\arrow["{\introS'(\Mor(C_{strict}))}"', from=2-3, to=1-4]
+\end{tikzcd}\]
+
+In the above diagram, we have labelled an arrow with the name $\introS'(\Mor(C_{strict}))$. By this we mean some arbitrary globally defined object of $C_{strict}$ which presents the globally defined object $\introS(\Mor(C_{strict}))$ of $C$. We pedantically caution that there may actually be multiple non-equal global elements of $\Ob(C_{strict})$ which present objects isomorphic to $\introS(\Mor(C_{strict}))$. But any arbitrary choice of some such element will be fine to use as the arrow in this diagram for our purposes.\footnote{Indeed, it is readily seen that even two non-equal such choices will still lead to isomorphic $X$es. Or more precisely, isomorphic results as an object of $T$, though not isomorphic as a subobject of $\Mor(C_{strict})$, as the specific choice of inclusion map $i : X \to \Mor(C_{strict})$ will vary. But again, any so-arising choice will be fine for our purposes.}
+
+Note that, by virtue of being an equalizer, the inclusion map $i : X \to \Mor(C_{strict})$ in $T$ is monic, and thus (as $\introS$ is a lexfunctor) so also is $\introS(i) : \introS(X) \to \introS(\Mor(C_{strict}))$ in $C$. From this, we can define our $\alpha : X \to P(\introS(X))$ and establish its surjectivity condition. Specifically, observe that pullback along $\introS(i)$ gives us a functor $\pullAlong{\introS(i)} : C/\introS(\Mor(C_{strict})) \to C/\introS(X)$. If we focus on the action of $\pullAlong{\introS(i)}$ on objects, consider its input object as presented by an object of $C_{strict}/\introS'(\Mor(C_{strict}))$ (whose objects comprise $X$), and consider its output object modulo isomorphism, this yields $\pullAlong{\introS(i)} : X \to P(\introS(X))$, which we take as our definition of $\alpha$.
+
+As for the surjectivity condition, let $F$ be an arbitrary global element of $P(\introS(X))$; that is, an arbitrary isomorphism class of objects of $C/\introS(X)$. The pushforward (i.e., composition) action of $\introS(i)$ gives us a functor from $C/\introS(X) \to C/\introS(\Mor(C_{strict}))$, taking $F$ to $\introS(i) \circ F$, an isomorphism class of objects of the global aspect of $C/\introS(\Mor(C_{strict}))$. This will be presented by at least one globally defined element $f$ of $X$ (keeping in mind the definition of $X$); there may be multiple non-equal such $f$ but any will do. Observe that $\alpha(f)$ is the isomorphism class of $C/\introS(X)$ corresponding to $\introS(i) \circ F$ pulled back along $\introS(i)$. This isomorphism class is the same as that of $F$ itself, because of the monicity of $\introS(i)$, like so:
+
+% https://q.uiver.app/?q=WzAsNixbMSwxLCJcXGludHJvUyhYKSJdLFsxLDIsIlxcaW50cm9TKFxcTW9yKENfe3N0cmljdH0pKSJdLFsxLDAsIlxcYnVsbGV0Il0sWzAsMiwiXFxpbnRyb1MoWCkiXSxbMCwxLCJcXGludHJvUyhYKSJdLFswLDAsIlxcYnVsbGV0Il0sWzAsMSwiXFxpbnRyb1MoaSkiXSxbMiwwLCJGIl0sWzMsMSwiXFxpbnRyb1MoaSkiLDJdLFs0LDMsIlxcaWQiLDIseyJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs0LDAsIlxcaWQiLDIseyJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs0LDEsIiIsMix7InN0eWxlIjp7Im5hbWUiOiJjb3JuZXIifX1dLFs1LDQsIkYiLDJdLFs1LDIsIlxcaWQiLDAseyJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDAsIiIsMCx7InN0eWxlIjp7Im5hbWUiOiJjb3JuZXIifX1dXQ==
+\[\begin{tikzcd}
+	\bullet & \bullet \\
+	{\introS(X)} & {\introS(X)} \\
+	{\introS(X)} & {\introS(\Mor(C_{strict}))}
+	\arrow["{\introS(i)}", from=2-2, to=3-2]
+	\arrow["F", from=1-2, to=2-2]
+	\arrow["{\introS(i)}"', from=3-1, to=3-2]
+	\arrow["\id"', Rightarrow, no head, from=2-1, to=3-1]
+	\arrow["\id"', Rightarrow, no head, from=2-1, to=2-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=2-1, to=3-2]
+	\arrow["F"', from=1-1, to=2-1]
+	\arrow["\id", Rightarrow, no head, from=1-1, to=1-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+\end{tikzcd}\]
+
+Thus, $\alpha(f) = F$ as an element of $P(\introS(X))$, establishing the required surjectivity condition on $\alpha$.
+
+\bigskip
+Thus, all presumptions are satisfied for us to be able to apply \magicref{PreIntrospDiag} with these definitions, for an arbitrary globally defined element $g$ of $P(\introS(\Omega))$.
+
+In particular, let $G$ be an arbitrary globally defined object of $\Psh{C}$. (In fact, it suffices for $G$ merely to have reindexing along isomorphisms rather than arbitrary morphisms of $C$; that is, for $G$ to be an object of $\Psh{\core{C}}$, where $\core{C}$ is the subcategory of $C$ containing just its invertible morphisms.)
+
+This will be presented by an object of $T/\Ob(C_{strict})$ (the map into $\Ob(C_{strict})$ whose fiber at any object $c_{strict}$ of $C_{strict}$ is the set $G(c)$, where $c$ is the object of $C$ presented by $c_{strict}$). By applying $\introS$ to this, we get a globally defined object of $C/\introS(\Ob(C_{strict}))$, which is to say, a global element of $P(\introS(\Omega))$. Take this to be our $\loebNeg$.
+
+Invoking \magicref{PreIntrospDiag} (on the introspective theory $\langle T, C, \introS, \introN \rangle$, with all other inputs ($P$, $\Omega$, $\quotient$, $X$, $\alpha$, and $\loebNeg$) as described with the same name above), we now get a globally defined element $\omega$ of $\Omega = \Ob(C_{strict})$ such that $\quotient(\omega) = \pullAlong{\introN_{\Omega}(\omega)} \loebNeg$. This equation is saying precisely that $\omega$ presents an object $Y$ of $C$ such that $Y$ is isomorphic to $\introS(G(Y))$. \sTODOinline{Maybe more about how $\pullAlong{\introN_{\Omega}(\omega)} \loebNeg$ is $\introS(G(Y))$}
+
+Thus, we have proven the following:
+\begin{theorem}\label{IntrospTyConFixedPoints}
+For any introspective theory $\langle T, C \rangle$, and any globally defined object $G$ of $\Psh{C}$, or even of $\Psh{\core{C}}$, there is some object $Y \in \Glob{C}$ along with an isomorphism from $Y$ to $\introS(G(Y))$.
+\end{theorem}
+
+Combining this with \magicref{PreIntrospDiagFromIso} to eliminate the latter's isomorphism precondition, we now reach the following conclusion:
+\openNamed{theorem}{L\"ob's Theorem for Introspective Theories}\label{IntrospLoeb}
+Suppose given an introspective theory $\langle T, C, \introS, \introN \rangle$.
+
+Then, within $\Glob{\Psh{C}}$, for every object $P$ and morphism $\loebNeg : \Box P \to P$, we obtain an $\omega : 1 \to P$, such that $\loebNeg \circ (\Box \omega) = \omega$.
+
+In other words, the global aspect of $\Box_{\Psh{C}}$ has the \Loeb/ property. Keeping in mind the equivalences of \magicref{LoebTransferIntrosp}, we may conclude that the global aspects of $\Box_{T/-}$, $\Box_C$, and $\Box_{\Psh{C}}$ all have the \Loeb/ property with uniqueness.
+\closeNamed{theorem}
+
+\begin{observation}
+We can consider the particular case where $P$ is $C$-\repsmall/, just as $\Box P$ is. In other words, where $P(-) = \Hom_C(-, c)$ is the representable presheaf on $C$ represented by some object $c$ of $C$. All traditional accounts of \Loeb/'s theorem are along these lines. But note that we can also just as well consider this \magicref{IntrospLoeb} for non-representable presheaves $P$, a significant generalization of the traditional viewpoint.
+\end{observation}
+
+\begin{corollary}\label{IntrospLoebAtEachAspect}
+For any introspective theory $\langle T, C \rangle$, every aspect of $\Box_T$, $\Box_C$, and $\Box_{\Psh{C}}$ has the \Loeb/ property with uniqueness.
+
+In other words, every introspective theory has the \Loeb/ property, in the terminology of \magicref{LoebTransferIntrosp}.
+\end{corollary}
+\begin{proof}
+By \magicref{SliceBoxIsAspectBox}, each aspect of any of these $\Box$ functors is the global aspect of the corresponding $\Box$ functor on the corresponding slice introspective theory. Thus, we simply invoke \magicref{IntrospLoeb} on this slice introspective theory.
+\end{proof}
+
+The above is our key result. The fact that the simple definition of introspective theories is enough to lead to their satisfying the \Loeb/ property with uniqueness motivates much of our interest in the concept of introspective theories.
+
+\begin{observation}
+The fixed points produced by \magicref{IntrospTyConFixedPoints} are furthermore unique up to canonical isomorphism, by combining \magicref{IntrospLoeb} with \magicref{InitialTerminalCoincidence}. \sTODOinline{Give more details}
+\end{observation}
+
+\subsection{The self-indexing cannot be \repsmall/, except trivially}\label{NoSmallSelfIndexing}
+\sTODOinline{Perhaps move this into another section instead of giving it a dedicated section.}
+We note an important corollary of the above:
+
+\begin{theorem}\label{LocallyCartesianLoeb}
+Let $T$ be any lexcategory, and equip it as an introspective theory $\langle T, C, \introF \rangle = \langle T, T/-, \id \rangle$ by taking $C$ to be $T$'s self-indexing and $\introF$ to be the identity (a la \magicref{TrivialPreIntrosp}). Recall from \magicref{LocallySmallSelfIndexing} that this will be locally introspective (that is, the self-indexing will be locally \repsmall/) precisely when $T$ is locally cartesian closed.
+
+This will furthermore be introspective (that is, the self-indexing will be \repsmall/) only when $T$ is the trivial terminal category.
+\end{theorem}
+\begin{proof}
+For a lexcategory $T$ equipped as a pre-introspective theory in this way, the operation $\Box_T$ acts as the identity.
+
+And by \magicref{IntrospLoeb}, if $T$ is an introspective theory, then $\Box_T$ will have the \Loeb/ property with uniqueness.
+
+But by \magicref{CCCLoebUniqueness}, the identity endofunctor on a cartesian closed lexcategory has the \Loeb/ property with uniqueness only when the category is the trivial terminal category.
+\end{proof}
+This \quote{no-go} result was demonstrated in \autocite{PittsTaylor1989} by an essentially identical argument to the argument we have given, when the abstractions in our argument are unwound to this special case.
+
+But by generalizing to introspective theories, we are able to expand from this negative result (there are no nontrivial lexcategories whose self-indexing is \repsmall/) to a positive result (there are many nontrivial examples of introspective theories, which all end up satisfying the \Loeb/ property with uniqueness and all the further corollaries of this noted in \magicref{LoebPropertySection}).
+
+\begin{observation}
+From the above, we see that, though the \Loeb/ property holds for all introspective theories automatically, it does not hold automatically for merely locally introspective theories (as there are many locally cartesian closed categories which are nontrivial. Counterexamples could also be constructed from non-well-founded transitive relations using \magicref{KripkeLocallyIntrosp}.). However, we have also seen there are some natural examples of locally introspective but not fully introspective theories with the property that arbitrarily loose sub-introspections of them can be made into introspective theories, as in the relationship between our archetypal examples \magicref{KripkeLocallyIntrosp} and \magicref{KripkeIntrosp}, or the relationship between our archetypal examples \magicref{StepIndexingLocallyIntrosp} and \magicref{StepIndexingIntrosp}. Such locally introspective theories will thus inherit the \Loeb/ property from their sub-introspections.
+
+\sTODOinline{Perhaps discuss the idea of a locally introspective theory where every object, or indeed every slice, is contained in some "full sub-introspective theory" of it, and how this inherits the Loeb property (at every aspect). This can then be related to our archetypal examples of locally introspective theories based on presheaf categories.}
+\end{observation}
+
+\subsection{As applied to our archetypal examples}
+Here we discuss the application of \sTODOinline{\magicref{IntrospTyConFixedPoints} and }\magicref{IntrospLoeb} to our archetypal examples of introspective theories:
+
+\subsubsection{ZF-Finite examples}\label{ZFFiniteLoebDiscussion}
+Recall from \magicref{SigmaModelComplex} that we have a natural introspective theory $\langle \ZfinSigma, \InnerZfin \rangle$, where $\ZfinSigma$ is the lexcategory of $\Sigma_1$-definable hereditarily finite sets and $\Sigma_1$-definable functions between them up to provable equivalence in ZF-Finite, and $\InnerZfin$ is the lexcategory internal to $\ZfinSigma$ of arbitrary definable sets and arbitrary definable functions between them up to provable equivalence in ZF-Finite.
+
+Recall from the discussion at \magicref{ZFFiniteModal} that the global aspect of $\InnerZfin$ can be identified with $\Zfin$ (the actual category of arbitrary definable sets and functions between them in ZF-Finite) and that the $\Box$ operator acts on this by sending each \quote{the object of $X$es} to \quote{the object of definitions of $X$es within ZF-Finite}. In the particular case where the object in question is subterminal (thus representing a proposition), this amounts to the traditional provability operator sending the proposition $X$ to the proposition \quote{There is a proof in ZF-Finite of X}.
+
+Thus, as applied to these subterminal objects, our \Loeb/ property with uniqueness for this introspective theory is indeed the namesake \Loeb/ property of traditional logic: It tells us that if there is a proof that the provability of $X$ entails $X$, then there is in fact an unconditional proof of $X$. \Goedel/'s second incompleteness theorem follows as the special case of this where $X$ is a manifest falsehood, and \Goedel/'s first incompleteness theorem then readily follows from the second incompleteness theorem.
+
+But we may consider non-subterminal objects as well, and here our \Loeb/ property with uniqueness gives us a form of guarded recursion in the context of such logical theories as ZF-Finite. Specifically, for any definable function from definitions of $X$es to actual $X$es, there is a unique (up to provable equivalence) definition of an $X$ which is provably equivalent to the given function applied to its own definition.\footnote{Here, all mentions of definability and provability are with respect to the particular theory ZF-Finite, though analogous constructions of introspective theories can be carried out for other logical theories as well, such as any computably enumerable extension of ZF-Finite, as we later discuss at \magicref{NothingSpecialToZFFinite}.}
+
+We are not aware of guarded recursion having been strongly investigated in this context before. We aspire to explore working with this form of guarded recursion further in future work. For now we simply observe it as a vast generalization of the traditional purely propositional interpretation of \Loeb/'s theorem in logic.
+
+\subsubsection{Kripke frame example}
+\newcommand{\PshUnderQInf}{\mathrm{Psh}'(Q)}
+
+Recall the introspective theory $\langle \PshUnderQInf, C' \rangle$ from \magicref{KripkeIntrosp}, constructed from a well-founded transitive relation $<$ on a set $P$, with $Q$ being $P$ augmented with a new maximum element $\infty$ and construed as a preorder category using the $<$ relation. The $\PshUnderQInf$ here is a full sublexcategory of $\Psh{Q}$, defined by certain cardinality constraints, but these cardinality constraints can be taken to be arbitrarily loose such that any \setsmall/ number of particular desired objects of $\Psh{Q}$ can be found within $\PshUnderQInf$.
+
+The global aspect of $C'$ here is a certain full sublexcategory of $\Set^{|P|}$ (again defined by cardinality constraints, which may again be taken to be arbitrarily loose such that any \setsmall/ number of particular desired objects can be found within this). Recall from the discussion at \magicref{KripkeFrameModal} that the $\Box$ operator acts on this such that $\Box F(x)$ is the product of $F(y)$ over all $y < x$, where $F \in \Set^{|P|}$ and $x, y \in P$. For subterminal $F$ acting as propositions, this corresponds to the traditional interpretation of the $\Box$ operator in a Kripke frame, such that $\Box F$ is true at a world just in case $F$ is true at all lower worlds.
+
+In this context, the \Loeb/ property with uniqueness which we are given by \magicref{IntrospLoeb} tells us that we may define functions by transfinite recursion: Given at each $x \in P$ a function $g$ from $\prod_{y < x} F(y)$ to $F(x)$, we obtain a uniquely determined function $G$ whose domain is $P$ such that each $G(x)$ is given by $g$ applied to the values of $G$ at $y < x$.
+
+In the particular case where $F$ is subterminal representing a proposition (that is, an arbitrary subset of $|P|$), this amounts to the principle of transfinite induction or \quote{strong induction}: It tells us that a proposition holds of all of $P$ so long as it holds of any particular $x \in P$ once it holds of all $y < x$.
+
+Of course, these principles of transfinite recursion/induction over well-founded transitive relations are well-known and easy to establish directly, without all the machinery of introspective theories. (The induction principle here is after all the very defining characteristic of well-foundedness.) But it is remarkable to observe how these phenomena are in this way unified with the phenomena of \Loeb/'s theorem in traditional logic (as discussed at \magicref{ZFFiniteLoebDiscussion}), not just in the form of the \Loeb/ property result but in the particular derivation of it as well.
+
+\subsubsection{Step-indexing example}
+The application of our \Loeb/'s theorem with uniqueness results to the introspective theory \magicref{StepIndexingIntrosp} corresponding to step-indexing in the topos of trees is similar to the one just discussed. Recall from the discussion at \magicref{StepIndexingModal} that we here have a $\Box$ operator on (an arbitrarily loose full sublexcategory of) $\Psh{\omega}$, where $\omega$ is the poset of natural numbers, such that $\Box F(0) = 1$ and $\Box F(n + 1) = n$, for $n \in \omega$ and $F \in \Psh{\omega}$.
+
+Our \Loeb/ property with uniqueness thus tells us that we may define functions on the natural numbers by the most familiar kind of recursion: Given any specified value at $0$, and any specified way to transform a value at $n$ into a value at $n + 1$ for each $n \in \omega$, there is a unique function on the natural numbers taking on the specified value at $0$ and whose value at each $n + 1$ is derived from its value at $n$ in the specified way.
+
+In the particular special case where we are dealing with subterminal objects of $\Psh{\omega}$, these amount to downwards closed subsets of $\omega$, and the above specializes to the principle of ordinary induction for these: Given a downwards closed subset of $\omega$, if it contains $0$ and is closed under successor, then it contains all of $\omega$.
+
+Again, all of this is quite familiar and easy to demonstrate directly without any invocation of the machinery of introspective theories (these amount to the characteristic properties of the natural numbers as a natural numbers object within $\Set$). But again, it is remarkable that we can in this way see these as strongly unified with the analogous properties and the derivation of those properties for our other archetypal examples, including the case of \magicref{ZFFiniteLoebDiscussion} which has no direct relationship to presheaves over a well-founded structure.
+
+\subsection{Relating variations on Lawvere's fixed point theorem}\label{LawvereFPTReduxSection}
+Although not important for our main narrative, we note here some further comments on the relation of Lawvere's fixed point theorem to generalizations of ours or others.
+
+First, we observe that \magicref{LawveresFixedPointTheorem} can be straightforwardly re-obtained as a special case of our \magicref{PreIntrospDiag}.
+\begin{proof}
+First, we handle the special case of \magicref{LawveresFixedPointTheorem} where $T$ has finite limits and $\Omega$ is an object of $T$.
+
+This is a special case of \magicref{PreIntrospDiag} where we take the pre-introspective theory $\langle T, C, \introF \rangle$ to be the trivial one where $C$ is the self-indexing $T/-$ and $\introF$ is the identity.
+
+Furthermore, $P$ is taken to be the $(T, C)$-indexed set represented by $\Omega$; that is, such that $P(t, c) = \Hom_T(t \times c, \Omega)$. Note that $P(\introS(t))$ for objects $t$ of $T$ is therefore the $T$-indexed set $\Omega^t$. In particular, $P(1)$ is thus isomorphic to $\Omega$. As in \magicref{PreIntrospDiagSpecialization}, we can take $\quotient$ to be this isomorphism (one can think of it as an identity if one likes), and this will then automatically be surjective on its $X \times X$ aspect.
+
+We take $\alpha : X \to P(\introS(X)) = \Omega^X$ to be given by the map $\App' : X \to \Omega^X$ presumed in \magicref{LawveresFixedPointTheorem}. The surjectivity presumption from \magicref{LawveresFixedPointTheorem} then becomes the surjectivity presumption of \magicref{PreIntrospDiag}. 
+
+And to give a $g$ in the global aspect of $P(\introS(\Omega)) = \Omega^\Omega$ is precisely the data presumed by the name $g$ in \magicref{LawveresFixedPointTheorem}.
+
+This matches all the presumptions of \magicref{PreIntrospDiag} up with corresponding presumptions from \magicref{LawveresFixedPointTheorem}, and the conclusion we then obtain from \magicref{PreIntrospDiag} is readily seen to be the same as the conclusion from \magicref{LawveresFixedPointTheorem}.
+
+The above shows how to obtain \magicref{LawveresFixedPointTheorem} as an instance of \magicref{PreIntrospDiag} when $T$ is a lexcategory and $\Omega$ is an object of $T$. We then obtain \magicref{LawveresFixedPointTheorem} in full (that is, for arbitrary categories $T$ and $T$-indexed sets $\Omega$) from this special case, by first replacing $T$ with $\Psh{T}$, as noted in our discussion following our presentation of \magicref{LawveresFixedPointTheorem}.
+\end{proof}
+
+We also note in passing that another interesting generalization of \magicref{LawveresFixedPointTheorem} was recently remarked upon in \autocite{roberts2021substructural}. The following (or rather, its contrapositive) was given as Theorem 11 there. We shall present our own proof.
+
+\openNamed{theorem}{Magmoidal Fixed Point Theorem}\label{MagmoidalFixedPointTheorem}
+Let $T$ be an arbitrary category with objects $\point$ and $\Omega$, and let $B : T \times T \to T$ be a bifunctor on $T$ such that we have a transformation $\delta_t : t \to B(t, t)$ natural in $t$ from $T$. As ever, use \quote{point of} to mean \quote{element of the $\point$-aspect of}.
+
+Suppose given an object $X$ of $T$ and an $\alpha : B(X, X) \to \Omega$ with the pointwise surjectivity property that for every $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have that the following diagram commutes:
+
+% https://q.uiver.app/?q=WzAsNSxbMCwwLCJcXHBvaW50Il0sWzEsMCwiQihcXHBvaW50LCBcXHBvaW50KSJdLFsyLDAsIkIoWCwgWCkiXSxbMywwLCJcXE9tZWdhIl0sWzEsMSwiWCJdLFswLDEsIlxcZGVsdGFfe1xccG9pbnR9Il0sWzEsMiwiQihmLCB4KSJdLFsyLDMsIlxcYWxwaGEiXSxbMCw0LCJ4IiwyXSxbNCwzLCJGIiwyXV0=
+\[\begin{tikzcd}
+	\point & {B(\point, \point)} & {B(X, X)} & \Omega \\
+	& X
+	\arrow["{\delta_{\point}}", from=1-1, to=1-2]
+	\arrow["{B(f, x)}", from=1-2, to=1-3]
+	\arrow["\alpha", from=1-3, to=1-4]
+	\arrow["x"', from=1-1, to=2-2]
+	\arrow["F"', from=2-2, to=1-4]
+\end{tikzcd}\]
+
+Then for every $g : \Omega \to \Omega$, there is a point $\omega$ of $\Omega$ such that $\omega = g(\omega)$. That is to say, a fixed point of $g$.
+\closeNamed{theorem}
+\begin{proof}
+Take $\App : X \times X \to \Omega$ to be defined like so: For each object $t$ of $T$, we define $\App_t : \Hom(t, X) \times \Hom(t, X) \to \Hom(t, \Omega)$ by giving $\App_t(m, n)$ as the following composition:
+
+% https://q.uiver.app/?q=WzAsNCxbMSwwLCJCKHQsIHQpIl0sWzAsMCwidCJdLFszLDAsIkIoWCwgWCkiXSxbNCwwLCJcXE9tZWdhIl0sWzEsMCwiXFxkZWx0YV97dH0iXSxbMCwyLCJCKG0sIG4pIl0sWzIsMywiXFxhbHBoYSJdXQ==
+\[\begin{tikzcd}
+	t & {B(t, t)} && {B(X, X)} & \Omega
+	\arrow["{\delta_{t}}", from=1-1, to=1-2]
+	\arrow["{B(m, n)}", from=1-2, to=1-4]
+	\arrow["\alpha", from=1-4, to=1-5]
+\end{tikzcd}\]
+
+That this definition of $\App_t$ is natural in $t$ follows from the naturality of $\delta$ and the functoriality of $B$. Specifically, naturality with respect to $h: s \to t$ is seen as follows:
+
+% https://q.uiver.app/?q=WzAsNixbMSwwLCJCKHQsIHQpIl0sWzAsMCwidCJdLFszLDAsIkIoWCwgWCkiXSxbNCwwLCJcXE9tZWdhIl0sWzAsMSwicyJdLFsxLDEsIkIocywgcykiXSxbMSwwLCJcXGRlbHRhX3t0fSJdLFswLDIsIkIobSwgbikiXSxbMiwzLCJcXGFscGhhIl0sWzQsNSwiXFxkZWx0YV9zIiwyXSxbNCwxLCJoIl0sWzUsMCwiQihoLCBoKSIsMV0sWzUsMiwiQihtIGgsIG4gaCkiLDJdXQ==
+\[\begin{tikzcd}
+	t & {B(t, t)} && {B(X, X)} & \Omega \\
+	s & {B(s, s)}
+	\arrow["{\delta_{t}}", from=1-1, to=1-2]
+	\arrow["{B(m, n)}", from=1-2, to=1-4]
+	\arrow["\alpha", from=1-4, to=1-5]
+	\arrow["{\delta_s}"', from=2-1, to=2-2]
+	\arrow["h", from=2-1, to=1-1]
+	\arrow["{B(h, h)}"{description}, from=2-2, to=1-2]
+	\arrow["{B(m h, n h)}"', from=2-2, to=1-4]
+\end{tikzcd}\]
+
+The desired result now follows by \magicref{LawveresFixedPointTheorem}.
+\end{proof}
+\magicref{LawveresFixedPointTheorem} is of course the special case of \magicref{MagmoidalFixedPointTheorem} where $B$ is the familiar cartesian product and $\delta$ is the familiar diagonal transformation. Thus, in \autocite{roberts2021substructural}, \magicref{MagmoidalFixedPointTheorem} is considered as a generalization of Lawvere's fixed point theorem. But as we've just seen, \magicref{MagmoidalFixedPointTheorem} is also a special case of Lawvere's fixed point theorem, appropriately construed (as in our formulation of \magicref{LawveresFixedPointTheorem} which removes the $\point = 1$ constraint), despite the seeming mismatch between general bifunctors and specifically cartesian products. As noted before, there is no need for $X \times X$ to be $T$-\repsmall/, and if such closure of our underlying category is insisted upon, we can just as well always pass to $\Psh{T}$ first.
+
+\sTODOinline{Remarks on Cantor's theorem, Liar's paradox, and Y combinator as examples of Lawvere's fixed point theorem. Cantor's theorem is a contrapositive statement using surjection. Liar's paradox is a contrapositive statement using a retraction/isomorphism. Y combinator is a positive statement using a retraction, and also involves passing to a slice category. Note that the reason we presume in Cantor's theorem that negation on $\Omega$ has no fixed points is because of another instance of Lawvere's fixed point theorem, via Liar's paradox!}
+
+\sTODOinline{Point out the error in Yonofsky's discussion of Kleene's recursion theorem and how our more general related-point formulation allows us to correct this.}
+
+\fileend

@@ -1,0 +1,501 @@
+\filestart
+
+\section{Examples in the wild}\label{ExamplesChapter}
+
+\subsection{Preview}
+In previous chapters, we have defined introspective theories and geminal categories. That is, we have axiomatized the theory of introspective theories and the theory of geminal categories. Now we look at some notable models of these axiomatic theories, which is to say, at some notable specific examples of introspective theories and of geminal categories. These examples are of a sort which might be considered to have been found \quote{in the wild}, instead of being freely syntactically constructed as the examples of the last chapter were.
+
+There are two broad classes of models/examples of note in this chapter:
+
+Firstly, there are those which are similar in flavor to the traditional instances of \Goedel/ian phenomena studied in logic. These are based on logical theories which have some internal ability to discuss themselves, such as Peano Arithmetic, or higher-order intuitionistic logic, or the like. Here, it has long been recognized that \Goedel/ian phenomena arise at the propositional level, but the full phenomenon of guarded recursion for types and terms which we proved for introspective theories in \magicref{IntrospTyConFixedPoints} and \magicref{IntrospLoeb} has not been noted in these contexts before. We also give an example of a model of this sort which goes well beyond computability or even countability, thus beyond many traditional approaches to presenting the \Goedel/ian phenomena in logic.
+
+The second class of models/examples we consider are based on presheaves over categories with a suitably well-founded subset of morphisms. Here, the existence of guarded recursion is straightforward, but it is the unification with our general theory which is of note. Among these models are examples like step-indexing in the topos of trees, the canonical model discussed in the literature on guarded recursion. Distinct from this are also models which capture the traditional interpretation of GL modal logic in well-founded transitive Kripke frames. We stress that we are able with these latter models to faithfully interpret traditional Boolean GL modal logic, unlike step-indexing in the topos of trees, whose non-Boolean logic validates such sentences as $\neg \neg \Box 0$ which are not theorems of GL.
+
+\subsection{The main initiality-based construction}
+\begin{construction}\label{SpecialInitialIntrosp}
+Let $Special$ be a left comma-stable sub-2-category of $\LexCat$, in the sense of \magicref{CommaStableDefn}. Furthermore, suppose $Special$ has an initial object $T$, and that this $T$ has an internal lexcategory $C$ such that $\Glob{C}$ is itself an object of $Special$.
+
+Then we obtain a unique lexfunctor $\introS \in Special(T, \Glob{C})$, by the initiality of $T$.
+
+Furthermore, by \magicref{CommaKanStrongSigmesque}, we have that $\id_T$ is initial within $\LexCat(T, T)$. Thus, in particular, there is a unique natural transformation $\introN : \id_T \to \Hom_C(1, \introS(-))$. In this way, we obtain an introspective theory $\langle T, C, \introS, \introN \rangle$.
+\end{construction}
+
+\sTODOinline{What was the following theorem for? We don't seem to use it anywhere. It seems we wanted it to illustrate the significance of the above construction, as an initial object among \quote{special} introspective theories. We should perhaps note that significance in words explicitly as well, then. But this calls for talking about introspective theory homomorphisms in a non-strict sense, something we've largely avoided. We can describe this informally in passing, I suppose.}
+
+\begin{theorem}\label{SpecialInitialIntrospIsInitial}
+Let $Special$ and $\langle T, C, \introS, \introN \rangle$ be given as in \magicref{SpecialInitialIntrosp} above.
+
+Consider also any other introspective theory $\langle T', C', \introS', \introN' \rangle$ such that $\introS' : T' \to \Glob{C'}$ lives in $Special$. By the initiality of $T$ within $Special$, we get a unique special lexfunctor $H : T \to T'$. If this $H$ is such that $H[C] = C'$, then this $H$ is also an introspective theory homomorphism (in the sense of \magicref{StrictIntrospHomoDefn}, suitably modified for the non-strict context). The condition that $H$ interacts appropriately with $\introS$ and $\introS'$ is automatic by the initiality of $T$ within $Special$. Furthermore, the condition that $H$ interacts appropriately with $\introN$ and $\introN'$ is automatic by the fact that $H$ is initial within $\LexCat(T, T')$, thanks to \magicref{CommaKanStrongSigmesque}.
+\end{theorem}
+
+\subsection{Self-initializing and super-initializing theories}\label{SelfInitializingSection}
+\subsubsection{The initial model as a geminal category}\label{GeminalSelfInitializingSection}
+\begin{construction}\label{InitoGeminalYieldsGeminal}
+Suppose given some lexcategory $Th$ (the theory of \quote{gadgets}), along with a lexcategory $C$ internal to $Th$ (the underlying lexcategory of a gadget).
+
+Furthermore, suppose given an initial gadget $G_1$ with an initial internal gadget $G_2$. That is, suppose given some lexcategory $V$ such that $\LexCat(Th, V)$ has an initial object (our $G_1$) and such that $\LexCat(Th, \Glob{G_1[C]})$ has an initial object (our $G_2$).
+
+Because $G_1$ is initial, we automatically get a unique homomorphism $F_1 : G_1 \to \Gamma[G_2]$. And because $G_2$ is an initial $G$-internal gadget, we automatically get a unique $G_1$-internal homomorphism $F_2 : G_2 \to \Gamma[G_3]$ where $G_3 = F_1[G_2]$.
+
+This setup is thus a geminal gadget internal to $V$ (with the equations $E_1$ and $E_2$ of \magicref{CompactGeminalCatDefn} automatically satisfied by the uniqueness observations in the previous paragraph).
+
+Indeed, this is the unique way to equip $\langle G_1, G_2 \rangle$ as a geminal gadget.
+\end{construction}
+
+In practice, when an initial gadget has an initial internal gadget like above, this is usually not just some accident (caused by a paucity of globally defined structures, say), but rather, is due to the theory of gadgets itself encoding the construction of an internal initial gadget:
+\begin{definition}
+Suppose, as above, given some lexcategory $Th$ (the theory of \quote{gadgets}), along with a lexcategory $C$ internal to $Th$ (the underlying lexcategory of a gadget).
+
+If every gadget has an initial internal gadget, and every gadget homomorphism preserves these initial internal gadgets, then we say the theory of gadgets is \defined{self-initializing}.
+
+In other words, $Th$ is self-initializing if $\LexCat(Th, \Glob{C})$ has an initial object, and this initiality is preserved by $\InducedHomo{f}{C}$ for every lexfunctor $f$ out of $Th$.
+\end{definition}
+
+Thus, \magicref{InitoGeminalYieldsGeminal} shows us how to equip the initial model of any self-initializing theory as a geminal category.
+
+The above all admits a generalization worth noting:
+
+\begin{construction}\label{SuperInitoGeminalYieldsGeminal}
+Suppose given some lexfunctor $i : Th \to Th'$, along with a lexcategory $C$ internal to $Th$. Call $Th$ the theory of \quote{gadgets}, and $Th'$ the theory of \quote{supergadgets}. Via $i$, every supergadget has an underlying gadget, and via $C$, every gadget has an underlying lexcategory.
+
+Furthermore, suppose given an initial gadget $G_1$ with an initial internal supergadget $G_2$. That is, suppose given some lexcategory $V$ such that $\LexCat(Th, V)$ has an initial object (our $G_1$) and such that $\LexCat(Th', \Glob{G_1[C]})$ has an initial object (our $G_2$).
+
+Because $G_1$ is initial, we automatically get a unique gadget homomorphism $F_1: G_1 \to \Gamma[G_2]$. And because $G_2$ is an initial $G_1$-internal supergadget, we automatically get a unique $G_1$-internal supergadget homomorphism $F_2 : G_2 \to \Gamma[G_3]$ where $G_3 = F_1[G_2]$.
+
+This setup is thus a geminal gadget internal to $V$ (with the equations $E_1$ and $E_2$ of \magicref{CompactGeminalCatDefn} automatically satisfied by the uniqueness observations in the previous paragraph).
+
+Indeed, this is the unique way to equip $\langle G_1, G_2 \rangle$ as a geminal gadget $\langle G_1, G_2; F_1, F_2 \rangle$ such that $F_2$ comes from a supergadget homomorphism.
+\end{construction}
+
+And again, in practice, when an initial gadget has an initial internal supergadget like above, this is usually not just some accident caused by a paucity of globally defined structures, but rather, is due to the theory of gadgets itself encoding the construction of an internal initial supergadget:
+
+\begin{definition}
+Suppose, as above, given some lexfunctor $i : Th \to Th'$, along with a lexcategory $C$ internal to $T$. We call $T$ the theory of \quote{gadgets}, and $Th'$ the theory of \quote{supergadgets}. Via $i$, every supergadget has an underlying gadget, and via $C$, every gadget has an underlying lexcategory.
+
+If every gadget has an initial internal supergadget, and every gadget homomorphism preserves these initial internal supergadgets, then we say the theory of gadgets (or more precisely, the extension of the theory of gadgets by the theory of supergadgets) is \defined{super-initializing}.
+
+In other words, this situation is super-initializing if $\LexCat(Th', \Glob{C})$ has an initial object, and this initiality is preserved by $\InducedHomo{f}{C}$ for every lexfunctor $f$ out of $Th$.
+
+Note in this case that $Th'$ will itself be self-initializing, as every supergadget is a fortiori a gadget (thus having an initial internal supergadget), and every supergadget homomorphism is a fortiori a gadget homomorphism (thus preserving initial internal supergadgets).
+\end{definition}
+
+The self-initializing situation is of course the special case of the super-initializing situation where $Th' = Th$ and $i$ is the identity.
+
+There are a number of self- and super-initializing theories in the wild, which thus immediately give us examples of geminal categories in the wild.
+
+For example: It is straightforward to show that every NNO-topos has internal initial models of every finitely axiomatizable lex theory, preserved by every NNO-topos homomorphism. This was the observation of \magicref{NNOToposInternalInitialFinite}
+
+It is a little more difficult, but also possible to show that more generally, every arithmetic universe has internal initial models of every finitely axiomatizable lex theory, preserved by every arithmetic functor. This was the observation of \magicref{AUInternalInitialFinite}.
+
+Thus, any finitely axiomatizable extension of the theory of arithmetic universes is self-initializing. More generally, given any $Th$ extending the theory of arithmetic universes, and any finitely axiomatizable $Th'$ extending $Th$, the extension of $Th$ to $Th'$ is super-initializing. 
+
+This immediately gives us many examples of geminal categories using the above construction. For example, as one random example among myriad, we can obtain a geminal category $\langle G_1, G_2 \rangle$ where $G_1$ is the initial cartesian closed arithmetic universe and $G_2$ is its internal initial NNO-topos satisfying the internal axiom of choice.
+
+\sTODOinline{Note that when a theory is super-initializing, then we have that in the geminal category $\gamma = \langle G_1 G_2; F_1, F_2 \rangle$, $G_3 = F_1[G_2]$ is also an initial supergadget internal to $G_2$, and $F_3 = F_1[F_2]$ is a supergadget homomorphism. Thus, $\InteriorGeminal{\gamma}$ is itself given by the same construction of a geminal category for the self-initializing theory of supergadgets.}
+
+We have discussed all this just in the context of geminal categories, but this extends to give analogous constructions of introspective theories as well. We discuss these next.
+
+\sTODOinline{Maybe delete most of this section (except for the definitions of self- and super-initializing theories) and only give examples of introspective theories.}
+
+\subsubsection{The theory of initial models as an introspective theory}
+Throughout the following, we say an initial object in a category of the form $\LexCat(T, S)$ is an initial model of $T$ internal to $S$. Given lexcategories $S$ and $S'$ both containing initial internal models of $T$, we say a lexfunctor from $S$ to $S'$ preserves initial models of $T$ if its composition with the initial model of $T$ in $S$ is the initial model of $T$ in $S'$.
+
+By the 2-category $\initMod{T}$, we mean $\LexCat$ with its objects restricted to just those lexcategories with initial internal models of $T$, and its $1$-cells restricted to just those lexfunctors which preserve initial models of $T$. (The $2$-cells remain unchanged.)
+
+\begin{theorem}\label{InitialModelWithInitialModel}
+$\initMod{Th}$ has an initial object, whenever $Th$ is a \setsmall/ lexcategory.
+\end{theorem}
+\begin{proof}
+This is in exactly the same way that we have familiar constructions such as of the initial NNO-topos, the initial arithmetic universe, the initial lexcategory with countable products, etc.
+
+In more detail, the category of strict lexcategories with internal initial models of $Th$, and strict lexfunctors strictly preserving these internal initial models, is the category of models of an infinitary quasi-equational theory (whose infinitary operations have arity bounded by a \setsmall/ cardinal dependent on the size of $Th$), and thus has an initial object. This initial strict structure furthermore is initial in the non-strict context, because all the relevant operations (finite limits, initial models of $Th$) are given by universal properties, so that any functor out of the initial strict structure preserving these in a non-strict sense is canonically isomorphic to a functor preserving these strictly on the nose.
+\end{proof}
+
+\begin{construction}\label{IntrospFromSelfInitializing}
+If $Th$ is a self-initializing theory, then $\initMod{Th}$ is left comma-stable within $\LexCat$, via \magicref{InitialModelCommaStable}. Furthermore, it has an initial object $T$ via \magicref{InitialModelWithInitialModel}. This $T$ by definition has an initial internal model of $Th$; that is, there is an initial $f \in \LexCat(Th, T)$. Furthermore, since $Th$ is self-initializing, it contains an internal category $C$ such that $\Glob{f[C]}$ itself is an object of $\initMod{Th}$.
+
+We can thus invoke \magicref{SpecialInitialIntrosp} to obtain a unique introspective theory $\langle T, \allowbreak f[C], \allowbreak \introS, \allowbreak \introN \rangle$ such that $\introS$ is a map in $\initMod{Th}$.
+\end{construction}
+
+There is an extension of the above construction to super-initializing theories. However, it is a bit trickier. The key issue is to construct, for a super-initializing lexfunctor $i : Th \to Th'$, a lexcategory which captures simultaneously the properties which are shared by initial models of $Th$ and by initial models of $Th'$. We sketch out the construction as follows:
+
+\begin{construction}
+Let $i : Th \to Th'$ be a lexfunctor, such that models of $Th$ are called gadgets, models of $Th'$ are called supergadgets, and via $i$ every supergadget is thought of as having an underlying gadget.
+
+Given a lexcategory $L$, we will say that a \quote{$Th'$-initial model of $Th$ in $L$} is an internal gadget $\alpha$ in $L$, along with, for every internal supergadget $\beta$ in $L$, a chosen gadget homomorphism from $h_\beta : \alpha \to \beta$, such that furthermore, these chosen homomorphisms are closed under postcomposition with supergadget homomorphisms (that is, for any supergadget homomorphism $f : \beta \to \beta'$ in $L$, we have that $f \circ h_{\beta} = h_{\beta'}$, as gadget homomorphisms).\sTODOinline{Illustrate this diagrammatically} Note that this structure is NOT given by a universal property! There may be multiple non-equivalent ways to choose such structure within $L$. (In particular, both an initial internal gadget and an initial internal supergadget could be taken to be $\alpha$.)
+
+We may define a 2-category $Special$ whose objects are lexcategories along with a choice of $Th'$-initial models of $Th$ in these lexcategories. The 1-cells of $Special$ will be lexfunctors which preserve these $Th'$-initial models of $Th$, in the sense of taking designated gadgets and homomorphisms to designated gadgets and homomorphisms. 2-cells between these are just ordinary natural transformations. There is an obvious forgetful 2-functor from this $Special$ to $\LexCat$.
+
+This $Special$ has an initial object $A$. This $A$ contains a designated internal gadget $G$ with an underlying lexcategory $C$. Because of the super-initializing property of gadgets and supergadgets, within $\Glob{C}$, there is an internal initial supergadget. Thus $\Glob{C}$ can uniquely be equipped as an object of $Special$ such that the designated gadget in $\Glob{C}$ is its internal initial supergadget. And thus there is a unique lexfunctor $\introS : A \to \Glob{C}$ which takes $G$ to the initial supergadget $G'$ in $\Glob{C}$.
+
+Finally, we shall show that there is a unique natural transformation $\introN : \id_A \to \Hom_C(1, \introS(-))$ such that action of this $\introN$ restricted to $G$ is a designated gadget homomorphism. The argument for this is completely analogous to \magicref{SpecialInitialIntrosp}, with appropriate modification for the fact that $Th'$-initial models of $Th$ are not given by a universal property and thus $Special$ is not merely a subcategory of $\LexCat$.
+
+Specifically, we will consider the comma category $\comma{\id_A}{f_Y}$ where $f_Y = \Hom_A(1, \introS(-)) : A \to A$. Note that this $f_Y$, when applied to the designated gadget in $A$, yields the underlying gadget of a supergadget.
+
+By a modification of \magicref{CommaKan}, we find a unique way to equip $\comma{\id_A}{f_Y}$ as having a $Th'$-initial model of $Th$ which is preserved by both projections, such that the induced homomorphism on $G$ is a designated homomorphism.
+
+Then we may apply a modification of \magicref{CommaKanStrongSigmesque} to conclude that the identity on $A$ has a unique natural transformation into $f_Y$ whose induced action on $G$ is a designated homomorphism.
+
+\sTODOinline{Clean up this entire writeup. Or maybe scrap this theorem for the time being, since no one will care about it?}
+\end{construction}
+
+\subsubsection{A self-initializing theory with uncountable and uncomputable flavor}\label{ToposWithCountableProductsSection}
+Note that all our arguments concerning self-initializing theories immediately adapt just as well when all instances of \quote{lexcategory} are replaced by \quote{lexcategory furthermore having countable products} and all instances of \quote{lexfunctor} are replaced by \quote{lexfunctor furthermore preserving countable products}. We thus obtain the concept of self-initializing countably lex theories. The analogue of \magicref{InitoGeminalYieldsGeminal} then shows us how to equip the initial model of any self-initializing countably lex theory as a geminal category, while the analogue of \magicref{IntrospFromSelfInitializing} furthermore gives us a corresponding introspective theory.
+
+In particular, the combination of \magicref{CountableToposInitialInternalCountable} and \magicref{CountableProductToposIsFiniteCountablyLexTheory} tells us that the theory of toposes with countable products is a self-initializing countably lex theory. Thus:
+
+\begin{construction}
+The initial topos with countable products is naturally equipped as a geminal category. Indeed, there is a uniquely determined geminal category $\langle G_1, G_2; F_1, F_2 \rangle$ in which $G_1$ is the initial topos with countable products, $G_2$ is the initial topos with countable products internal to $G_1$, $F_1$ preserves the structure of a topos with countable products, and $F_2$ is in the internal logic of $G_1$ a map preserving the structure of a topos with countable products.
+\end{construction}
+
+\sTODOinline{Write this all better, more clearly.}
+
+\sTODOinline{Note that we don't actually need all countable (co)products to carry the core ideas of the above construction out. It would suffice to consider the weaker condition of just having countable powers, which for toposes amounts to having the countable copower of 1 (automatically an NNO). Such toposes are described by a self-initializing lex-theory-with-countable-powers. But describing having countable products in full may be easier than describing having finite products and countable powers; that is, lex theories that also have countable products are perhaps easier to talk about than lex theories that also have countable powers.}
+
+Note that this structure contains true arithmetic (in the sense of all true statements in the language of first-order arithmetic; note that determining membership in this set of statements is highly uncomputable), and has uncountable hom-sets (thus, too large to admit \Goedel/ coding by mere natural numbers), but like any geminal category is still subject to \Loeb/'s theorem and \Goedel/'s incompleteness theorems. There is no conflict between this structure being subject to \Goedel/'s second incompleteness theorem and the fact that this structure contains all of true arithmetic, as this structure's consistency sentence isn't expressible in first-order arithmetic; that is, this structure is not definable in first-order arithmetic. Thus, this example demonstrates quite vividly that these \Goedel/-\Loeb/ phenomena are not constrained to having anything to do with computability or even countability.
+
+\subsection{The initial arithmetic universe}\label{IAUSection}
+\begin{construction}\label{IAUAsIntrospGeneral}
+Let $\IAU$ be the initial arithmetic universe, and let $C$ be any arithmetic universe internal to $\IAU$. Then by the combination of \magicref{SpecialInitialIntrosp} and \magicref{CommaStableArithmetic}, we obtain an introspective theory $\langle \IAU, C, \introS, \introN \rangle$ in which $\introS : \IAU \to \Glob{C}$ is the unique such arithmetic functor, and the natural transformation $\introN : \id_T \to \Hom_C(1, \introS(-))$ is uniquely determined.
+\end{construction}
+
+\begin{observation}\label{IAUAsIntrospCanonical}
+Note that the above construction can be applied using ANY arithmetic universe internal to $\IAU$. One natural choice is where $C$ is taken to be the initial arithmetic universe $\IAU'$ internal to $\IAU$ (which exists thanks to \magicref{AUInternalInitialFinite} and \magicref{NNOToposAndAUAreFinitelyAxiomatized}). In this case, the natural transformation $\introN$ we obtain is the same as the one constructed in Lemma 5.15 of \autocite{van2020g}.
+
+Note in this case also that $\introS : \IAU \to \Glob{\IAU'}$ is an equivalence. This is because the global sections functor $\Hom_{\IAU}(1, -) : \IAU \to \Set$ is an arithmetic functor, by \magicref{GlobalIsArithmeticOnIAU}. Thus, as arithmetic functors preserve the initial internal models obtained by \magicref{AUInternalInitialFinite}, we have that $\Glob{\IAU'} = \IAU$. Thus, the unique arithmetic functor from $\IAU$ to $\Glob{\IAU'}$ [which we have taken as $\introS$] is an equivalence.
+\end{observation}
+
+Note that little was uniquely special about the initial arithmetic universe $\IAU$ for being able to be equipped as an introspective theory in this manner. It was just an invocation of our general construction \magicref{SpecialInitialIntrosp}. We could similarly construct introspective theories using initial objects of any kind of structure left comma-stable over $\LexCat$, given any structure of the same kind internal to the initial one. What's noteworthy about $\IAU$ is just that it happens to actually contain interesting internal structures (such as internal categories corresponding to Peano Arithmetic, to ZFC, to the initial arithmetic universe, etc), whereas the initial lexcategory, or initial regular category, or initial lexcategory with finite pullback-stable colimits, or such things, all have a paucity of interesting internal structures.
+
+\bigskip
+We now use \magicref{IAUAsIntrospGeneral} to give a fuller account of our original guiding example of an introspective theory based on traditional logical theories, from \magicref{SigmaModelComplex}.
+
+First, we must observe a lemmatic construction, on localizing introspective theories:
+
+\begin{construction}\label{LocalizeIntrosp}
+If $\langle T, C, \introS, \introN \rangle$ is an introspective theory, and $f : T \to T[M^{-1}]$ is a lex localization in the sense of \magicref{DefnLexLocalization}, and every morphism in $M$ is sent to an isomorphism by $\introS$, then $f$ acts as an introspective theory homomorphism (in the sense of the non-strict analogue of \magicref{StrictIntrospHomoDefn}) from $T$ to a uniquely determined introspective theory $\langle T[M^{-1}], f(C) \rangle$.
+
+Furthermore, given any introspective theory homomorphism $h : \langle T, C \rangle \to \langle T_2, C_2 \rangle$ such that $h$ sends every morphism in $M$ to an isomorphism, this $h$ factors uniquely through $f$ by an introspective theory homomorphism from $\langle T[M^{-1}], f(C) \rangle$ to $\langle T_2, C_2 \rangle$. In this sense, $\langle T[M^{-1}], f(C) \rangle$ is the localization qua introspective theory of $\langle T, C \rangle$ at $M$.
+
+In particular, for any introspective theory, we can apply the above taking $M$ to be the set of all morphisms sent to isomorphisms by $\introS$. We may call the result the \defined{maximal localization} of our original introspective theory.
+\end{construction}
+\begin{proof}
+If $f : T \to T[M^{-1}]$ is to act as an introspective theory homomorphism, it must be to some introspective theory $\langle T[M^{-1}], C', \introS', \introN' \rangle$. We will show that each of these components are uniquely determined by the requirements of \magicref{StrictIntrospHomoDefn}.
+
+The requirement on $C'$ in \magicref{StrictIntrospHomoDefn} directly determines it as $f(C)$.
+
+The requirement on $\introS'$ is that $\introS' \circ f = \InducedHomo{f}{C} \circ \introS$. Note that the right hand side of this equation sends all morphisms in $M$ to isomorphisms (since $\introS$ already does so). Thus, by the defining property of the localization $f : T \to T[M^{-1}]$, this uniquely determines $\introS'$ as a functor, and indeed this $\introS'$ will be a lexfunctor by \magicref{LexLocalizationLemma}.
+
+Finally, the requirement on $\introN'$ is that the whiskering $\introN' f$ is equal to the whiskering $f \introN$. By \magicref{LocalizingTransform}, this uniquely determines $\introN'$.
+
+Next, we show the unique factorization property. Let $h$ be a map as described. As $f : T \to T[M^{-1}]$ is a lex localization, we have that there is a unique lexfunctor $g : T[M^{-1}] \to T_2$ such that $h = g \circ f$. All that remains is to show that this $g$ is an introspective theory homomorphism from $\langle T[M^{-1}, f(C), \introS', \introN' \rangle$ to $\langle T_2, C_2, \introS_2, \introN_2 \rangle$, in that it satisfies the conditions of \magicref{StrictIntrospHomoDefn}.
+
+The introspective theory homomorphism condition $h(C) = C_2$ gives us the corresponding introspective theory homomorphism condition $g(f(C)) = C_2$.
+
+The next condition we must establish is that this diagram commutes:
+
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJUW01eey0xfV0iXSxbMiwwLCJUXzIiXSxbMCwxLCJcXEdsb2J7ZihDKX0iXSxbMiwxLCJcXEdsb2J7ZyhmKEMpKX0gPSBcXEdsb2J7Q18yfSJdLFswLDEsImciXSxbMCwyLCJcXGludHJvUyciLDJdLFsyLDMsIlxcSW5kdWNlZEhvbW97Z317ZihDKX0iLDJdLFsxLDMsIlxcaW50cm9TIl1d
+\[\begin{tikzcd}
+	{T[M^{-1}]} && {T_2} \\
+	{\Glob{f(C)}} && {\Glob{g(f(C))} = \Glob{C_2}}
+	\arrow["g", from=1-1, to=1-3]
+	\arrow["{\introS'}"', from=1-1, to=2-1]
+	\arrow["{\InducedHomo{g}{f(C)}}"', from=2-1, to=2-3]
+	\arrow["\introS", from=1-3, to=2-3]
+\end{tikzcd}\]
+
+Because of the uniqueness of factorizations through localizations, it suffices to establish that both paths here become the same when preceded by the localization $f : T \to T[M^{-1}]$. And that can be seen via the following commuting diagram:
+
+% https://q.uiver.app/#q=WzAsNyxbMSwwLCJUW01eey0xfV0iXSxbMywwLCJUXzIiXSxbMiwzLCJcXEdsb2J7ZihDKX0iXSxbNSwxLCJcXEdsb2J7aChDKSA9IGcoZihDKSkgPSBDXzJ9Il0sWzAsMSwiVCJdLFsxLDMsIlRbTV57LTF9XSJdLFsyLDEsIlxcR2xvYntDfSJdLFswLDEsImciXSxbMiwzLCJcXEluZHVjZWRIb21ve2d9e2YoQyl9IiwyXSxbMSwzLCJcXGludHJvUyJdLFs0LDAsImYiXSxbNSwyLCJcXGludHJvUyciLDJdLFs0LDUsImYiLDJdLFs0LDEsImgiLDFdLFs2LDMsIlxcSW5kdWNlZEhvbW97aH17Q30iLDFdLFs0LDYsIlxcaW50cm9TIiwxXSxbNiwyLCJcXEluZHVjZWRIb21ve2Z9e0N9IiwxXV0=
+\[\begin{tikzcd}
+	& {T[M^{-1}]} && {T_2} \\
+	T && {\Glob{C}} &&& {\Glob{h(C) = g(f(C)) = C_2}} \\
+	\\
+	& {T[M^{-1}]} & {\Glob{f(C)}}
+	\arrow["g", from=1-2, to=1-4]
+	\arrow["{\InducedHomo{g}{f(C)}}"', from=4-3, to=2-6]
+	\arrow["\introS", from=1-4, to=2-6]
+	\arrow["f", from=2-1, to=1-2]
+	\arrow["{\introS'}"', from=4-2, to=4-3]
+	\arrow["f"', from=2-1, to=4-2]
+	\arrow["h"{description}, from=2-1, to=1-4]
+	\arrow["{\InducedHomo{h}{C}}"{description}, from=2-3, to=2-6]
+	\arrow["\introS"{description}, from=2-1, to=2-3]
+	\arrow["{\InducedHomo{f}{C}}"{description}, from=2-3, to=4-3]
+\end{tikzcd}\]
+
+Finally, the last condition we must establish is that the whiskerings $\introN g$ and $g \introN'$ are equal. By \magicref{LocalizingTransform}, it suffices to establish that the whiskerings $\introN g f$ and $g \introN' f$ are equal. This can be seen via the chain of equations $\introN g f = \introN h = h \introN = g f \introN = g \introN' f$.
+\end{proof}
+
+\begin{theorem}\label{Sigma1ModelIAUConnection}
+The introspective theory described in \magicref{SigmaModelComplex} is the maximal localization, in the sense of \magicref{LocalizeIntrosp}, of an introspective theory produced by \magicref{IAUAsIntrospGeneral}.
+\end{theorem}
+\begin{proof}
+Recall the categories $\Zfin$ and $\ZfinSigma$ from \magicref{SigmaModelComplex}. Here, $\Zfin$ is an exact category whose objects and morphisms correspond to definable classes and graphs of functions between these in the theory ZF-Finite, with morphisms taken modulo provable equality in ZF-Finite. While $\ZfinSigma$ is the subcategory of $\Zfin$ where the definability conditions are further restricted to $\Sigma_1$-definability.
+
+It is readily verified that $\Zfin$ is an arithmetic universe. Thus, there is a unique arithmetic functor $!_{\Zfin} : \IAU \to \Zfin$. Let $M$ be the set of morphisms in $\IAU$ which are taken to isomorphisms by this $!_{\Zfin}$. By \magicref{ArithmeticLocalization}, this $!_{\Zfin}$ factors uniquely through the arithmetic localization $\IAU[M^{-1}]$\sTODOinline{Illustrate}. Using \magicref{IsLexLocalizationLemma}, it is straightforwardly, if tediously, verified that this $\IAU[M^{-1}]$ is in fact $\ZfinSigma$, with $!_{\Zfin}$ thus being the unique arithmetic functor from $\IAU$ to $\ZfinSigma$ followed by the inclusion from $\ZfinSigma$ to $\Zfin$. That is to say, the role played by the $\Sigma_1$ constraints in defining $\ZfinSigma$ is precisely to make $\ZfinSigma$ an arithmetic localization of $\IAU$.
+
+\newcommand{\IAUGlob}{\mathrm{Glob}_{\IAU}}
+Note also that, as $\Zfin$ and $\ZfinSigma$ are both computably enumerable arithmetic universes internal to $\Set$, we find, in keeping with \magicref{ComputableMeansIAUInternal}, that these are the images in $\Set$ of arithmetic universes internal to the initial arithmetic universe $\IAU$. That is, letting $\IAUGlob$ be the unique arithmetic functor from $\IAU$ to $\Set$ (which is the same as the global sections functor $\Hom_{\IAU}(1, -)$, thanks to \magicref{GlobalIsArithmeticOnIAU}), we have arithmetic universes $\IAUGlob^{-1}[\Zfin]$ and $\IAUGlob^{-1}[\ZfinSigma]$ such that the images of these under $\IAUGlob$ are $\Zfin$ and $\ZfinSigma$, respectively.
+
+Via \magicref{SpecialInitialIntrosp}, we thus obtain an introspective theory $\langle \IAU, \IAUGlob^{-1}[\Zfin] \rangle$, whose $\introS : \IAU \to \Glob{\IAUGlob^{-1}[\Zfin]} = \Zfin$ is the unique arithmetic functor from $\IAU$ to $\Zfin$. Thus the set of morphisms in $\IAU$ sent to isomorphisms by this $\introS$ is the same as the $M$ defined above.
+
+Now let $\langle \ZfinSigma, \InnerZfin \rangle$ be the introspective theory described in \magicref{SigmaModelComplex}.
+
+It is readily verified that $\InnerZfin$ and $\IAUGlob^{-1}[\Zfin]$ can be chosen so that the former is the image of the latter under the unique arithmetic functor $!_{\ZfinSigma} : \IAU \to \ZfinSigma$. Furthermore, it is readily verified that $\introS : \ZfinSigma \to \Glob{\InnerZfin}$ is an arithmetic functor. Thus by \magicref{SpecialInitialIntrosp}, the unique arithmetic functor $!_{\ZfinSigma} : \IAU \to \ZfinSigma$ is in fact an introspective theory homomorphism from $\langle \IAU, \IAUGlob^{-1}[\Zfin] \rangle$ to $\langle \ZfinSigma, \InnerZfin \rangle$.
+
+Since $!_{\ZfinSigma} : \IAU \to \ZfinSigma$ was, as noted above, the same as the arithmetic localization $\IAU \to \IAU[M^{-1}]$, we may invoke \magicref{LocalizeIntrosp} to conclude that the introspective theory homomorphism from $\langle \IAU, \IAUGlob^{-1}[\Zfin] \rangle$ to $\langle \ZfinSigma, \InnerZfin \rangle$ is the same as the localization of the introspective theory $\langle \IAU, \IAUGlob^{-1}[\Zfin] \rangle$ at $M$, which by the observation three paragraphs ago is the maximal localization of this introspective theory.
+
+This concludes the proof.
+\end{proof}
+
+\begin{observation}\label{NothingSpecialToZFFinite}
+Clearly, there is nothing special about ZF-Finite in the above. From any traditional computably enumerable logical theory extending, say, Peano Arithmetic (though even this is much stronger than necessary), we get a computably enumerable arithmetic universe in the style of $\InnerZfin$, which (a la \magicref{ComputableMeansIAUInternal}) is coded by some arithmetic universe $C$ internal to $\IAU$. For example, we can do this with ZFC, or vNBG, or ZFC + \quote{ZFC is not consistent}, or any such thing. For each of these, we get correspondingly an introspective theory $\langle \IAU, C \rangle$ via \magicref{IAUAsIntrospGeneral}, whose maximal localization (in the sense of \magicref{LocalizeIntrosp}) is perfectly analogous to the introspective theory $\langle \ZfinSigma, \InnerZfin \rangle$ from \magicref{SigmaModelComplex}.
+\end{observation}
+
+\sTODOinline{We had written the following, but it would be better to simply talk of the image of $C$ under the arithmetic functor from $\IAU$ to $\Set$:
+
+Also, by looking at $\Glob{C}$ within this introspective theory $\langle \IAU, C \rangle$, we also obtain in each such case a suitable geminal category whose underlying lexcategory is the one whose objects and morphisms correspond to arbitrary definable classes and definable graphs of functions between them modulo provable equivalence in the chosen logical theory.
+}
+
+\sTODOinline{Observe that in this section we constructed the initial arithmetic universe as an introspective theory. This is different in flavor from the previous section, where we constructed the initial NNO-topos or the like not as an introspective theory but as a geminal category.}
+
+\subsection{Models based on presheaf categories}\label{ModelsBasedOnPresheafCategories}
+In this section, we will develop an introspective theory construction which unifies and vastly generalizes \magicref{StepIndexingIntrosp} and \magicref{KripkeIntrosp}.
+
+\subsubsection{The general construction yielding locally introspective theories}
+
+\begin{construction}\label{GeneralPresheafLocalIntrosp}
+Let $i : D \to S$ be an arbitrary functor between \setsmall/ categories $D$ and $S$.
+
+Furthermore, suppose given some subset of the morphisms of $S$ which is closed under composition on either side with arbitrary morphisms. That is, suppose given some bifunctor $\SpecialHom_S : S^{op} \times S \to \Set$ along with an inclusion map from $\SpecialHom_S$ to $\Hom_S : S^{op} \times S \to \Set$.\footnote{This construction would work just as well for any bifunctor $\SpecialHom_S$ with a map to $\Hom_S$. It is not actually necessary that this map be monic. We use the language of \quote{subfunctor} and \quote{inclusion} here just for linguistic convenience, and because our archetypal examples happen to be of this form.}
+
+By currying, we may read this $\SpecialHom_S$ as a functor from $S$ to $\Psh{S}$ which is a subfunctor of the Yoneda embedding. As the Yoneda embedding exhibits $\Psh{S}$ as the free cocompletion of $S$ under \setsmall/ colimits, we can uniquely extend this subfunctor of the Yoneda embedding to an endofunctor $\Prior$ on $\Psh{S}$ which is a subfunctor of the identity and which preserves \setsmall/ colimits. By the adjoint functor theorem, this $\Prior$ is a left adjoint. \sTODOinline{Discuss this Yoneda extension process in preliminaries; it can alternatively be described as left Kan extension along the Yoneda embedding. Is it actually true that we should say \quote{subfunctor of the identity} here, or should we just say that we have a map into the identity, not necessarily monic?}
+
+We may now define a locally introspective theory $\langle \Psh{S}, C\rangle$ like so:
+
+% https://q.uiver.app/?q=WzAsNCxbMiwwLCJcXG9we1xcUHNoe1N9fSJdLFs0LDEsIlxcb3B7XFxQc2h7RH19Il0sWzYsMCwiXFxMZXhDYXQiXSxbMCwwLCJcXG9we1xcUHNoe1N9fSJdLFswLDEsIlxcb3B7XFxsZWZ0KCBcXHB1bGxBbG9uZ3tpfSBcXHJpZ2h0KX0iLDJdLFsxLDIsIlxcUHNoe0R9Ly0iLDJdLFswLDIsIlxcUHNoe1N9Ly0iXSxbMywwLCJcXGlkIiwwLHsibGV2ZWwiOjIsInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywwLCJcXG9we1xcUHJpb3J9IiwyLHsiY3VydmUiOjV9XSxbNiwxLCJcXHB1bGxBbG9uZ3tpfSIsMSx7InNob3J0ZW4iOnsic291cmNlIjoyMH19XSxbNyw4LCIiLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\[\begin{tikzcd}
+	{\op{\Psh{S}}} && {\op{\Psh{S}}} &&&& \LexCat \\
+	&&&& {\op{\Psh{D}}}
+	\arrow["{\op{\left( \pullAlong{i} \right)}}"', from=1-3, to=2-5]
+	\arrow["{\Psh{D}/-}"', from=2-5, to=1-7]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Psh{S}/-}", from=1-3, to=1-7]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "\id", Rightarrow, no head, from=1-1, to=1-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{\op{\Prior}}"', curve={height=30pt}, from=1-1, to=1-3]
+	\arrow["{\pullAlong{i}}"{description}, shorten <=3pt, Rightarrow, from=0, to=2-5]
+	\arrow[shorten <=4pt, shorten >=4pt, Rightarrow, from=1, to=2]
+\end{tikzcd}\]
+
+The unlabelled 2-cell on the left of the above diagram is the one given by the inclusion of $\Prior$ into the identity (which is turned around when considered as endofunctors of $\op{\Psh{S}}$ instead of $\Psh{S}$).
+
+Here, we take the $\Psh{S}$-indexed lexcategory $C$ to be the bottom composite path, and of course our $\introF$ is the composite 2-cell from top to bottom. The local \repsmall/ness of this $C$ follows via \magicref{RepLocallySmallRightAdjoint} from the observations that $\Prior$ and $\pullAlong{i}$ both have right adjoints and $\Psh{D}/-$ is locally \repsmall/ (i.e., $\Psh{D}$ is locally cartesian closed).
+
+(Pedantically, we note that in the above diagram, $\LexCat$ must be understood as containing not just \setsmall/ lexcategories but also large lexcategories, so that this $\LexCat$ may serve as the target of the self-indexings of the large categories $\Psh{S}$ and $\Psh{D}$.)
+
+This construction can be seen as \magicref{TrivialPreIntrosp} applied to $\Psh{D}$, followed by \magicref{IntrospPullback} using the pullback-preserving functor $\pullAlong{i} : \Psh{S} \to \Psh{D}$, followed by \magicref{IntrospInternalMap} using a map derived from the inclusion of $\Prior$ into the identity on $\Psh{S}$.
+\end{construction}
+
+\begin{observation}\label{PresheafArchetypesInstantiateGeneralLocallyIntrosp}
+Our archetypal examples of locally introspective theories \magicref{StepIndexingLocallyIntrosp} and \magicref{KripkeLocallyIntrosp} were each instances of \magicref{GeneralPresheafLocalIntrosp}. 
+
+Specifically, \magicref{StepIndexingLocallyIntrosp} was the instance where $i$ is the identity functor on the poset $\omega$ of natural numbers, with $\SpecialHom(a, b)$ being uniquely inhabited when $a < b$ and otherwise empty.
+
+And \magicref{KripkeLocallyIntrosp} was the instance where $i$ is the inclusion of $|P|$ into $Q$ (where $P$ is an arbitrary poset, $|P|$ is its underlying discrete set, and $Q$ is $P$ augmented with a new maximum element), and again $\SpecialHom(a, b)$ was taken to be uniquely inhabited when $a < b$ and otherwise empty.
+\end{observation}
+
+Unfortunately, this \magicref{GeneralPresheafLocalIntrosp} does not in general yield a fully introspective theory. We cannot expect this $C$ to be \repsmall/. \sTODOinline{And indeed, many examples of the above construction will not satisfy \Loeb/'s theorem, most easily seen for K4 frames that are not GL}
+
+But by passing to suitable full sublexcategories of $\Psh{S}$ and $\Psh{D}/-$ a la \magicref{SubTPreIntrosp} and \magicref{SubCPreIntrosp}, we may hope to obtain an introspective theory, and indeed we shall always be able to do so in a convenient way whenever $\SpecialHom$ satisfies a certain well-foundedness condition. The details of this process are described in the next sections.
+
+\subsubsection{Presheaves with varying cardinality constraints (aka, ramps)}
+
+The details in this section may seem like a lot. Bear with me! We are simply abstracting the same kind of cardinality constraints used in \magicref{StepIndexingIntrosp} and \magicref{KripkeIntrosp}. Note that this amounts to a generalization of the construction from \autocite{hofmann1999lifting}, to allow for constraints which vary over the objects of the indexing category rather than remaining constant.
+
+\sTODOinline{Improve notation and readability throughout the following.}
+
+\newcommand{\KFiberPsh}[2]{\mathrm{RPsh}_{#1}(#2)}
+
+\newcommand{\KPshGlobal}[2]{\operatorname{Psh}_{#1}(#2)}
+
+\newcommand{\KDecObject}[2]{#1\mathrm{-Dec}(#2)}
+
+Let $X$ be a category internal to $\Set$, and let $K$ be a function from $\Ob(X)$ to sets of sets\footnote{It might be better to say that the outputs of $K$ are set-indexed sets. At any rate, we shall think of each $K(x)$ as a genuine set, whose elements both can be compared for equality and have associated sets.}. We call any choice of such $K$ a \defined{ramp} on $X$.
+
+By a $K$-presheaf on $X$, we mean a presheaf $E$ on $X$ such that $E(x) \in K(x)$ for each $x \in X$. These comprise a full subcategory of $\Psh{X}$, which we may call $\KPshGlobal{K}{X}$.
+
+More generally, given an arbitrary presheaf $P$ on $X$, we define the notion of a $K$-\defined{decoration} on $P$. This is a function $f$ which assigns to each $x \in X$ and $p \in P(x)$ an element $f(x, p) \in K(x)$, along with a presheaf $E$ on $X$ and a map $\pi : E \to P$ in $\Psh{X}$ satisfying the condition that $E(x) = \coprod_{p\in P(x)} f(x,p)$ with $\pi_x : E(x) \to P(x)$ being the corresponding projection, for each $x \in X$. (Thus, all that is left to specify in $E$ is its reindexing maps, in a compatible fashion with the morphism structure of $X$ and with the projection map to $P$.)
+
+That is, a $K$-decoration of $P$ is a presheaf over $P$ whose fibers at each aspect $P(x)$ of $P$ are each given by elements of the corresponding $K(x)$. Note that the $K$-decorations of $P$ comprise a set (they can be compared for equality, and it is readily observed that in size they comprise a set rather than a proper class).
+
+Note that $K$-decorations of the terminal presheaf amount to the same thing as objects of $\KPshGlobal{K}{X}$.
+
+Given a map $m : P_1 \to P_2$ in $\Psh{X}$, we straightforwardly can pull a $K$-decoration of $P_2$ back to a $K$-decoration of $P_1$.\sTODOinline{Describe details or is it obvious? We compose $f$ for $P_2$ with the action of $m$ to get $f$ for $P_1$, and we literally take the pullback of $\pi$ for $P_2$ along $m$ to get $\pi$ for $P_1$} This is strictly functorial, and thus we get a contravariant map from $\Psh{X}$ to $\Set$ which assigns to any $P \in \Psh{X}$ the set of $K$-decorations of $P$, with reindexings as just described.
+
+It is also straightforward to observe that this map takes \setsmall/ colimits in $\Psh{X}$ to \setsmall/ limits in $\Set$. Thus, by \magicref{RepSmallPresheavesOnPresheaves}, this is in fact $\Psh{X}$-\repsmall/. That is to say, we have a particular object $\KDecObject{K}{X}$ in $\Psh{X}$ and a $K$-decoration of $\KDecObject{K}{X}$, such that any $K$-decoration of any object in $\Psh{X}$ is the reindexing of this one along a unique morphism. In particular, this gives us a map into $\KDecObject{K}{X}$ such that every other map with $K$-sized fibers, so to speak, is a pullback of this one.
+
+\begin{construction}\label{KFiberPsh}
+We may now consider the full subcategory of the self-indexing $\Psh{X}/-$ restricted to pullbacks of this generic map with $K$-sized fibers. Call this $\KFiberPsh{K}{X}$. This $\Psh{X}$-indexed category is locally \repsmall/ (as it is a full subcategory of $\Psh{X}/-$, which is locally \repsmall/ by the local cartesian closure of $\Psh{X}$), and it can also be taken as having a \repsmall/ set of objects (given by $\KDecObject{K}{X}$). Thus, it can be taken to be a $\Psh{X}$-internal category, which is to say, an $X$-indexed \setsmall/ strict category.
+\end{construction}
+
+Note that the global aspect of $\KFiberPsh{K}{X}$ is $\KPshGlobal{K}{X}$, by our previous observation about $K$-decorations of the terminal presheaf.
+
+Observe that if each $K(x)$ for $x \in X$ is closed under finite products and subsets, then each $K(x)$ comprises the objects of a full sublexcategory of $\Set$, and $\KFiberPsh{K}{X}$ is in fact a full sublexcategory of the self-indexing $\Psh{X}/-$, with $\KPshGlobal{K}{X}$ accordingly being a full sublexcategory of $\Psh{X}$.\sTODOinline{More details on this point? Also, may want to invoke lemma from the Preliminaries that a \repsmall/ indexed category whose every aspect is a lexcategory and whose every reindexing preserves finite limits non-strictly is in fact an internal lexcategory?} From now on, we will always make this assumption on our ramps $K$. [It would actually suffice for our purposes to make the slightly weaker presumption that each $K(x)$ comprises the objects of a full sublexcategory of $\Set$, but for convenience, we go ahead and presume here closure under arbitrary subsets.]
+
+When ramps are closed under finite limits in this way, observe that any map in $\KPshGlobal{K}{X}$ is in fact a $K$-decoration (or rather, isomorphic to one as an object of the corresponding slice category). That is, given $f : Q \to P$ in $\KPshGlobal{K}{X}$, we have for each $x \in X$ and each $p \in P(x)$ that the fiber $f^{-1}(p)$ is in $K(x)$ (as it can be defined as a pullback $1 \times_{P(x)} Q(x)$). Thus, the self-indexing $\KPshGlobal{K}{X}/-$ is an indexed full sublexcategory of $\KFiberPsh{K}{X}$.\footnote{This inclusion needn't be an equivalence. There may be further $K$-decorations of $P \in \KPshGlobal{K}{X}$ whose domain (qua morphism into $P$) is not in  $\KPshGlobal{K}{X}$, as we've made no presumption that each $K(x)$ be closed under sums indexed by any set in $K(x)$. But we have this one direction of inclusion.}
+
+\begin{observation}\label{KFiberPshDependence}
+Observe that the conditions defining a $K$-decoration of $P \in \Psh{X}$ only depend on the values of $K(x)$ at $x \in X$ for which $P(x)$ is inhabited. The values of $K$ at $x$ for which $P(x)$ is empty play no role. In other words, the aspect of the $\Psh{X}$-internal category $\KFiberPsh{K}{X}$ at presheaf $P$ only depends on the value of $K$ at $x \in X$ for which $P(x)$ is inhabited. 
+
+When we consider $\KFiberPsh{K}{X}$ instead as an $X$-indexed structure, its aspect at $x \in X$ is the same as its aspect as a $\Psh{X}$-internal structure at $\yoneda(x)$. By the above, this only depends on the values of $K$ at $y$ for which $\yoneda(x)(y) = \Hom_X(y, x)$ is inhabited.
+\end{observation}
+
+\subsubsection{Having ramps on two categories}
+Observe that if we are given an arbitrary functor $i: D \to S$, along with ramps $K_S$ on $S$ and $K_D$ on $D$ satisfying the compatibility condition that $K_S(i(d)) \subseteq K_D(d)$ for each $d \in D$, then applying $\pullAlong{i} : \Psh{S} \to \Psh{D}$ to a presheaf in $\KPshGlobal{K_S}{S}$ yields a presheaf in $\KPshGlobal{K_D}{D}$. We may refer to this restricted action by the same name $\pullAlong{i} : \KPshGlobal{K_S}{S} \to \KPshGlobal{K_D}{D}$. Given our presumption of closure under finite limits on the ramps, this is a lexfunctor between lexcategories.
+
+\begin{definition}\label{KDConvenienceDefn}
+For convenience, we may go ahead and even define $K_D$ as $K_S \circ i$ to ensure the compatibility condition, though this is stronger than needed for our purposes. To simplify our exposition, we will from now on presume $K_D$ is defined from $K_S$ in this way.
+\end{definition}
+
+We thus have the following commutative square of lexfunctors, where the unlabelled arrows are the inclusion lexfunctors:
+
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG9we1xcS1BzaEdsb2JhbHtLX1N9e1N9fSJdLFszLDIsIlxcb3B7XFxQc2h7RH19Il0sWzAsMiwiXFxvcHtcXFBzaHtTfX0iXSxbMywwLCJcXG9we1xcS1BzaEdsb2JhbHtLX0R9e0R9fSJdLFsyLDEsIlxcb3B7XFxsZWZ0KFxccHVsbEFsb25ne2l9XFxyaWdodCl9IiwyXSxbMCwyLCIiLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJtb25vIn19fV0sWzAsMywiXFxvcHtcXGxlZnQoXFxwdWxsQWxvbmd7aX1cXHJpZ2h0KX0iLDFdLFszLDEsIiIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XV0=
+\[\begin{tikzcd}
+	{\op{\KPshGlobal{K_S}{S}}} &&& {\op{\KPshGlobal{K_D}{D}}} \\
+	\\
+	{\op{\Psh{S}}} &&& {\op{\Psh{D}}}
+	\arrow["{\op{\left(\pullAlong{i}\right)}}"', from=3-1, to=3-4]
+	\arrow[tail, from=1-1, to=3-1]
+	\arrow["{\op{\left(\pullAlong{i}\right)}}"{description}, from=1-1, to=1-4]
+	\arrow[tail, from=1-4, to=3-4]
+\end{tikzcd}\]
+
+Indeed, this commutative diagram sits within the following diagram of lexfunctors and indexed lexfunctors:
+
+% https://q.uiver.app/?q=WzAsNSxbMCwwLCJcXG9we1xcS1BzaEdsb2JhbHtLX1N9e1N9fSJdLFszLDAsIlxcTGV4Q2F0Il0sWzMsMiwiXFxvcHtcXFBzaHtEfX0iXSxbMCwyLCJcXG9we1xcUHNoe1N9fSJdLFsxLDEsIlxcb3B7XFxLUHNoR2xvYmFse0tfRH17RH19Il0sWzAsMSwiXFxLUHNoR2xvYmFse0tfU317U30vLSJdLFszLDIsIlxcb3B7XFxsZWZ0KFxccHVsbEFsb25ne2l9XFxyaWdodCl9IiwyXSxbMiwxLCJcXEtGaWJlclBzaHtLX0R9e0R9IiwxXSxbMCwzLCIiLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJtb25vIn19fV0sWzAsNCwiXFxvcHtcXGxlZnQoXFxwdWxsQWxvbmd7aX1cXHJpZ2h0KX0iLDFdLFs0LDEsIlxcS1BzaEdsb2JhbHtLX0R9e0R9Ly0iLDFdLFs0LDIsIiIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XSxbNSw0LCJcXHB1bGxBbG9uZ3tpfSIsMSx7InNob3J0ZW4iOnsic291cmNlIjoyMH19XSxbMTAsMiwiIiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwfSwic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dXQ==
+\[\begin{tikzcd}
+	{\op{\KPshGlobal{K_S}{S}}} &&& \LexCat \\
+	& {\op{\KPshGlobal{K_D}{D}}} \\
+	{\op{\Psh{S}}} &&& {\op{\Psh{D}}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\KPshGlobal{K_S}{S}/-}", from=1-1, to=1-4]
+	\arrow["{\op{\left(\pullAlong{i}\right)}}"', from=3-1, to=3-4]
+	\arrow["{\KFiberPsh{K_D}{D}}"{description}, from=3-4, to=1-4]
+	\arrow[tail, from=1-1, to=3-1]
+	\arrow["{\op{\left(\pullAlong{i}\right)}}"{description}, from=1-1, to=2-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\KPshGlobal{K_D}{D}/-}"{description}, from=2-2, to=1-4]
+	\arrow[tail, from=2-2, to=3-4]
+	\arrow["{\pullAlong{i}}"{description}, shorten <=4pt, Rightarrow, from=0, to=2-2]
+	\arrow[shorten <=9pt, Rightarrow, 2tail, from=1, to=3-4]
+\end{tikzcd}\]
+
+In the above diagram, unlabelled arrows are canonical inclusions of full sublexcategories. In particular, the unlabelled right 2-cell is the way in which $\KPshGlobal{K_D}{D}/-$ is an indexed full sublexcategory of $\KFiberPsh{K_D}{D}$.
+
+The top 2-cell $\pullAlong{i}$ is the one obtained from $\pullAlong{i} : \KPshGlobal{K_S}{S} \to \KPshGlobal{K_D}{D}$ by \magicref{FunctorAs2Cell}. The bottom left \quote{triangle} (or square drawn as triangle) is our just previously mentioned commutative square.
+
+Overloading names yet again, we may compress this last diagram into a composite 2-cell which we shall also name $\pullAlong{i}$, like so:
+
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG9we1xcS1BzaEdsb2JhbHtLX1N9e1N9fSJdLFszLDAsIlxcTGV4Q2F0Il0sWzMsMiwiXFxvcHtcXFBzaHtEfX0iXSxbMCwyLCJcXG9we1xcUHNoe1N9fSJdLFswLDEsIlxcS1BzaEdsb2JhbHtLX1N9e1N9Ly0iXSxbMywyLCJcXG9we1xcbGVmdChcXHB1bGxBbG9uZ3tpfVxccmlnaHQpfSIsMl0sWzIsMSwiXFxLRmliZXJQc2h7S19EfXtEfSIsMV0sWzAsMywiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dLFs0LDUsIlxccHVsbEFsb25ne2l9IiwyLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\[\begin{tikzcd}
+	{\op{\KPshGlobal{K_S}{S}}} &&& \LexCat \\
+	\\
+	{\op{\Psh{S}}} &&& {\op{\Psh{D}}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\KPshGlobal{K_S}{S}/-}", from=1-1, to=1-4]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\op{\left(\pullAlong{i}\right)}}"', from=3-1, to=3-4]
+	\arrow["{\KFiberPsh{K_D}{D}}"{description}, from=3-4, to=1-4]
+	\arrow[tail, from=1-1, to=3-1]
+	\arrow["{\pullAlong{i}}"', shorten <=9pt, shorten >=9pt, Rightarrow, from=0, to=1]
+\end{tikzcd}\]
+
+\subsubsection{Cardinality-constraining the general construction to yield introspective theories}
+
+\begin{construction}\label{CardinalityConstrainedPresheafIntrosp}
+From the above, we have a pre-introspective theory $\langle \KPshGlobal{K_S}{S}, C, \introF \rangle$ in which $\introF$ is given by the composite 2-cell in the following diagram, and $C$ is given by the codomain of this $\introF$:
+
+% https://q.uiver.app/?q=WzAsNSxbMCwwLCJcXG9we1xcS1BzaEdsb2JhbHtLX1N9e1N9fSJdLFszLDAsIlxcTGV4Q2F0Il0sWzMsMiwiXFxvcHtcXFBzaHtEfX0iXSxbMSwyLCJcXG9we1xcUHNoe1N9fSJdLFswLDIsIlxcb3B7XFxQc2h7U319Il0sWzAsMSwiXFxLUHNoR2xvYmFse0tfU317U30vLSJdLFszLDIsIlxcb3B7XFxsZWZ0KFxccHVsbEFsb25ne2l9XFxyaWdodCl9IiwyXSxbMiwxLCJcXEtGaWJlclBzaHtLX0R9e0R9IiwxXSxbNCwzLCJcXGlkIl0sWzAsNCwiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dLFs0LDMsIlxcb3B7XFxQcmlvcn0iLDIseyJjdXJ2ZSI6NX1dLFs1LDYsIlxccHVsbEFsb25ne2l9IiwyLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFs4LDEwLCIiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\[\begin{tikzcd}
+	{\op{\KPshGlobal{K_S}{S}}} &&& \LexCat \\
+	\\
+	{\op{\Psh{S}}} & {\op{\Psh{S}}} && {\op{\Psh{D}}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\KPshGlobal{K_S}{S}/-}", from=1-1, to=1-4]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\op{\left(\pullAlong{i}\right)}}"', from=3-2, to=3-4]
+	\arrow["{\KFiberPsh{K_D}{D}}"{description}, from=3-4, to=1-4]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "\id", from=3-1, to=3-2]
+	\arrow[tail, from=1-1, to=3-1]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{\op{\Prior}}"', curve={height=30pt}, from=3-1, to=3-2]
+	\arrow["{\pullAlong{i}}"', shorten <=9pt, shorten >=9pt, Rightarrow, from=0, to=1]
+	\arrow[shorten <=4pt, shorten >=4pt, Rightarrow, from=2, to=3]
+\end{tikzcd}\]
+\end{construction}
+
+\begin{observation}\label{PresheafArchetypesInstantiateGeneralIntrosp}
+Our archetypal examples of introspective theories \magicref{StepIndexingIntrosp} and \magicref{KripkeIntrosp} were both instances of \magicref{CardinalityConstrainedPresheafIntrosp}, in the same manner as in \magicref{PresheafArchetypesInstantiateGeneralLocallyIntrosp}.
+\end{observation}
+
+We now consider the question of when the pre-introspective theory described in \magicref{CardinalityConstrainedPresheafIntrosp} is in fact an introspective theory. This happens precisely if the $C$ we have defined is $\KPshGlobal{K_S}{S}$-\repsmall/. As $\KFiberPsh{K_D}{D}$ is $\Psh{D}$-\repsmall/ (by the comments at \magicref{KFiberPsh}), and $\pullAlong{i}$ and $\Prior$ both have right adjoints, we automatically have (by \magicref{RepsmallRightAdjoint}) that our $C$ corresponds to a lexcategory internal to $\Psh{S}$ (aka, an $S$-indexed lexcategory). However, the inclusion of $\KPshGlobal{K_S}{S}$ into $\Psh{S}$ will not in general have a right adjoint, so we cannot conclude that $C$ is $\KPshGlobal{K_S}{S}$-\repsmall/ in this same way. We may think of $\Mor(C)$ as an object within $\Psh{S}$, but do not know that this lives within its full subcategory $\KPshGlobal{K_S}{S}$. This will happen just in case, for every $s \in S$, the $s$-aspect of $\Mor(C)$ is contained in $K_S(s)$.
+
+Under suitable conditions, we can arrange for a ramp $K_S$ such that this happens. For $t, s \in S$, let $t < s$ mean that $\SpecialHom_S(t, s)$ is inhabited. We have the following:
+
+\begin{observation}
+The $s$-aspect of $C$, where $s \in S$, depends only on the values of the ramp $K_S$ at objects $< s$.
+\end{observation}
+\begin{proof}
+By definition, the $s$-aspect of $C$ is the aspect of $\KFiberPsh{K_D}{D}$ at $\pullAlong{i}(\Prior(\yoneda(s)))$. By \magicref{KFiberPshDependence}, this depends only on the value of $K_D$ at those objects in $D$ at which the presheaf $\pullAlong{i}(\Prior(\yoneda(s)))$ is inhabited.
+
+And by definition, $\Prior(\yoneda(s))$ is a presheaf on $S$ which is inhabited only at $t < s$. Thus, $\pullAlong{i}(\Prior(\yoneda(s)))$ is a presheaf on $D$ which is inhabited only at $d$ for which $i(d) < s$.
+
+Thus, the $s$-aspect of $C$ depends only the values of the ramp $K_D$ at $d \in D$ for which $i(d) < s$. Since $K_D(d)$ was defined (at \magicref{KDConvenienceDefn}) as $K_S(i(d))$, this is to say that the dependence is only on the values of the ramp $K_S$ at objects $< s$.
+\end{proof}
+
+Thus, we will have that \magicref{CardinalityConstrainedPresheafIntrosp} gives an introspective theory just in case for each $s \in S$, we have that $K_S(s)$ contains a certain set (the $s$-aspect of $\Mor(C)$) determined by the values of $K_S(t)$ at $t < s$. If the $<$ relation is well-founded, we can easily recursively choose the values of $K_S$ to always satisfy this condition, by simply choosing at each stage the minimal full sublexcategory of $\Set$ generated by the required set. (Indeed, we could just as well arrange in essentially the same way for each $K_S(s)$ to also contain any \setsmall/ number of other sets of interest.)
+
+\begin{construction}\label{CardinalityConstrainedPresheafIntrosp2}
+Thus, when the $<$ relation corresponding to $\SpecialHom_S$ is well-founded, we can choose a ramp $K_S$ such that \magicref{CardinalityConstrainedPresheafIntrosp} yields an introspective theory (and we can furthermore do so in such a way that $\KPshGlobal{K_S}{S}$ includes any other fixed set of desired objects of $\Psh{S}$).
+\end{construction}
+
+\begin{observation}
+The introspective theory of \magicref{CardinalityConstrainedPresheafIntrosp2} is straightforwardly a sub-introspection, in the sense of \magicref{SubIntrospectionDefn}, of the locally introspective theory given by \magicref{GeneralPresheafLocalIntrosp}. This can be seen via the following two diagrams:
+
+% https://q.uiver.app/?q=WzAsNSxbMCwwLCJcXG9we1xcS1BzaEdsb2JhbHtLX1N9e1N9fSJdLFs0LDAsIlxcTGV4Q2F0Il0sWzMsMiwiXFxvcHtcXFBzaHtEfX0iXSxbMSwyLCJcXG9we1xcUHNoe1N9fSJdLFswLDIsIlxcb3B7XFxQc2h7U319Il0sWzAsMSwiXFxLUHNoR2xvYmFse0tfU317U30vLSJdLFszLDIsIlxcb3B7XFxsZWZ0KFxccHVsbEFsb25ne2l9XFxyaWdodCl9IiwyXSxbMiwxLCJcXEtGaWJlclBzaHtLX0R9e0R9Il0sWzQsMywiXFxpZCJdLFswLDQsIiIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XSxbNCwzLCJcXG9we1xcUHJpb3J9IiwyLHsiY3VydmUiOjV9XSxbMiwxLCJcXFBzaHtEfS8tIiwyLHsiY3VydmUiOjV9XSxbNSw2LCJcXHB1bGxBbG9uZ3tpfSIsMix7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbOCwxMCwiIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFs3LDExLCIiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJtb25vIn19fV1d
+\[\begin{tikzcd}
+	{\op{\KPshGlobal{K_S}{S}}} &&&& \LexCat \\
+	\\
+	{\op{\Psh{S}}} & {\op{\Psh{S}}} && {\op{\Psh{D}}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\KPshGlobal{K_S}{S}/-}", from=1-1, to=1-5]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\op{\left(\pullAlong{i}\right)}}"', from=3-2, to=3-4]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{\KFiberPsh{K_D}{D}}", from=3-4, to=1-5]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "\id", from=3-1, to=3-2]
+	\arrow[tail, from=1-1, to=3-1]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "{\op{\Prior}}"', curve={height=30pt}, from=3-1, to=3-2]
+	\arrow[""{name=5, anchor=center, inner sep=0}, "{\Psh{D}/-}"', curve={height=30pt}, from=3-4, to=1-5]
+	\arrow["{\pullAlong{i}}"', shorten <=9pt, shorten >=9pt, Rightarrow, from=0, to=1]
+	\arrow[shorten <=4pt, shorten >=4pt, Rightarrow, from=3, to=4]
+	\arrow[shorten <=5pt, shorten >=5pt, Rightarrow, 2tail, from=2, to=5]
+\end{tikzcd}\]
+
+% https://q.uiver.app/?q=WzAsNSxbMCwwLCJcXG9we1xcS1BzaEdsb2JhbHtLX1N9e1N9fSJdLFs0LDAsIlxcTGV4Q2F0Il0sWzMsMiwiXFxvcHtcXFBzaHtEfX0iXSxbMSwyLCJcXG9we1xcUHNoe1N9fSJdLFswLDIsIlxcb3B7XFxQc2h7U319Il0sWzAsMSwiXFxLUHNoR2xvYmFse0tfU317U30vLSJdLFszLDIsIlxcb3B7XFxsZWZ0KFxccHVsbEFsb25ne2l9XFxyaWdodCl9IiwyXSxbNCwzLCJcXGlkIl0sWzAsNCwiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dLFs0LDMsIlxcb3B7XFxQcmlvcn0iLDIseyJjdXJ2ZSI6NX1dLFsyLDEsIlxcUHNoe0R9Ly0iLDIseyJjdXJ2ZSI6NX1dLFszLDEsIlxcUHNoe1N9Ly0iLDFdLFs3LDksIiIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbMTEsMTAsIlxccHVsbEFsb25ne2l9IiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFs1LDExLCIiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJtb25vIn19fV1d
+\[\begin{tikzcd}
+	{\op{\KPshGlobal{K_S}{S}}} &&&& \LexCat \\
+	\\
+	{\op{\Psh{S}}} & {\op{\Psh{S}}} && {\op{\Psh{D}}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\KPshGlobal{K_S}{S}/-}", from=1-1, to=1-5]
+	\arrow["{\op{\left(\pullAlong{i}\right)}}"', from=3-2, to=3-4]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "\id", from=3-1, to=3-2]
+	\arrow[tail, from=1-1, to=3-1]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{\op{\Prior}}"', curve={height=30pt}, from=3-1, to=3-2]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{\Psh{D}/-}"', curve={height=30pt}, from=3-4, to=1-5]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "{\Psh{S}/-}"{description}, from=3-2, to=1-5]
+	\arrow[shorten <=4pt, shorten >=4pt, Rightarrow, from=1, to=2]
+	\arrow["{\pullAlong{i}}", shorten <=13pt, shorten >=13pt, Rightarrow, from=4, to=3]
+	\arrow[shorten <=6pt, shorten >=6pt, Rightarrow, 2tail, from=0, to=4]
+\end{tikzcd}\]
+
+In the above two diagrams, unlabelled arrows are canonical inclusions. Note that the composite 2-cells from $\KPshGlobal{K_S}{S}/-$ to $\Psh{D}/\pullAlong{i}(-)$ are the same in both diagrams. \sTODOinline{Diagram this commutative square. Word this section better.}
+\end{observation}
+
+\sTODOinline{Observe that this argument depends on the Axiom of Replacement. It would fail in ZFC - Replacement for the same reason that one could not construct $\bigcup_{n \in \nat} \mathcal{P}^n(\nat)$ or $\prod_{n \in \nat} \mathcal{P}^n(\nat)$. For the same reason, guarded recursion at the type level requires the Axiom of Replacement, even in our original non-cardinality-constrained locally introspective theory of presheaves over a well-founded order.}
+
+\sTODOinline{Observe that we get \Loeb/'s theorem for our locally introspective theory from \Loeb/'s theorem for our fully introspective theory, by picking sufficiently large ramps for any particular instance.}
+
+\sTODOinline{Recap section for this chapter}
+
+\fileend
