@@ -120,7 +120,7 @@ In the above proof, we used \magicref{LoebTransfer} to transfer the \Loeb/ prope
 \magicref{LoebPropertyLexUniqueness} is only a special case of a much broader and important theorem which we now discuss. For convenience of exposition, we take $\Box$ in the following to be a lexfunctor, though this can be relaxed.
 
 \begin{theorem}\label{CoalgToAlg}
-Let $D$ be any lexcategory and let $\Box : D \to D$ be a lexfunctor. Let $E$ be any \repsmall/ $D$-indexed category. (Note that $\Box$ acting on $E$ induces also another \repsmall/\sTODOinline{Is this \repsmall/ when $\Box$ is not lex? It may be that we actually are using some kind of left Kan extension here, and the result will not be \repsmall/ in such cases. At any rate, it seems the better thing to do is to return to how I originally framed this from line 312 in commit commit 375fa9c.} $D$-indexed category $\Box E$ \sTODOinline{Note in preliminaries how the choice of internal category presenting these indexed categories doesn't matter, as $\Box$ acts on the internal functors between these too}, as well as a functor from each $d$-defined aspect of $E$ to the $(\Box d)$-defined aspect of $\Box E$, for $d \in D$. In particular, as $\Box$ is terminal-object-preserving, $\Box$ acts as a functor from the global aspect of $E$ to the global aspect of $\Box E$.) 
+Let $D$ be any lexcategory and let $\Box : D \to D$ be a lexfunctor. Let $E$ be any \repsmall/ $D$-indexed category. (Note that $\Box$ acting on $E$ induces also another \repsmall/\sTODOinline{Is this \repsmall/ when $\Box$ is not lex? It may be that we actually are using some kind of left Kan extension here, and the result will not be \repsmall/ in such cases. At any rate, it seems the better thing to do is to return to how I originally framed this from line 312 in commit 375fa9c.} $D$-indexed category $\Box E$ \sTODOinline{Note in preliminaries how the choice of internal category presenting these indexed categories doesn't matter, as $\Box$ acts on the internal functors between these too}, as well as a functor from each $d$-defined aspect of $E$ to the $(\Box d)$-defined aspect of $\Box E$, for $d \in D$. In particular, as $\Box$ is terminal-object-preserving, $\Box$ acts as a functor from the global aspect of $E$ to the global aspect of $\Box E$.) 
 
 Suppose also given a $D$-indexed functor $f : \Box E \to E$, and let the endofunctor $F$ on the global aspect of $E$ be given by first applying $\Box$ to arrive in the global aspect of $\Box E$, then applying $f$ to arrive back in the global aspect of $E$.
 
@@ -428,6 +428,14 @@ The above is our key result. The fact that the simple definition of introspectiv
 
 \begin{observation}
 The fixed points produced by \magicref{IntrospTyConFixedPoints} are furthermore unique up to canonical isomorphism, by combining \magicref{IntrospLoeb} with \magicref{InitialTerminalCoincidence}. \sTODOinline{Give more details}
+
+Specifically, suppose given an introspective theory $\langle T, C \rangle$ and a $P \in \Glob{\Psh{\core{C}}}$. 
+
+Then $\introS(P)$ is a $C$-internal presheaf on the $C$-internal groupoid $\introS(\core{C})$.
+
+As such, this induces a functor from the $C$-indexed groupoid $\introS(\core{C})$ to the core of the self-indexing $C/-$ of $C$. The global aspect of this is a functor $f$ from $\Hom_C(1, \introS(\core{C})) = \Box_T \core{C}$ to $\core{C}$. As in \magicref{InitialTerminalCoincidence}, we now obtain also a corresponding endofunctor $F$ on $\Glob{\core{C}}$.
+
+By invoking \magicref{InitialTerminalCoincidence} with $D = T$ and $E = \core{C}$, and this $f$, we find that any isomorphism from any $c \in \Glob{C}$ to $f(\Box c) = \introS(P(c))$ is both an initial algebra and terminal coalgebra for $F$, and thus any two such are canonically isomorphic.
 \end{observation}
 
 \subsection{The self-indexing cannot be \repsmall/, except trivially}\label{NoSmallSelfIndexing}
