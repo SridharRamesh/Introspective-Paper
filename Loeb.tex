@@ -1,6 +1,7 @@
 \filestart
 
 \section{\Loeb/'s theorem}\label{LoebChapter}
+
 \subsection{Preview}
 In this chapter, we prove our most important theorem, justifying the significance of the simple concept of introspective theories. We show how every introspective theory automatically satisfies a general version of \Loeb/'s theorem, acting as the construction of general fixed points. We will also see how \Loeb/'s theorem is in full generality a phenomenon linked to presheaves, and not only constrained to representable presheaves.
 
@@ -11,6 +12,55 @@ The material on the \Loeb/ property in general categories in \magicref{LoebPrope
 The discussion in \magicref{LawvereFPTSection} concerns Lawvere's fixed point theorem, which of course is not original to us, but we also include some reframing and generalization of this which is due to us rather than Lawvere. The discussion in \magicref{LawvereFPTReduxSection} compares our reframing to some other reframings of Lawvere's fixed point theorem in the existing literature.
 
 The sole theorem in \magicref{NoSmallSelfIndexing} is the same theorem as proven in \autocite{PittsTaylor1989}. We re-note it here simply to observe that it follows as a special case of our more general \magicref{IntrospLoeb}.
+
+\subsection{New lemmas}
+\begin{definition}
+Let $F$ be an endofunctor on a category $C$. We define a \defined{fixed point} of $F$ to be an object $c \in C$ along with a choice of isomorphism between $c$ and $F(c)$. These can be viewed as those $F$-algebras which are invertible, and thus we get a category of fixed points of $F$, as the appropriate full subcategory of the category of $F$-algebras. (Just as well, this can also be seen as a full subcategory of the category of $F$-coalgebras.)
+\end{definition}
+
+\begin{theorem}\label{CyclicFixedPointsSets}
+Let $f : X \to Y$ and $g : Y \to X$ be functions between sets. The fixed points of $gf$ and the fixed points of $fg$ are in bijection.
+\end{theorem}
+\begin{proof}
+Let $x = g(f(x))$ be a fixed point of $gf$. Then $f(x) = f(g(f(x)))$ is a fixed point of $fg$. Thus, $f$ takes fixed points of $gf$ to fixed points of $fg$. Symmetrically, $g$ takes fixed points of $fg$ to fixed points of $gf$. Furthermore, by definition, the composition $fg$ acts as identity on fixed points of $fg$, and symmetrically, $gf$ acts as identity on fixed points of $gf$. Thus, $f$ and $g$ restrict to inverse bijections between the fixed points of $gf$ and the fixed points of $fg$.
+\end{proof}
+
+The above simple theorem is given for functions between discrete sets, but it furthermore generalizes to functors between categories:
+
+\begin{theorem}\label{CyclicFixedPointsCategories}
+Let $f : X \to Y$ and $g : Y \to X$ be functors between categories. The category of fixed points of $gf$ is equivalent to the category of fixed points of $fg$.
+\end{theorem}
+\begin{proof}
+Note that $f$ takes fixed points of $gf$ to fixed points of $fg$, and similarly takes morphisms between the former to morphisms between the latter, functorially. Thus, we obtain a functor $F$ from the category of fixed points of $gf$ to the category of fixed points of $fg$. In the same way, $g$ acts as a functor $G$ from the category of fixed points of $fg$ to the category of fixed points of $gf$. Furthermore, there is a tautological isomorphism between $FG$ and the identity, and similarly there is a tautological isomorphism between $GF$ and the identity. Thus, the category of fixed points of $gf$ and the category of fixed points of $fg$ are equivalent. (Indeed, we can observe furthermore that the triangle identities are satisfied such that $F$, $G$, and these two tautological isomorphisms together comprise an adjoint equivalence.)
+\end{proof}
+
+\magicref{CyclicFixedPointsSets} and its proof are of course the special case of \magicref{CyclicFixedPointsCategories} where the categories involved are discrete sets.
+
+\begin{theorem}\label{CyclicHylomorphism}
+When $F$ and $G$ are functors in opposite direction between two categories, we have a bijective correspondence between $FG$-hylomorphisms $F(V) \circ W \to M \circ F(N)$ and $GF$-hylomorphisms $G(W) \circ V \to N \circ G(M)$, as illustrated below:
+
+% https://q.uiver.app/#q=WzAsMTIsWzMsMiwidiJdLFs0LDIsIm4iXSxbMywwLCJHKEYodikpIl0sWzQsMCwiRyhGKG4pKSJdLFszLDEsIkcodykiXSxbNCwxLCJHKG0pIl0sWzAsMSwiRih2KSJdLFswLDAsIkYoRyh3KSkiXSxbMSwwLCJGKEcobSkpIl0sWzEsMSwiRihuKSJdLFswLDIsInciXSxbMSwyLCJtIl0sWzAsMSwieSIsMl0sWzIsMywiRyhGKHkpKSJdLFs0LDIsIkcoVykiXSxbMyw1LCJHKE0pIl0sWzAsNCwiViJdLFs1LDEsIk4iXSxbNiw3LCJGKFYpIl0sWzgsOSwiRihOKSJdLFs3LDgsIkYoRyh4KSkiXSxbMTAsMTEsIngiLDJdLFsxMCw2LCJXIl0sWzksMTEsIk0iXV0=
+\begin{tikzcd}
+	{F(G(w))} & {F(G(m))} && {G(F(v))} & {G(F(n))} \\
+	{F(v)} & {F(n)} && {G(w)} & {G(m)} \\
+	w & m && v & n
+	\arrow["y"', from=3-4, to=3-5]
+	\arrow["{G(F(y))}", from=1-4, to=1-5]
+	\arrow["{G(W)}", from=2-4, to=1-4]
+	\arrow["{G(M)}", from=1-5, to=2-5]
+	\arrow["V", from=3-4, to=2-4]
+	\arrow["N", from=2-5, to=3-5]
+	\arrow["{F(V)}", from=2-1, to=1-1]
+	\arrow["{F(N)}", from=1-2, to=2-2]
+	\arrow["{F(G(x))}", from=1-1, to=1-2]
+	\arrow["x"', from=3-1, to=3-2]
+	\arrow["W", from=3-1, to=2-1]
+	\arrow["M", from=2-2, to=3-2]
+\end{tikzcd}
+\end{theorem}
+\begin{proof}
+This is by considering the two operations $x \mapsto N \circ G(x) \circ V$ and $y \mapsto M \circ F(y) \circ W$, and the fixed points of their compositions in either order, which are in bijection by \magicref{CyclicFixedPointsSets}.
+\end{proof}
 
 \subsection{The \Loeb/ property in abstract}\label{LoebPropertySection}
 \begin{definition}\label{LoebPropertyDefn}
@@ -429,13 +479,13 @@ The above is our key result. The fact that the simple definition of introspectiv
 \begin{observation}
 The fixed points produced by \magicref{IntrospTyConFixedPoints} are furthermore unique up to canonical isomorphism, by combining \magicref{IntrospLoeb} with \magicref{InitialTerminalCoincidence}. \sTODOinline{Give more details}
 
-Specifically, suppose given an introspective theory $\langle T, C \rangle$ and a $P \in \Glob{\Psh{\core{C}}}$. 
+Specifically, suppose given an introspective theory $\langle T, C \rangle$ and a globally defined object $P$ of $\Psh{\core{C}}$. 
 
 Then $\introS(P)$ is a $C$-internal presheaf on the $C$-internal groupoid $\introS(\core{C})$.
 
-As such, this induces a functor from the $C$-indexed groupoid $\introS(\core{C})$ to the core of the self-indexing $C/-$ of $C$. The global aspect of this is a functor $f$ from $\Hom_C(1, \introS(\core{C})) = \Box_T \core{C}$ to $\core{C}$. As in \magicref{InitialTerminalCoincidence}, we now obtain also a corresponding endofunctor $F$ on $\Glob{\core{C}}$.
+As such, this induces a functor from the $C$-indexed groupoid $\introS(\core{C})$ to the core of the self-indexing $C/-$ of $C$. \sTODOinline{Give more details on this process in preliminaries or modal logic section} The global aspect of this is a functor $f$ from $\Hom_C(1, \introS(\core{C})) = \Box_T \core{C}$ to $\core{C}$. As in \magicref{InitialTerminalCoincidence}, we now obtain also a corresponding endofunctor $F$ on $\Glob{\core{C}}$. Note that this $F$ is such that $F(c) = f(\Box c) = \introS(P(c))$ for any $c \in \Glob{C}$.
 
-By invoking \magicref{InitialTerminalCoincidence} with $D = T$ and $E = \core{C}$, and this $f$, we find that any isomorphism from any $c \in \Glob{C}$ to $f(\Box c) = \introS(P(c))$ is both an initial algebra and terminal coalgebra for $F$, and thus any two such are canonically isomorphic.
+By invoking \magicref{InitialTerminalCoincidence} with $D = T$ and $E = \core{C}$, and this $f$, we find that any isomorphism from any $c \in \Glob{C}$ to $F(c) = f(\Box c) = \introS(P(c))$ is both an initial algebra and terminal coalgebra for $F$, and thus any two such are canonically isomorphic.
 \end{observation}
 
 \subsection{The self-indexing cannot be \repsmall/, except trivially}\label{NoSmallSelfIndexing}
