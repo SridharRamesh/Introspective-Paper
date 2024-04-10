@@ -15,7 +15,7 @@ The sole theorem in \magicref{NoSmallSelfIndexing} is the same theorem as proven
 
 \subsection{New lemmas}
 \begin{definition}
-Let $F$ be an endofunctor on a category $C$. We define a \defined{fixed point} of $F$ to be an object $c \in C$ along with a choice of isomorphism between $c$ and $F(c)$. These can be viewed as those $F$-algebras which are invertible, and thus we get a category of fixed points of $F$, as the appropriate full subcategory of the category of $F$-algebras. (Just as well, this can also be seen as a full subcategory of the category of $F$-coalgebras.)
+Let $F$ be an endofunctor on a category $C$. We define a \defined{fixed point} of $F$ to be an object $c \in C$ along with a choice of isomorphism between $c$ and $F(c)$. These can be viewed as those $F$-algebras which are invertible, and thus we get a category of fixed points of $F$, as the appropriate full subcategory of the category of $F$-algebras. (Just as well, this can also be seen as a full subcategory of the category of $F$-coalgebras. And just as well, the morphisms between fixed points $W$ and $M$ can be seen as the hylomorphisms between $W$ viewed as a coalgebra and $M$ viewed as an algebra.)
 \end{definition}
 
 \begin{theorem}\label{CyclicFixedPointsSets}
@@ -37,7 +37,7 @@ Note that $f$ takes fixed points of $gf$ to fixed points of $fg$, and similarly 
 \magicref{CyclicFixedPointsSets} and its proof are of course the special case of \magicref{CyclicFixedPointsCategories} where the categories involved are discrete sets.
 
 \begin{theorem}\label{CyclicHylomorphism}
-When $F$ and $G$ are functors in opposite direction between two categories, we have a bijective correspondence between $FG$-hylomorphisms $F(V) \circ W \to M \circ F(N)$ and $GF$-hylomorphisms $G(W) \circ V \to N \circ G(M)$, as illustrated below:
+When $F$ and $G$ are functors in opposite direction between two categories, we have a bijective correspondence between $FG$-hylomorphisms $F(V) \circ W \to M \circ F(N)$ and $GF$-hylomorphisms $G(W) \circ V \to N \circ G(M)$.
 
 % https://q.uiver.app/#q=WzAsMTIsWzMsMiwidiJdLFs0LDIsIm4iXSxbMywwLCJHKEYodikpIl0sWzQsMCwiRyhGKG4pKSJdLFszLDEsIkcodykiXSxbNCwxLCJHKG0pIl0sWzAsMSwiRih2KSJdLFswLDAsIkYoRyh3KSkiXSxbMSwwLCJGKEcobSkpIl0sWzEsMSwiRihuKSJdLFswLDIsInciXSxbMSwyLCJtIl0sWzAsMSwieSIsMl0sWzIsMywiRyhGKHkpKSJdLFs0LDIsIkcoVykiXSxbMyw1LCJHKE0pIl0sWzAsNCwiViJdLFs1LDEsIk4iXSxbNiw3LCJGKFYpIl0sWzgsOSwiRihOKSJdLFs3LDgsIkYoRyh4KSkiXSxbMTAsMTEsIngiLDJdLFsxMCw2LCJXIl0sWzksMTEsIk0iXV0=
 \begin{tikzcd}
@@ -59,7 +59,29 @@ When $F$ and $G$ are functors in opposite direction between two categories, we h
 \end{tikzcd}
 \end{theorem}
 \begin{proof}
-This is by considering the two operations $x \mapsto N \circ G(x) \circ V$ and $y \mapsto M \circ F(y) \circ W$, and the fixed points of their compositions in either order, which are in bijection by \magicref{CyclicFixedPointsSets}.
+This is by considering the two operations $x \mapsto V ; G(x) ; N$ and $y \mapsto W ; F(y) ; M$, and the fixed points of their compositions in either order, which are in bijection by \magicref{CyclicFixedPointsSets}.
+\end{proof}
+
+\begin{corollary} \label{CyclicHylomorphismCorollary}
+When $F$ and $G$ are functors in opposite directions between two categories, we have a bijective correspondence between $FG$-hylomorphisms $W \to M$ and $GF$-hylomorphisms $G(W) \to G(M)$.
+\end{corollary}
+\begin{proof}
+By the above with $V$ and $N$ taken to be identities.
+\end{proof}
+
+The \Loeb/ property is a special case of a more general property:
+
+\begin{definition}
+Let $F$ be an endofunctor. We say $F$ has the \defined{hylomorphism property} if, for every $F$-coalgebra and every $F$-algebra, there exists a hylomorphism from the former to the latter. If there is always a unique such hylomorphism, then we say $F$ has the \defined{unique hylomorphism property}.
+\end{definition}
+
+Note that if $F$ is a terminal-object-preserving functor with the hylomorphism property (or the unique hylomorphism property), then it has the \Loeb/ property (or \Loeb/ property with uniqueness, respectively).
+
+\begin{theorem}
+When $F$ and $G$ are functors in opposite directions between two categories, then $FG$ has the hylomorphism property (or unique hylomorphism property) iff $GF$ does.
+\end{theorem}
+\begin{proof}
+By the bijection between $FG$-hylomorphisms and $GF$-hylomorphisms given in \magicref{CyclicHylomorphismCorollary}.
 \end{proof}
 
 \subsection{The \Loeb/ property in abstract}\label{LoebPropertySection}
@@ -77,7 +99,7 @@ Let $D$ be any category with a terminal object and let $\Box : D \to D$ be a ter
 
 In other words, for every $\Omega \in D$ and $\loebNeg : \Box \Omega \to \Omega$, there is a fixed point of $\omega \mapsto \loebNeg \circ (\Box \omega) : \Hom_D(1, \Omega) \to \Hom_D(1, \Omega)$.
 
-If such fixed points are furthermore always unique, we say $\Box$ has the \defined{\Loeb/ property with uniqueness}. (Note that the \Loeb/ property with uniqueness is the same as saying that the unique map $: \Box 1 \to 1$ is an initial $\Box$-algebra.)
+If such fixed points are furthermore always unique, we say $\Box$ has the \defined{\Loeb/ property with uniqueness}. (Note that the \Loeb/ property with uniqueness is the same as saying that the terminal $\Box$-algebra is also an initial $\Box$-algebra.)
 \end{definition}
 
 \begin{observation}\label{KnasterTarskiExample}
@@ -92,6 +114,10 @@ But before we establish this version of \Loeb/'s theorem for introspective theor
 Let $D$ and $E$ be categories with terminal objects, and let $M : D \to E$ and $N : E \to D$ be functors preserving terminal objects. Suppose $NM : D \to D$ has the \Loeb/ property. Then so does $MN : E \to E$. Furthermore, if $NM$ has the \Loeb/ property with uniqueness, then so does $MN$.
 \end{theorem}
 \begin{proof}
+Let $\alpha$ be an arbitrary $MN$-algebra, By \magicref{CyclicHylomorphismCorollary}, the $MN$-hylomorphisms from the terminal $MN$-algebra to $\alpha$ are in bijective correspondence with the $NM$-hylomorphisms from the terminal $NM$-algebra to $N(\alpha)$. Such an $NM$-hylomorphism exists (or exists uniquely), as $NM$ has the \Loeb/ property (or \Loeb/ property with uniqueness, respectively).
+
+Old proof:
+
 This is by the general theorem\sTODOinline{Note as a lemma in Preliminaries?} that fixed points of a composition of functions are in bijection with fixed points of any cyclic rearrangement of that composition (as $f$ and $g$ themselves restrict to inverse maps between fixed points of $gf$ and $fg$). In particular, letting $comp_x(y) = x \circ y$, the fixed points of $\omega_E \mapsto comp_{\loebNeg}(M(N(\omega_E)))$ are in bijection with the fixed points of $\omega_D \mapsto N (comp_{{\loebNeg}}(M(\omega_D)))$, which is to say, of $\omega_D \mapsto comp_{N({\loebNeg})}(N (M (\omega_D)))$.
 
 The latter fixed points must exist (or exist uniquely) if $NM : D \to D$ has the \Loeb/ property (or the \Loeb/ property with uniqueness, respectively), and thus in such cases so do the former fixed points, establishing the corresponding property for $MN : E \to E$.
@@ -100,7 +126,7 @@ The latter fixed points must exist (or exist uniquely) if $NM : D \to D$ has the
 \sTODOinline{The above is a special case of Eppendahl's observations on algebra-initial coalgebras in \quote{Coalgebra-to-Algebra Morphisms}.}
 
 \begin{theorem}\label{LoebPropertyLexUniqueness}
-Let $D$ be any lexcategory\sTODOinline{Or any category with terminal object and equalizers, but for now we will go ahead and presume binary products as well for convenience}, and let $\Box : D \to D$ be a terminal-object-preserving endofunctor on $D$. If $\Box$ has the \Loeb/ property, then it furthermore has the \Loeb/ property with uniqueness.
+Let $D$ be any category with a terminal object and equalizers, and let $\Box : D \to D$ be a terminal-object-preserving endofunctor on $D$. If $\Box$ has the \Loeb/ property, then it furthermore has the \Loeb/ property with uniqueness.
 \end{theorem}
 \begin{proof}
 We must show that, given any two commutative squares as below (with the same $\loebNeg$ on the right hand side of each), the morphisms $\omega$ and $\psi$ are equal:
@@ -146,7 +172,7 @@ This completes the proof.
 \end{proof}
 
 \begin{remark}
-Note that \magicref{LoebPropertyLexUniqueness} makes essential use of the structure available in a lexcategory. We can see this by considering the example from \magicref{KnasterTarskiExample}, which has the \Loeb/ property but not the \Loeb/ property with uniqueness. This is possible as the category of complete lattices and arbitrary monotonic maps lacks equalizers.
+Note that \magicref{LoebPropertyLexUniqueness} makes essential use of equalizers. We can see this by considering the example from \magicref{KnasterTarskiExample}, which has the \Loeb/ property but not the \Loeb/ property with uniqueness. This is possible as the category of complete lattices and arbitrary monotonic maps lacks equalizers.
 \end{remark}
 
 The application of these abstract results to locally introspective theories in particular is like so:
@@ -170,14 +196,12 @@ In the above proof, we used \magicref{LoebTransfer} to transfer the \Loeb/ prope
 \magicref{LoebPropertyLexUniqueness} is only a special case of a much broader and important theorem which we now discuss. For convenience of exposition, we take $\Box$ in the following to be a lexfunctor, though this can be relaxed.
 
 \begin{theorem}\label{CoalgToAlg}
-Let $D$ be any lexcategory and let $\Box : D \to D$ be a lexfunctor. Let $E$ be any \repsmall/ $D$-indexed category. (Note that $\Box$ acting on $E$ induces also another \repsmall/\sTODOinline{Is this \repsmall/ when $\Box$ is not lex? It may be that we actually are using some kind of left Kan extension here, and the result will not be \repsmall/ in such cases. At any rate, it seems the better thing to do is to return to how I originally framed this from line 312 in commit 375fa9c.} $D$-indexed category $\Box E$ \sTODOinline{Note in preliminaries how the choice of internal category presenting these indexed categories doesn't matter, as $\Box$ acts on the internal functors between these too}, as well as a functor from each $d$-defined aspect of $E$ to the $(\Box d)$-defined aspect of $\Box E$, for $d \in D$. In particular, as $\Box$ is terminal-object-preserving, $\Box$ acts as a functor from the global aspect of $E$ to the global aspect of $\Box E$.) 
+Let $D$ be any category with a terminal object, and let $\Box : D \to D$ be a terminal-object-preserving functor. Let $E$ be any locally \repsmall/ $D$-indexed category. Let $F$ be an endofunctor on $\Glob{E}$ with the property that, for any objects $x, y \in \Glob{E}$, there is a morphism $f_{x, y} : \Box \Hom_E(x, y) \to \Hom_E(F(x), F(y))$, such that for every $m \in \Glob{\Hom_E(x, y)} = \Hom_D(1, \Hom_E(x, y))$, we have that $F(m) \in \Glob{\Hom_E(F(x), F(y))} = \Hom_D(1, \Hom_E(F(x), F(y)))$ is given by applying $f_{x, y}$ to $\Box m \in \Glob{\Box \Hom_E(x, y)}$.
 
-Suppose also given a $D$-indexed functor $f : \Box E \to E$, and let the endofunctor $F$ on the global aspect of $E$ be given by first applying $\Box$ to arrive in the global aspect of $\Box E$, then applying $f$ to arrive back in the global aspect of $E$.
-
-If $\Box$ has the \Loeb/ property, then there is an $F$-hylomorphism (as in \magicref{HylomorphismDefn}) between any $F$-coalgebra $W : w \to F(w)$ and any $F$-algebra $M : F(m) \to m$ in the global aspect of $E$. And if $\Box$ furthermore has the \Loeb/ property with uniqueness, then this hylomorphism is unique.
+If $\Box$ has the \Loeb/ property (or \Loeb/ property with uniqueness), then $F$ has the hylomorphism property (or unique hylomorphism property, respectively).
 \end{theorem}
 \begin{proof}
-A hylomorphism from $W$ to $M$ is a fixed point of $x \mapsto M \circ F(x) \circ W : \Hom_E(w, m) \to \Hom_E(w, m)$. But as $F(x) = f(\Box x)$, this is the same as a fixed point for $x \mapsto g(\Box x)$ where $g(-)$ is defined by $M \circ f(-) \circ W : \Box \Hom_E(w, m) \to \Hom_E(w, m)$. 
+An $F$-hylomorphism from $W : w \to F(w)$ to $M : F(m) \to m$ is a fixed point of $x \mapsto M \circ F(x) \circ W : \Hom_E(w, m) \to \Hom_E(w, m)$. But as $F(x) = f_{w, m}(\Box x)$, this is the same as a fixed point for $x \mapsto g(\Box x)$ where $g(-)$ is defined by $M \circ f_{w, m}(-) \circ W : \Box \Hom_E(w, m) \to \Hom_E(w, m)$. 
 
 The hylomorphisms from $W$ to $M$ are thus the same as the fixed points given by the \Loeb/ property with respect to this $g$. This completes the proof.
 \end{proof}
@@ -186,17 +210,17 @@ The hylomorphisms from $W$ to $M$ are thus the same as the fixed points given by
 
 We now demonstrate how \magicref{LoebPropertyLexUniqueness} can be seen as a special case of \magicref{CoalgToAlg} (at least, in the case where $\Box$ is a lexfunctor):
 \begin{corollary}\label{LoebPropertyLexUniquenessRedux}
-Let $D$ be any lexcategory\sTODOinline{Or any category with terminal object and equalizers, but for now we will go ahead and presume binary products as well for convenience}, and let $\Box : D \to D$ be a lexfunctor. If $\Box$ has the \Loeb/ property, then it furthermore has the \Loeb/ property with uniqueness.
+Let $D$ be any category with a terminal object and equalizers, and let $\Box : D \to D$ be a terminal-object-preserving functor. If $\Box$ has the \Loeb/ property, then it furthermore has the \Loeb/ property with uniqueness.
 \end{corollary}
 \begin{proof}
 Let $E$ be an arbitrary object of $D$ (thus, a \repsmall/ $D$-indexed set) and let us construe this also as a \repsmall/ $D$-indexed discrete category. Let $f : \Box E \to E$ be an arbitrary map in $D$, and as above, let us take $F : \Hom_D(1, E) \to \Hom_D(1, E)$ to be given as the composition of $\Box : \Hom_D(1, E) \to \Hom_D(1, \Box E)$ with $f \circ - : \Hom_D(1, \Box E) \to \Hom_D(1, E)$.
 
 As $E$ is a discrete category, observe that any $F$-coalgebra or $F$-algebra in the global aspect of $E$ amounts to a fixed point of $f \circ \Box(-) : \Hom_D(1, E) \to \Hom_D(1, E)$. The \Loeb/ property tells us such fixed points exist, while \magicref{CoalgToAlg} tells us there is a hylomorphism between any such fixed points. But as $E$ is a discrete category, such a hylomorphism amounts to just an equality between the two elements of $\Hom_D(1, E)$. Thus, any two such fixed points are equal, which is to say, we have the \Loeb/ property with uniqueness.
 \end{proof}
-(It is perhaps easy to miss how the presumption of equalizers in $D$ has been used in the argument for \magicref{LoebPropertyLexUniquenessRedux}. At one point within its invocation of \magicref{CoalgToAlg}, the argument considers the object $\Box \Hom_E(w, m)$ for parallel $w, m \in \Hom_D(1, E)$. As such, it depends upon the fact that $\Hom_E(w, m)$ is a \repsmall/ $D$-indexed set. This object $\Hom_E(w, m)$ of $D$ is given by an equalizer between parallel maps from $1$ to $E$ in $D$; this is where the fact that $D$ is a lexcategory is essential.)
+(It is perhaps easy to miss how the presumption of equalizers in $D$ has been used in the argument for \magicref{LoebPropertyLexUniquenessRedux}. At one point within its invocation of \magicref{CoalgToAlg}, the argument considers the object $\Box \Hom_E(w, m)$ for parallel $w, m \in \Hom_D(1, E)$. As such, it depends upon the fact that $\Hom_E(w, m)$ is a \repsmall/ $D$-indexed set. This object $\Hom_E(w, m)$ of $D$ is given by an equalizer between parallel maps from $1$ to $E$ in $D$; this is where the fact that $D$ has equalizers is essential.)
 
 \begin{corollary}\label{InitialTerminalCoincidence}
-Consider the same setup as of \magicref{CoalgToAlg}, and presume $\Box$ has the \Loeb/ property with uniqueness (as we now know follows automatically from the \Loeb/ property on a lexcategory). Then any fixed point of $F$ (in the sense of an object $e$ of the global aspect of $E$ along with an isomorphism between $e$ and $F(e)$) is simultaneously an initial $F$-algebra and a terminal $F$-coalgebra. In particular, any two such fixed points are isomorphic, via a unique $F$-algebra isomorphism.
+Consider the same setup as of \magicref{CoalgToAlg}, and presume $\Box$ has the \Loeb/ property with uniqueness (as we now know follows automatically from the \Loeb/ property on a category with equalizers). Then any fixed point of $F$ (in the sense of an object $e$ of the global aspect of $E$ along with an isomorphism between $e$ and $F(e)$) is simultaneously an initial $F$-algebra and a terminal $F$-coalgebra. In particular, any two such fixed points are isomorphic, via a unique $F$-algebra isomorphism.
 \end{corollary}
 \begin{proof}
 In that context, \magicref{CoalgToAlg} says that every $F$-coalgebra has a \emph{unique} hylomorphism into every $F$-algebra. In the particular case that the coalgebra is invertible, this can be read as a morphism between algebras, and establishes that the coalgebra's inverse is an initial algebra. Dually, for any invertible algebra, this establishes its inverse as a terminal coalgebra.
@@ -205,7 +229,7 @@ In that context, \magicref{CoalgToAlg} says that every $F$-coalgebra has a \emph
 \sTODOinline{Link this to \magicref{IntrospTyConFixedPoints}. Note after our later bootstrapping section that this uniqueness means that ultimately, the apparent dependence on various arbitrary choices in our proof of the bootstrapping theorem doesn't matter in the end. We get the same result no matter what.}
 
 \begin{remark}
-The argument we have given for \magicref{CoalgToAlg} and thus for \magicref{InitialTerminalCoincidence} is essentially the same as that given for Lemma 7.6 in \autocite{birkedal2011first}. For convenience for our purposes, we have framed this in terms of internal categories, though in \autocite{birkedal2011first} it is more properly framed as about enriched categories more generally. On the other hand, this argument is given in \autocite{birkedal2011first} in a context where the uniqueness of the \Loeb/ property has already been presumed, whereas we have noted that this argument can also be given in a context where only the weaker \Loeb/ property without uniqueness has been presumed, and then this argument can be used to in fact derive said uniqueness in a lexcategory.
+The argument we have given for \magicref{CoalgToAlg} and thus for \magicref{InitialTerminalCoincidence} is essentially the same as that given for Lemma 7.6 in \autocite{birkedal2011first}, though the argument is slightly differently framed there. This argument is given in \autocite{birkedal2011first} in a context where the uniqueness of the \Loeb/ property has already been presumed, whereas we have noted that this argument can also be given in a context where only the weaker \Loeb/ property without uniqueness has been presumed, and then this argument can be used to in fact derive said uniqueness (given equalizers).
 
 Arguments establishing that the weaker \Loeb/ property entails the \Loeb/ property with uniqueness in contexts with identity types have been noted in the literature on guarded recursion. For example, as Theorem V.8 in \autocite{birkedal2013universes} and as Theorem 9.5 in \autocite{birkedal2021Multimodal}. However, we are unaware of any prior observation in the literature that this uniqueness can also be understood as a special case of the existence of coalgebra-to-algebra hylomorphisms, unifying those arguments.
 \end{remark}
