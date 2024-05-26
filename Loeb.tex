@@ -9,7 +9,7 @@ The key results of this chapter are those covered in \magicref{PreIntrospDiagSec
 
 The material on the \Loeb/ property in general categories in \magicref{LoebPropertySection} includes some observations which can also be found (either explicitly or implicitly) in existing literature. We give our own exposition of this material, which felt important to include in a clean and complete exposition of the significance of our key results. In particular, we confirm how these general \Loeb/ property results continue to be applicable in our particular introspective theory context, even without common presumptions such as cartesian closure, and even with care taken to distinguish the roles of $T$, $C$, and $\Psh{C}$ in a general introspective theory $\langle T, C \rangle$.
 
-The discussion in \magicref{LawvereFPTSection} concerns Lawvere's fixed point theorem, which of course is not original to us, but we also include some reframing and generalization of this which is due to us rather than Lawvere. The discussion in \magicref{LawvereFPTReduxSection} compares our reframing to some other reframings of Lawvere's fixed point theorem in the existing literature.
+The discussion in \magicref{LawvereFPTSection} concerns Lawvere's fixed point theorem, which of course is not original to us, but we also include some reframing and generalization of this which is due to us rather than Lawvere.
 
 The sole theorem in \magicref{NoSmallSelfIndexing} is the same theorem as proven in \autocite{PittsTaylor1989}. We re-note it here simply to observe that it follows as a special case of our more general \magicref{IntrospLoeb}.
 
@@ -31,7 +31,7 @@ The above simple theorem is given for functions between discrete sets, but it fu
 Let $f : X \to Y$ and $g : Y \to X$ be functors between categories. The category of fixed points of $gf$ is equivalent to the category of fixed points of $fg$.
 \end{theorem}
 \begin{proof}
-Note that $f$ takes fixed points of $gf$ to fixed points of $fg$, and similarly takes morphisms between the former to morphisms between the latter, functorially. Thus, we obtain a functor $F$ from the category of fixed points of $gf$ to the category of fixed points of $fg$. In the same way, $g$ acts as a functor $G$ from the category of fixed points of $fg$ to the category of fixed points of $gf$. Furthermore, there is a tautological isomorphism between $FG$ and the identity, and similarly there is a tautological isomorphism between $GF$ and the identity. Thus, the category of fixed points of $gf$ and the category of fixed points of $fg$ are equivalent. (Indeed, we can observe furthermore that the triangle identities are satisfied such that $F$, $G$, and these two tautological isomorphisms together comprise an adjoint equivalence.)
+Note that $f$ takes fixed points of $gf$ to fixed points of $fg$, and similarly takes morphisms between the former to morphisms between the latter, functorially. Thus, we obtain a functor $F$ from the category of fixed points of $gf$ to the category of fixed points of $fg$. In the same way, $g$ acts as a functor $G$ from the category of fixed points of $fg$ to the category of fixed points of $gf$. Furthermore, there is a \quote{tautological} isomorphism between $FG$ and the identity, and in the same way there is a \quote{tautological} isomorphism between $GF$ and the identity. Thus, the category of fixed points of $gf$ and the category of fixed points of $fg$ are equivalent. (Indeed, we can observe furthermore that the triangle identities are satisfied such that $F$, $G$, and these two \quote{tautological} isomorphisms together comprise an adjoint equivalence.)
 \end{proof}
 
 \magicref{CyclicFixedPointsSets} and its proof are of course the special case of \magicref{CyclicFixedPointsCategories} where the categories involved are discrete sets.
@@ -82,6 +82,15 @@ When $F$ and $G$ are functors in opposite directions between two categories, the
 \end{theorem}
 \begin{proof}
 By the bijection between $FG$-hylomorphisms and $GF$-hylomorphisms given in \magicref{CyclicHylomorphismCorollary}.
+\end{proof}
+
+\begin{theorem}\label{UniqueHylomorphismsMeansIsomorphicFixedPoints}
+If $F$ is an endofunctor with the unique hylomorphism property, then any fixed point of $F$ is both an initial algebra and a terminal coalgebra. Thus, any two fixed points of $F$ are isomorphic via a unique isomorphism (indeed, if $F$ has any fixed points, its category of fixed points is equivalent to the terminal category).
+\end{theorem}
+\begin{proof}
+That any fixed point of $F$ is an initial algebra is by observing that algebra morphisms from $F$ to some other algebra $X$ correspond to coalgebra-to-algebra hylomorphisms from $F$ to $X$, which are unique by the unique hylomorphism property. In the same way, any fixed point of $F$ is a terminal coalgebra.
+
+As the set of morphisms between two fixed points of $F$ can be seen as the set of hylomorphisms between a coalgebra and algebra of $F$, there is precisely one morphism between any given domain and codomain in the category of fixed points of $F$. If such a category has any objects at all, it is equivalent to the terminal category, with precisely one object and one (identity) morphism.
 \end{proof}
 
 \subsection{The \Loeb/ property in abstract}\label{LoebPropertySection}
@@ -193,7 +202,7 @@ In the above proof, we used \magicref{LoebTransfer} to transfer the \Loeb/ prope
 \end{remark}
 }
 
-\magicref{LoebPropertyLexUniqueness} is only a special case of a much broader and important theorem which we now discuss. For convenience of exposition, we take $\Box$ in the following to be a lexfunctor, though this can be relaxed.
+\magicref{LoebPropertyLexUniqueness} is only a special case of a much broader and important theorem which we now discuss.
 
 \begin{theorem}\label{CoalgToAlg}
 Let $D$ be any category with a terminal object, and let $\Box : D \to D$ be a terminal-object-preserving functor. Let $E$ be any locally \repsmall/ $D$-indexed category. Let $F$ be an endofunctor on $\Glob{E}$ with the property that, for any objects $x, y \in \Glob{E}$, there is a morphism $f_{x, y} : \Box \Hom_E(x, y) \to \Hom_E(F(x), F(y))$, such that for every $m \in \Glob{\Hom_E(x, y)} = \Hom_D(1, \Hom_E(x, y))$, we have that $F(m) \in \Glob{\Hom_E(F(x), F(y))} = \Hom_D(1, \Hom_E(F(x), F(y)))$ is given by applying $f_{x, y}$ to $\Box m \in \Glob{\Box \Hom_E(x, y)}$.
@@ -206,9 +215,13 @@ An $F$-hylomorphism from $W : w \to F(w)$ to $M : F(m) \to m$ is a fixed point o
 The hylomorphisms from $W$ to $M$ are thus the same as the fixed points given by the \Loeb/ property with respect to this $g$. This completes the proof.
 \end{proof}
 
-\sTODOinline{The above theorem \magicref{CoalgToAlg} generalizes a little further than we've stated it. It is not quite necessary that $E$ be \repsmall/ overall, nor that $D$ have any limits beyond a terminal object. It would suffice for the hom-sets between globally defined objects of $E$ to be \repsmall/ (this is the structure of an enriched category). But it seems not worth the extra hassle of explaining what $\Box E$ means in that situation right now, and every use we will make of this is anyway covered by the description above.}
+\begin{corollary}
+Let $D$ be any lexcategory , and let $\Box : D \to D$ be a lexfunctor. Let $E$ be any \repsmall/ $D$-indexed category, and let $f : \Box E \to E$ be a $D$-internal lexfunctor. Let $F$ be the endofunctor on $\Glob{E}$ defined by $F(m) = f(\Box m)$.
 
-We now demonstrate how \magicref{LoebPropertyLexUniqueness} can be seen as a special case of \magicref{CoalgToAlg} (at least, in the case where $\Box$ is a lexfunctor):
+If $\Box$ has the \Loeb/ property (or \Loeb/ property with uniqueness), then $F$ has the hylomorphism property (or unique hylomorphism property, respectively).
+\end{corollary}
+
+We now demonstrate how \magicref{LoebPropertyLexUniqueness} can be seen as a special case of \magicref{CoalgToAlg}:
 \begin{corollary}\label{LoebPropertyLexUniquenessRedux}
 Let $D$ be any category with a terminal object and equalizers, and let $\Box : D \to D$ be a terminal-object-preserving functor. If $\Box$ has the \Loeb/ property, then it furthermore has the \Loeb/ property with uniqueness.
 \end{corollary}
@@ -223,7 +236,7 @@ As $E$ is a discrete category, observe that any $F$-coalgebra or $F$-algebra in 
 Consider the same setup as of \magicref{CoalgToAlg}, and presume $\Box$ has the \Loeb/ property with uniqueness (as we now know follows automatically from the \Loeb/ property on a category with equalizers). Then any fixed point of $F$ (in the sense of an object $e$ of the global aspect of $E$ along with an isomorphism between $e$ and $F(e)$) is simultaneously an initial $F$-algebra and a terminal $F$-coalgebra. In particular, any two such fixed points are isomorphic, via a unique $F$-algebra isomorphism.
 \end{corollary}
 \begin{proof}
-In that context, \magicref{CoalgToAlg} says that every $F$-coalgebra has a \emph{unique} hylomorphism into every $F$-algebra. In the particular case that the coalgebra is invertible, this can be read as a morphism between algebras, and establishes that the coalgebra's inverse is an initial algebra. Dually, for any invertible algebra, this establishes its inverse as a terminal coalgebra.
+By combining \magicref{CoalgToAlg} with \magicref{UniqueHylomorphismsMeansIsomorphicFixedPoints}.
 \end{proof}
 
 \sTODOinline{Link this to \magicref{IntrospTyConFixedPoints}. Note after our later bootstrapping section that this uniqueness means that ultimately, the apparent dependence on various arbitrary choices in our proof of the bootstrapping theorem doesn't matter in the end. We get the same result no matter what.}
@@ -292,7 +305,7 @@ Having observed that we can just as well frame the theorem with any of its objec
 
 \autocite{lawvere1969diagonal} also only states this theorem in the particular case where $\point$ is a terminal object. In general, we can always pass from $T$ to a slice category $T/\point$, and in so doing we will turn what was $\point$-defined data in $T$ into globally defined data in $T/\point$ (a la \magicref{AspectIsSliceGlobal}). So constraining $\point$ to be a terminal object does not constrain the theorem excessively. However, it does constrain the theorem slightly, in that interpreting the surjectivity precondition in $T/\point$ in this way results in a stronger (that is, less often satisfied) surjectivity precondition than in the more flexible framing of the theorem we have given: The surjectivity condition in $T/\point$ would amount to requiring that for every $F : \point \times X \to \Omega$ in $\Psh{T}$, we could find a corresponding $f$. However, we have only required surjectivity with respect to the more constrained set of $F : X \to \Omega$ in $\Psh{T}$.
 
-We do not actually need this extra flexibility for proving our main result. For our purposes, just like Lawvere's, it would suffice to always take $\point$ to be a terminal object. But we note the availability of this flexibility all the same (if only for the purpose of comparison at the end of this chapter to other variants on Lawvere's fixed point theorem recently noted in the literature, such as \magicref{MagmoidalFixedPointTheorem}).
+We do not actually need this extra flexibility for proving our main result. For our purposes, just like Lawvere's, it would suffice to always take $\point$ to be a terminal object. But we note the availability of this flexibility all the same.
 
 Even this loosened surjectivity presumption is still far overkill as far as the needs of the argument go. All that really matters is for one specific definable value to be in the range of $\App'$. But in general practice and for our particular purposes, this is always established because of some such surjectivity condition anyway, so that seems the most useful framing in which to give the theorem.
 
@@ -507,7 +520,7 @@ Specifically, suppose given an introspective theory $\langle T, C \rangle$ and a
 
 Then $\introS(P)$ is a $C$-internal presheaf on the $C$-internal groupoid $\introS(\core{C})$.
 
-As such, this induces a functor from the $C$-indexed groupoid $\introS(\core{C})$ to the core of the self-indexing $C/-$ of $C$. \sTODOinline{Give more details on this process in preliminaries or modal logic section} The global aspect of this is a functor $f$ from $\Hom_C(1, \introS(\core{C})) = \Box_T \core{C}$ to $\core{C}$. As in \magicref{InitialTerminalCoincidence}, we now obtain also a corresponding endofunctor $F$ on $\Glob{\core{C}}$. Note that this $F$ is such that $F(c) = f(\Box c) = \introS(P(c))$ for any $c \in \Glob{C}$.
+As such, this induces a functor from the $C$-indexed groupoid $\introS(\core{C})$ to the core of the self-indexing $C/-$ of $C$.\sTODOinline{Give more details on this process in preliminaries or modal logic section} The global aspect of this is a functor $f$ from $\Hom_C(1, \introS(\core{C})) = \Box_T \core{C}$ to $\core{C}$. As in \magicref{InitialTerminalCoincidence}, we now obtain also a corresponding endofunctor $F$ on $\Glob{\core{C}}$. Note that this $F$ is such that $F(c) = f(\Box c) = \introS(P(c))$ for any $c \in \Glob{C}$.
 
 By invoking \magicref{InitialTerminalCoincidence} with $D = T$ and $E = \core{C}$, and this $f$, we find that any isomorphism from any $c \in \Glob{C}$ to $F(c) = f(\Box c) = \introS(P(c))$ is both an initial algebra and terminal coalgebra for $F$, and thus any two such are canonically isomorphic.
 \end{observation}
@@ -574,75 +587,7 @@ In the particular special case where we are dealing with subterminal objects of 
 
 Again, all of this is quite familiar and easy to demonstrate directly without any invocation of the machinery of introspective theories (these amount to the characteristic properties of the natural numbers as a natural numbers object within $\Set$). But again, it is remarkable that we can in this way see these as strongly unified with the analogous properties and the derivation of those properties for our other archetypal examples, including the case of \magicref{ZFFiniteLoebDiscussion} which has no direct relationship to presheaves over a well-founded structure.
 
-\subsection{Relating variations on Lawvere's fixed point theorem}\label{LawvereFPTReduxSection}
-Although not important for our main narrative, we note here some further comments on the relation of Lawvere's fixed point theorem to generalizations of ours or others.
-
-First, we observe that \magicref{LawveresFixedPointTheorem} can be straightforwardly re-obtained as a special case of our \magicref{PreIntrospDiag}.
-\begin{proof}
-First, we handle the special case of \magicref{LawveresFixedPointTheorem} where $T$ has finite limits and $\Omega$ is an object of $T$.
-
-This is a special case of \magicref{PreIntrospDiag} where we take the pre-introspective theory $\langle T, C, \introF \rangle$ to be the trivial one where $C$ is the self-indexing $T/-$ and $\introF$ is the identity.
-
-Furthermore, $P$ is taken to be the $(T, C)$-indexed set represented by $\Omega$; that is, such that $P(t, c) = \Hom_T(t \times c, \Omega)$. Note that $P(\introS(t))$ for objects $t$ of $T$ is therefore the $T$-indexed set $\Omega^t$. In particular, $P(1)$ is thus isomorphic to $\Omega$. As in \magicref{PreIntrospDiagSpecialization}, we can take $\quotient$ to be this isomorphism (one can think of it as an identity if one likes), and this will then automatically be surjective on its $X \times X$ aspect.
-
-We take $\alpha : X \to P(\introS(X)) = \Omega^X$ to be given by the map $\App' : X \to \Omega^X$ presumed in \magicref{LawveresFixedPointTheorem}. The surjectivity presumption from \magicref{LawveresFixedPointTheorem} then becomes the surjectivity presumption of \magicref{PreIntrospDiag}. 
-
-And to give a $g$ in the global aspect of $P(\introS(\Omega)) = \Omega^\Omega$ is precisely the data presumed by the name $g$ in \magicref{LawveresFixedPointTheorem}.
-
-This matches all the presumptions of \magicref{PreIntrospDiag} up with corresponding presumptions from \magicref{LawveresFixedPointTheorem}, and the conclusion we then obtain from \magicref{PreIntrospDiag} is readily seen to be the same as the conclusion from \magicref{LawveresFixedPointTheorem}.
-
-The above shows how to obtain \magicref{LawveresFixedPointTheorem} as an instance of \magicref{PreIntrospDiag} when $T$ is a lexcategory and $\Omega$ is an object of $T$. We then obtain \magicref{LawveresFixedPointTheorem} in full (that is, for arbitrary categories $T$ and $T$-indexed sets $\Omega$) from this special case, by first replacing $T$ with $\Psh{T}$, as noted in our discussion following our presentation of \magicref{LawveresFixedPointTheorem}.
-\end{proof}
-
-We also note in passing that another interesting generalization of \magicref{LawveresFixedPointTheorem} was recently remarked upon in \autocite{roberts2021substructural}. The following (or rather, its contrapositive) was given as Theorem 11 there. We shall present our own proof.
-
-\openNamed{theorem}{Magmoidal Fixed Point Theorem}\label{MagmoidalFixedPointTheorem}
-Let $T$ be an arbitrary category with objects $\point$ and $\Omega$, and let $B : T \times T \to T$ be a bifunctor on $T$ such that we have a transformation $\delta_t : t \to B(t, t)$ natural in $t$ from $T$. As ever, use \quote{point of} to mean \quote{element of the $\point$-aspect of}.
-
-Suppose given an object $X$ of $T$ and an $\alpha : B(X, X) \to \Omega$ with the pointwise surjectivity property that for every $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have that the following diagram commutes:
-
-% https://q.uiver.app/?q=WzAsNSxbMCwwLCJcXHBvaW50Il0sWzEsMCwiQihcXHBvaW50LCBcXHBvaW50KSJdLFsyLDAsIkIoWCwgWCkiXSxbMywwLCJcXE9tZWdhIl0sWzEsMSwiWCJdLFswLDEsIlxcZGVsdGFfe1xccG9pbnR9Il0sWzEsMiwiQihmLCB4KSJdLFsyLDMsIlxcYWxwaGEiXSxbMCw0LCJ4IiwyXSxbNCwzLCJGIiwyXV0=
-\[\begin{tikzcd}
-	\point & {B(\point, \point)} & {B(X, X)} & \Omega \\
-	& X
-	\arrow["{\delta_{\point}}", from=1-1, to=1-2]
-	\arrow["{B(f, x)}", from=1-2, to=1-3]
-	\arrow["\alpha", from=1-3, to=1-4]
-	\arrow["x"', from=1-1, to=2-2]
-	\arrow["F"', from=2-2, to=1-4]
-\end{tikzcd}\]
-
-Then for every $g : \Omega \to \Omega$, there is a point $\omega$ of $\Omega$ such that $\omega = g(\omega)$. That is to say, a fixed point of $g$.
-\closeNamed{theorem}
-\begin{proof}
-Take $\App : X \times X \to \Omega$ to be defined like so: For each object $t$ of $T$, we define $\App_t : \Hom(t, X) \times \Hom(t, X) \to \Hom(t, \Omega)$ by giving $\App_t(m, n)$ as the following composition:
-
-% https://q.uiver.app/?q=WzAsNCxbMSwwLCJCKHQsIHQpIl0sWzAsMCwidCJdLFszLDAsIkIoWCwgWCkiXSxbNCwwLCJcXE9tZWdhIl0sWzEsMCwiXFxkZWx0YV97dH0iXSxbMCwyLCJCKG0sIG4pIl0sWzIsMywiXFxhbHBoYSJdXQ==
-\[\begin{tikzcd}
-	t & {B(t, t)} && {B(X, X)} & \Omega
-	\arrow["{\delta_{t}}", from=1-1, to=1-2]
-	\arrow["{B(m, n)}", from=1-2, to=1-4]
-	\arrow["\alpha", from=1-4, to=1-5]
-\end{tikzcd}\]
-
-That this definition of $\App_t$ is natural in $t$ follows from the naturality of $\delta$ and the functoriality of $B$. Specifically, naturality with respect to $h: s \to t$ is seen as follows:
-
-% https://q.uiver.app/?q=WzAsNixbMSwwLCJCKHQsIHQpIl0sWzAsMCwidCJdLFszLDAsIkIoWCwgWCkiXSxbNCwwLCJcXE9tZWdhIl0sWzAsMSwicyJdLFsxLDEsIkIocywgcykiXSxbMSwwLCJcXGRlbHRhX3t0fSJdLFswLDIsIkIobSwgbikiXSxbMiwzLCJcXGFscGhhIl0sWzQsNSwiXFxkZWx0YV9zIiwyXSxbNCwxLCJoIl0sWzUsMCwiQihoLCBoKSIsMV0sWzUsMiwiQihtIGgsIG4gaCkiLDJdXQ==
-\[\begin{tikzcd}
-	t & {B(t, t)} && {B(X, X)} & \Omega \\
-	s & {B(s, s)}
-	\arrow["{\delta_{t}}", from=1-1, to=1-2]
-	\arrow["{B(m, n)}", from=1-2, to=1-4]
-	\arrow["\alpha", from=1-4, to=1-5]
-	\arrow["{\delta_s}"', from=2-1, to=2-2]
-	\arrow["h", from=2-1, to=1-1]
-	\arrow["{B(h, h)}"{description}, from=2-2, to=1-2]
-	\arrow["{B(m h, n h)}"', from=2-2, to=1-4]
-\end{tikzcd}\]
-
-The desired result now follows by \magicref{LawveresFixedPointTheorem}.
-\end{proof}
-\magicref{LawveresFixedPointTheorem} is of course the special case of \magicref{MagmoidalFixedPointTheorem} where $B$ is the familiar cartesian product and $\delta$ is the familiar diagonal transformation. Thus, in \autocite{roberts2021substructural}, \magicref{MagmoidalFixedPointTheorem} is considered as a generalization of Lawvere's fixed point theorem. But as we've just seen, \magicref{MagmoidalFixedPointTheorem} is also a special case of Lawvere's fixed point theorem, appropriately construed (as in our formulation of \magicref{LawveresFixedPointTheorem} which removes the $\point = 1$ constraint), despite the seeming mismatch between general bifunctors and specifically cartesian products. As noted before, there is no need for $X \times X$ to be $T$-\repsmall/, and if such closure of our underlying category is insisted upon, we can just as well always pass to $\Psh{T}$ first.
+\subsection{Further stuff}
 
 \sTODOinline{Remarks on Cantor's theorem, Liar's paradox, and Y combinator as examples of Lawvere's fixed point theorem. Cantor's theorem is a contrapositive statement using surjection. Liar's paradox is a contrapositive statement using a retraction/isomorphism. Y combinator is a positive statement using a retraction, and also involves passing to a slice category. Note that the reason we presume in Cantor's theorem that negation on $\Omega$ has no fixed points is because of another instance of Lawvere's fixed point theorem, via Liar's paradox!}
 
