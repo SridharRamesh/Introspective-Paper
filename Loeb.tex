@@ -15,7 +15,7 @@ The sole theorem in \magicref{NoSmallSelfIndexing} is the same theorem as proven
 
 \subsection{New lemmas}
 \begin{definition}
-Let $F$ be an endofunctor on a category $C$. We define a \defined{fixed point} of $F$ to be an object $c \in C$ along with a choice of isomorphism between $c$ and $F(c)$. These can be viewed as those $F$-algebras which are invertible, and thus we get a category of fixed points of $F$, as the appropriate full subcategory of the category of $F$-algebras. (Just as well, this can also be seen as a full subcategory of the category of $F$-coalgebras. And just as well, the morphisms between fixed points $W$ and $M$ can be seen as the hylomorphisms between $W$ viewed as a coalgebra and $M$ viewed as an algebra.)
+Let $F$ be an endofunctor on a category $C$. We define a \defined{fixed point} of $F$ to be an object $c \in C$ along with a choice of isomorphism between $c$ and $F(c)$. These can be viewed as those $F$-algebras which are invertible, and thus we get a category of fixed points of $F$, as the appropriate full subcategory of the category of $F$-algebras. (Just as well, this can also be seen as a full subcategory of the category of $F$-coalgebras. Or just as well, the morphisms between fixed points $W$ and $M$ can be seen as the hylomorphisms between $W$ viewed as a coalgebra and $M$ viewed as an algebra.)
 \end{definition}
 
 \begin{theorem}\label{CyclicFixedPointsSets}
@@ -216,9 +216,9 @@ The hylomorphisms from $W$ to $M$ are thus the same as the fixed points given by
 \end{proof}
 
 \begin{corollary}
-Let $D$ be any lexcategory , and let $\Box : D \to D$ be a lexfunctor. Let $E$ be any \repsmall/ $D$-indexed category, and let $f : \Box E \to E$ be a $D$-internal lexfunctor. Let $F$ be the endofunctor on $\Glob{E}$ defined by $F(m) = f(\Box m)$.
+Let $D$ be any lexcategory, and let $\Box : D \to D$ be a lexfunctor. Let $E$ be any $D$-internal category, and let $f : \Box E \to E$ be a $D$-internal lexfunctor. Let $F$ be the endofunctor on $\Glob{E}$ defined by $F(m) = f(\Box m)$. If $\Box$ has the \Loeb/ property (and therefore a fortiori the \Loeb/ property with uniqueness, via \magicref{LoebPropertyLexUniqueness}), then $F$ has the unique hylomorphism property.
 
-If $\Box$ has the \Loeb/ property (or \Loeb/ property with uniqueness), then $F$ has the hylomorphism property (or unique hylomorphism property, respectively).
+(Furthermore, by considering the action of $f$ on $\Ob(E)$, we see that $F$ has a fixed point. Thus, keeping in mind \magicref{UniqueHylomorphismsMeansIsomorphicFixedPoints}, the category of fixed points of $F$ is terminal.)
 \end{corollary}
 
 We now demonstrate how \magicref{LoebPropertyLexUniqueness} can be seen as a special case of \magicref{CoalgToAlg}:
