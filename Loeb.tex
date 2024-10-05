@@ -15,7 +15,7 @@ The sole theorem in \magicref{NoSmallSelfIndexing} is the same theorem as proven
 
 \subsection{New lemmas}
 \begin{definition}
-Let $F$ be an endofunctor on a category $C$. We define a \defined{fixed point} of $F$ to be an object $c \in C$ along with a choice of isomorphism between $c$ and $F(c)$. These can be viewed as those $F$-algebras which are invertible, and thus we get a category of fixed points of $F$, as the appropriate full subcategory of the category of $F$-algebras. (Just as well, this can also be seen as a full subcategory of the category of $F$-coalgebras. Or just as well, the morphisms between fixed points $W$ and $M$ can be seen as the hylomorphisms between $W$ viewed as a coalgebra and $M$ viewed as an algebra.)
+Let $F$ be an endofunctor on a category $C$. We define a \defined{fixed point} of $F$ to be an object $c \in C$ along with a choice of isomorphism between $c$ and $F(c)$. These can be viewed as those $F$-algebras which are invertible, and thus we get a category of fixed points of $F$, as the appropriate full subcategory of the category of $F$-algebras. (Just as well, this same category can also be seen as a full subcategory of the category of $F$-coalgebras. Or just as well, the morphisms between fixed points $W$ and $M$ can be seen as the hylomorphisms between $W$ viewed as a coalgebra and $M$ viewed as an algebra.)
 \end{definition}
 
 \begin{theorem}\label{CyclicFixedPointsSets}
@@ -66,7 +66,7 @@ This is by considering the two operations $x \mapsto V ; G(x) ; N$ and $y \mapst
 When $F$ and $G$ are functors in opposite directions between two categories, we have a bijective correspondence between $FG$-hylomorphisms $W \to M$ and $GF$-hylomorphisms $G(W) \to G(M)$.
 \end{corollary}
 \begin{proof}
-By the above with $V$ and $N$ taken to be identities.
+By \magicref{CyclicHylomorphism} with $V$ and $N$ taken to be identities.
 \end{proof}
 
 The \Loeb/ property is a special case of a more general property:
@@ -125,9 +125,9 @@ Let $D$ and $E$ be categories with terminal objects, and let $M : D \to E$ and $
 \begin{proof}
 Let $\alpha$ be an arbitrary $MN$-algebra, By \magicref{CyclicHylomorphismCorollary}, the $MN$-hylomorphisms from the terminal $MN$-algebra to $\alpha$ are in bijective correspondence with the $NM$-hylomorphisms from the terminal $NM$-algebra to $N(\alpha)$. Such an $NM$-hylomorphism exists (or exists uniquely), as $NM$ has the \Loeb/ property (or \Loeb/ property with uniqueness, respectively).
 
-Old proof:
+Old proof: \TODOinline{Remove this mention of old proof, or rather, incorporate this as a clarification on what the new proof also amounts to}
 
-This is by the general theorem\sTODOinline{Note as a lemma in Preliminaries?} that fixed points of a composition of functions are in bijection with fixed points of any cyclic rearrangement of that composition (as $f$ and $g$ themselves restrict to inverse maps between fixed points of $gf$ and $fg$). In particular, letting $comp_x(y) = x \circ y$, the fixed points of $\omega_E \mapsto comp_{\loebNeg}(M(N(\omega_E)))$ are in bijection with the fixed points of $\omega_D \mapsto N (comp_{{\loebNeg}}(M(\omega_D)))$, which is to say, of $\omega_D \mapsto comp_{N({\loebNeg})}(N (M (\omega_D)))$.
+This is by the general theorem \magicref{CyclicFixedPointsSets} that fixed points of a composition of functions are in bijection with fixed points of any cyclic rearrangement of that composition (as $f$ and $g$ themselves restrict to inverse maps between fixed points of $gf$ and $fg$). In particular, letting $comp_x(y) = x \circ y$, the fixed points of $\omega_E \mapsto comp_{\loebNeg}(M(N(\omega_E)))$ are in bijection with the fixed points of $\omega_D \mapsto N (comp_{{\loebNeg}}(M(\omega_D)))$, which is to say, of $\omega_D \mapsto comp_{N({\loebNeg})}(N (M (\omega_D)))$.
 
 The latter fixed points must exist (or exist uniquely) if $NM : D \to D$ has the \Loeb/ property (or the \Loeb/ property with uniqueness, respectively), and thus in such cases so do the former fixed points, establishing the corresponding property for $MN : E \to E$.
 \end{proof}
@@ -233,7 +233,7 @@ As $E$ is a discrete category, observe that any $F$-coalgebra or $F$-algebra in 
 (It is perhaps easy to miss how the presumption of equalizers in $D$ has been used in the argument for \magicref{LoebPropertyLexUniquenessRedux}. At one point within its invocation of \magicref{CoalgToAlg}, the argument considers the object $\Box \Hom_E(w, m)$ for parallel $w, m \in \Hom_D(1, E)$. As such, it depends upon the fact that $\Hom_E(w, m)$ is a \repsmall/ $D$-indexed set. This object $\Hom_E(w, m)$ of $D$ is given by an equalizer between parallel maps from $1$ to $E$ in $D$; this is where the fact that $D$ has equalizers is essential.)
 
 \begin{corollary}\label{InitialTerminalCoincidence}
-Consider the same setup as of \magicref{CoalgToAlg}, and presume $\Box$ has the \Loeb/ property with uniqueness (as we now know follows automatically from the \Loeb/ property on a category with equalizers). Then any fixed point of $F$ (in the sense of an object $e$ of the global aspect of $E$ along with an isomorphism between $e$ and $F(e)$) is simultaneously an initial $F$-algebra and a terminal $F$-coalgebra. In particular, any two such fixed points are isomorphic, via a unique $F$-algebra isomorphism.
+Consider the same setup as of \magicref{CoalgToAlg}, and presume $\Box$ has the \Loeb/ property with uniqueness (as we now know follows automatically from the \Loeb/ property on a category with equalizers). Then any fixed point of $F$ is simultaneously an initial $F$-algebra and a terminal $F$-coalgebra. In particular, any two such fixed points are isomorphic, via a unique $F$-algebra isomorphism.
 \end{corollary}
 \begin{proof}
 By combining \magicref{CoalgToAlg} with \magicref{UniqueHylomorphismsMeansIsomorphicFixedPoints}.
@@ -427,7 +427,7 @@ This last theorem gives us an instance of the \Loeb/ property, but comes with th
 
 Incredibly, we can bootstrap away this isomorphism precondition, in the context of an introspective theory. That is, in the context of an introspective theory, we can use one particular instance of \magicref{PreIntrospDiag} itself to provide the very isomorphisms necessary in order to then re-invoke \magicref{PreIntrospDiag} via \magicref{PreIntrospDiagFromIso}.
 
-Our plan is to consider the $(T, C)$-indexed set $P$ such that $P(t, c)$ is the set of isomorphism classes of $C(t)/c$, with the action of $P$ on morphisms of $C$ being given by pullback (while the action of $P$ on morphisms of $T$ is given by the reindexing action of the $T$-indexed category $C$).\footnote{Note that this $(T, C)$-indexed set $P$ is NOT presumed to be $T$-representable! Indeed, we cannot generally hope for this, as we do not presume $T$ to have any regularity or exactness properties such that we could carry out internal to $T$ such quotienting constructions as would yield the object of isomorphism classes of $C$.}
+Our plan is to consider the $(T, C)$-indexed set $P$ such that $P(t, c)$ is the set of isomorphism classes of $C(t)/c$\TODOinline{Should this notation be improved? I presume this meant $C(t)$ in $T/c$}, with the action of $P$ on morphisms of $C$ being given by pullback (while the action of $P$ on morphisms of $T$ is given by the reindexing action of the $T$-indexed category $C$).\footnote{Note that this $(T, C)$-indexed set $P$ is NOT presumed to be $T$-representable! Indeed, we cannot generally hope for this, as we do not presume $T$ to have any regularity or exactness properties such that we could carry out internal to $T$ such quotienting constructions as would yield the object of isomorphism classes of $C$.}
 
 \sTODOinline{Perhaps note the following nuances or perhaps not:
 
