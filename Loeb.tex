@@ -308,7 +308,7 @@ Let $T$ be an arbitrary category. Let $\point$ and $X$ be objects of $T$ and let
 
 As before, we shall use \quote{point of} as shorthand for \quote{element of the $\point$-aspect of}.
 
-Suppose also given a binary relation $R$ on the points of $\Omega$. (We needn't presume $R$ to be symmetric or transitive or any such thing.). And suppose $\App$ has the surjectivity-like property that, for every morphism $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have $R(\App(f, x), F(x))$.
+Suppose also given a binary relation $R$ on the points of $\Omega$.\footnote{Note that we needn't presume $R$ to be symmetric or transitive or any such thing!} And suppose $\App$ has the surjectivity-like property that, for every morphism $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have $R(\App(f, x), F(x))$.
 
 Then there exists a point $\omega$ of $\Omega$ such that $R(\omega, \omega)$. That is to say, $R$ has a self-related point.
 \closeNamed{theorem}
@@ -329,28 +329,30 @@ We know there exists a point $f$ of $X$ in accordance with our surjectivity-like
 Thus, we have found a point of $\Omega$ which is related to itself by $R$, as desired.
 \end{proof}
 
-To see \magicref{LawveresFixedPointTheorem} as a special case of the above, it may be helpful to isolate the following corollary.
+Note that \magicref{LawveresFixedPointTheorem} is a special case of \magicref{SelfRelatedPointTheorem}, like so:
 
-\openNamed{corollary}{Relatedly-Fixed Point Theorem}\label{RelatedlyFixedPointTheorem}
-Consider the same setup as of \magicref{SelfRelatedPointTheorem}, and furthermore, suppose given $\loebNeg : \Omega \to \Omega$. Then there exists a point $\omega$ of $\Omega$ such that $R(\omega, \loebNeg(\omega))$.
+\openNamed{corollary}{Lawvere's Fixed Point Theorem, Redux}\label{LawveresFixedPointTheoremRedux}
+Consider the same setup as of \magicref{SelfRelatedPointTheorem}, specialized to $R$ as the equality relation. Furthermore, suppose given $\loebNeg : \Omega \to \Omega$. Then there exists a point $\omega$ of $\Omega$ such that $\omega = \loebNeg(\omega)$.
 \closeNamed{corollary}
 \begin{proof}
-Consider the binary relation $R_{\loebNeg}$ on points of $\Omega$ given by $R_{\loebNeg}(\omega_1, \omega_2) = R(\omega_1, \loebNeg(\omega_2))$.
+Consider the binary relation $R_{\loebNeg}$ on points of $\Omega$ such that $R_{\loebNeg}(\omega_1, \omega_2)$ holds just in case $\omega_1 = \loebNeg(\omega_2)$.
 
-We have been given the supposition that, for every morphism $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have $R(\App(f, x), F(x))$.
+We have been given the supposition that, for every morphism $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have $\App(f, x) = F(x)$.
 
-As this holds for arbitrary $F : X \to \Omega$, this also holds when an arbitrary $F$ is replaced by $\loebNeg \circ F : X \to \Omega$. That is to say, for every $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have $R(\App(f, x), (\loebNeg \circ F)(x))$, which is to say, $R_{\loebNeg}(\App(f, x), F(x))$.
+As this holds for arbitrary $F : X \to \Omega$, this also holds when an arbitrary $F$ is replaced by $\loebNeg \circ F : X \to \Omega$. That is to say, for every $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have $\App(f, x) = (\loebNeg \circ F)(x)$, which is to say, $R_{\loebNeg}(\App(f, x), F(x))$.
 
-But this is precisely the surjectivity supposition we need in order to invoke \magicref{SelfRelatedPointTheorem} with $R_{\loebNeg}$ in place of $R$. Doing so, we obtain a point $\omega$ of $\Omega$ such that $R_{\loebNeg}(\omega, \omega)$, which is to say $R(\omega, \loebNeg(\omega))$, as desired.
+But this is precisely the surjectivity supposition we need in order to invoke \magicref{SelfRelatedPointTheorem} with $R_{\loebNeg}$ in place of $R$. Doing so, we obtain a point $\omega$ of $\Omega$ such that $R_{\loebNeg}(\omega, \omega)$, which is to say $\omega = \loebNeg(\omega)$, as desired.
 \end{proof}
 
-Now we can see that \magicref{LawveresFixedPointTheorem} is of course the instance of \magicref{RelatedlyFixedPointTheorem} where the relation $R$ is taken to be equality. But \magicref{RelatedlyFixedPointTheorem} is strictly more general in allowing the use of an arbitrary relation.
-
-(As for the relation between \magicref{RelatedlyFixedPointTheorem} and \magicref{SelfRelatedPointTheorem}, each is an instance of the other. We above obtained \magicref{RelatedlyFixedPointTheorem} as a corollary of \magicref{SelfRelatedPointTheorem}. But also conversely, \magicref{SelfRelatedPointTheorem} is the special case of \magicref{RelatedlyFixedPointTheorem} where $g$ is taken to be $\id_{\Omega}$.)
-
-At any rate, we shall find this additional flexibility of allowing a relation in place of equality to be indispensable in the next sections, as we begin to specialize towards our application to introspective theories.
+At any rate, we shall find the additional flexibility of \magicref{SelfRelatedPointTheorem} in allowing a relation in place of equality to be indispensable in the next sections, as we begin to specialize towards our application to introspective theories.
 
 \subsection{Presheaf diagonalization for pre-introspective theories}\label{PreIntrospDiagSection}
+\openNamed{theorem}{Simplified Pre-introspective Diagonalization}
+Let $\langle T, C, \introS, \introN \rangle$ be a pre-introspective theory. Let $\rho$ be an object of $\Glob{C}$. Suppose also given a fixed point of $\Hom_C(\introS(-), \rho)$; that is, some object $X \in T$ and isomorphism $\alpha : X \to \Hom_C(\introS(X), \rho)$. Finally, let $\loebNeg : \introS(\Hom_C(1_C, \rho)) \to \rho$ in $\Glob{C}$ be given.
+
+Then we obtain $\omega_C : 1_C \to \rho$ in $\Glob{C}$ (equivalently, this can be construed as $\omega_T : 1_T \to \Hom_C(1_C, \rho)$ in $T$) such that $\omega_C = \loebNeg \circ \introS(\omega_T)$.
+\closeNamed{theorem}
+
 \openNamed{theorem}{Pre-introspective Diagonalization}\label{PreIntrospDiag}
 Let $\langle T, C, \introS, \introN \rangle$ be a pre-introspective theory.\footnote{The argument does not actually use all of this structure. It would suffice to let $T$ be any category, $C$ be a $T$-indexed category, $\introS$ be a functor from $T$ to the global aspect of $C$, $\point_C$ be any globally defined object of $C$, $\introN$ be a map from $t$ to $\Hom_C(\point_C, \introS(t))$, natural in $t \in T$, and $\point_T$ be any object of $T$. Knowing that the proof makes no use of the further lexcategory structure of a pre-introspective theory may make it easier to follow.} Let $\point_T$ be the terminal object of $T$ and let $\point_C$ be the terminal object of $C$. Throughout the following, we use \quote{point of} as shorthand for \quote{element of the $\point_T$-aspect of}.
 
