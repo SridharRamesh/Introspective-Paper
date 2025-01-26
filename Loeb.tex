@@ -13,9 +13,9 @@ The discussion in \magicref{LawvereFPTSection} concerns Lawvere's fixed point th
 
 The sole theorem in \magicref{NoSmallSelfIndexing} is the same theorem as proven in \autocite{PittsTaylor1989}. We re-note it here simply to observe that it follows as a special case of our more general \magicref{IntrospLoeb}.
 
-\subsection{New lemmas}
+\subsection{Fixed point cyclicity lemmas, rename this section}
 \begin{definition}
-Let $F$ be an endofunctor on a category $C$. We define a \defined{fixed point} of $F$ to be an object $c \in C$ along with a choice of isomorphism between $c$ and $F(c)$. These can be viewed as those $F$-algebras which are invertible, and thus we get a category of fixed points of $F$, as the appropriate full subcategory of the category of $F$-algebras. (Just as well, this same category can also be seen as a full subcategory of the category of $F$-coalgebras. Or just as well, the morphisms between fixed points $W$ and $M$ can be seen as the hylomorphisms between $W$ viewed as a coalgebra and $M$ viewed as an algebra.)
+Let $F$ be an endofunctor on a category $C$. We define a \defined{fixed point} of $F$ to be an object $c \in C$ along with a choice of isomorphism between $c$ and $F(c)$. These can be viewed as those $F$-algebras which are invertible, and thus we get a category of fixed points of $F$, as the appropriate full subcategory of the category of $F$-algebras. (Just as well, this same category can also be seen as a full subcategory of the category of $F$-coalgebras. Or just as well, the morphisms between fixed points $W$ and $M$ can be seen as the hylomorphisms (in the sense of \magicref{HylomorphismDefn}) between $W$ viewed as a coalgebra and $M$ viewed as an algebra.)
 \end{definition}
 
 \begin{theorem}\label{CyclicFixedPointsSets}
@@ -36,61 +36,27 @@ Note that $f$ takes fixed points of $gf$ to fixed points of $fg$, and similarly 
 
 \magicref{CyclicFixedPointsSets} and its proof are of course the special case of \magicref{CyclicFixedPointsCategories} where the categories involved are discrete sets.
 
-\begin{theorem}\label{CyclicHylomorphism}
-When $F$ and $G$ are functors in opposite direction between two categories, we have a bijective correspondence between $FG$-hylomorphisms $F(V) \circ W \to M \circ F(N)$ and $GF$-hylomorphisms $G(W) \circ V \to N \circ G(M)$.
+\begin{theorem} \label{CyclicHylomorphismCorollary}
+When $F$ and $G$ are functors in opposite directions between two categories, we have a bijective correspondence between commutative diagrams of the following two forms:
 
-% https://q.uiver.app/#q=WzAsMTIsWzMsMiwidiJdLFs0LDIsIm4iXSxbMywwLCJHKEYodikpIl0sWzQsMCwiRyhGKG4pKSJdLFszLDEsIkcodykiXSxbNCwxLCJHKG0pIl0sWzAsMSwiRih2KSJdLFswLDAsIkYoRyh3KSkiXSxbMSwwLCJGKEcobSkpIl0sWzEsMSwiRihuKSJdLFswLDIsInciXSxbMSwyLCJtIl0sWzAsMSwieSIsMl0sWzIsMywiRyhGKHkpKSJdLFs0LDIsIkcoVykiXSxbMyw1LCJHKE0pIl0sWzAsNCwiViJdLFs1LDEsIk4iXSxbNiw3LCJGKFYpIl0sWzgsOSwiRihOKSJdLFs3LDgsIkYoRyh4KSkiXSxbMTAsMTEsIngiLDJdLFsxMCw2LCJXIl0sWzksMTEsIk0iXV0=
-\begin{tikzcd}
-	{F(G(w))} & {F(G(m))} && {G(F(v))} & {G(F(n))} \\
-	{F(v)} & {F(n)} && {G(w)} & {G(m)} \\
-	w & m && v & n
-	\arrow["y"', from=3-4, to=3-5]
-	\arrow["{G(F(y))}", from=1-4, to=1-5]
-	\arrow["{G(W)}", from=2-4, to=1-4]
-	\arrow["{G(M)}", from=1-5, to=2-5]
-	\arrow["V", from=3-4, to=2-4]
-	\arrow["N", from=2-5, to=3-5]
-	\arrow["{F(V)}", from=2-1, to=1-1]
-	\arrow["{F(N)}", from=1-2, to=2-2]
-	\arrow["{F(G(x))}", from=1-1, to=1-2]
-	\arrow["x"', from=3-1, to=3-2]
-	\arrow["W", from=3-1, to=2-1]
-	\arrow["M", from=2-2, to=3-2]
-\end{tikzcd}
+% https://q.uiver.app/#q=WzAsOCxbMywwLCJHRkcoVykiXSxbNCwwLCJHRkcoTSkiXSxbMywxLCJHKFcpIl0sWzQsMSwiRyhNKSJdLFswLDAsIkZHKFcpIl0sWzEsMCwiRkcoTSkiXSxbMCwxLCJXIl0sWzEsMSwiTSJdLFswLDEsIkdGKHkpIl0sWzIsMCwiRyh3KSJdLFsxLDMsIkcobSkiXSxbNiw3LCJ4IiwyXSxbNiw0LCJ3Il0sWzUsNywibSJdLFsyLDMsInkiLDJdLFs0LDUsIkZHKHgpIl1d
+\[\begin{tikzcd}
+	{FG(W)} & {FG(M)} && {GFG(W)} & {GFG(M)} \\
+	W & M && {G(W)} & {G(M)}
+	\arrow["{FG(x)}", from=1-1, to=1-2]
+	\arrow["m", from=1-2, to=2-2]
+	\arrow["{GF(y)}", from=1-4, to=1-5]
+	\arrow["{G(m)}", from=1-5, to=2-5]
+	\arrow["w", from=2-1, to=1-1]
+	\arrow["x"', from=2-1, to=2-2]
+	\arrow["{G(w)}", from=2-4, to=1-4]
+	\arrow["y"', from=2-4, to=2-5]
+\end{tikzcd}\]
+
+That is to say, for any $FG$-coalgebra $w$ and $FG$-algebra $m$, we have a bijective correspondence between $FG$-hylomorphisms $: w \to m$ and $GF$-hylomorphisms $: G(w) \to G(m)$.
 \end{theorem}
 \begin{proof}
-This is by considering the two operations $x \mapsto V ; G(x) ; N$ and $y \mapsto W ; F(y) ; M$, and the fixed points of their compositions in either order, which are in bijection by \magicref{CyclicFixedPointsSets}.
-\end{proof}
-
-\begin{corollary} \label{CyclicHylomorphismCorollary}
-When $F$ and $G$ are functors in opposite directions between two categories, we have a bijective correspondence between $FG$-hylomorphisms $W \to M$ and $GF$-hylomorphisms $G(W) \to G(M)$.
-\end{corollary}
-\begin{proof}
-By \magicref{CyclicHylomorphism} with $V$ and $N$ taken to be identities.
-\end{proof}
-
-The \Loeb/ property is a special case of a more general property:
-
-\begin{definition}
-Let $F$ be an endofunctor. We say $F$ has the \defined{hylomorphism property} if, for every $F$-coalgebra and every $F$-algebra, there exists a hylomorphism from the former to the latter. If there is always a unique such hylomorphism, then we say $F$ has the \defined{unique hylomorphism property}.
-\end{definition}
-
-Note that if $F$ is a terminal-object-preserving functor with the hylomorphism property (or the unique hylomorphism property), then it has the \Loeb/ property (or \Loeb/ property with uniqueness, respectively).
-
-\begin{theorem}
-When $F$ and $G$ are functors in opposite directions between two categories, then $FG$ has the hylomorphism property (or unique hylomorphism property) iff $GF$ does.
-\end{theorem}
-\begin{proof}
-By the bijection between $FG$-hylomorphisms and $GF$-hylomorphisms given in \magicref{CyclicHylomorphismCorollary}.
-\end{proof}
-
-\begin{theorem}\label{UniqueHylomorphismsMeansIsomorphicFixedPoints}
-If $F$ is an endofunctor with the unique hylomorphism property, then any fixed point of $F$ is both an initial algebra and a terminal coalgebra. Thus, any two fixed points of $F$ are isomorphic via a unique isomorphism (indeed, if $F$ has any fixed points, its category of fixed points is equivalent to the terminal category).
-\end{theorem}
-\begin{proof}
-That any fixed point of $F$ is an initial algebra is by observing that algebra morphisms from $F$ to some other algebra $X$ correspond to coalgebra-to-algebra hylomorphisms from $F$ to $X$, which are unique by the unique hylomorphism property. In the same way, any fixed point of $F$ is a terminal coalgebra.
-
-As the set of morphisms between two fixed points of $F$ can be seen as the set of hylomorphisms between a coalgebra and algebra of $F$, there is precisely one morphism between any given domain and codomain in the category of fixed points of $F$. If such a category has any objects at all, it is equivalent to the terminal category, with precisely one object and one (identity) morphism.
+This is by considering the two operations $x \mapsto G(x)$ and $y \mapsto m \circ F(y) \circ w$ (mapping back and forth between $\Hom(W, M)$ and $\Hom(G(W), G(M))$), and the fixed points of their compositions in either order, which are in bijection by \magicref{CyclicFixedPointsSets}.
 \end{proof}
 
 \subsection{The \Loeb/ property in abstract}\label{LoebPropertySection}
@@ -202,6 +168,30 @@ In the above proof, we used \magicref{LoebTransfer} to transfer the \Loeb/ prope
 \end{remark}
 }
 
+\subsection{Hylomorphism stuff, rename}
+The \Loeb/ property asserts the existence of hylomorphisms with a particular coalgebra (the isomorphism $: 1 \to \Box 1$) as domain. A stronger property which is also sometimes of interest asserts the existence of hylomorphisms regardless of domain:
+
+\begin{definition}
+Let $F$ be an endofunctor. We say $F$ has the \defined{hylomorphism property} if, for every $F$-coalgebra and every $F$-algebra, there exists a hylomorphism from the former to the latter. If there is always a unique such hylomorphism, then we say $F$ has the \defined{unique hylomorphism property}.
+\end{definition}
+
+\begin{theorem}
+When $F$ and $G$ are functors in opposite directions between two categories, then $FG$ has the hylomorphism property (or unique hylomorphism property) if $GF$ does.
+\end{theorem}
+\begin{proof}
+By the bijection between $FG$-hylomorphisms and $GF$-hylomorphisms given in \magicref{CyclicHylomorphismCorollary}, we have that $FG$-hylomorphisms from an arbitrary $w$ to arbitrary $m$ will exist (or exist uniquely) once the $GF$-hylomorphisms from $G(w)$ to $G(m)$ exist (or exist uniquely, respectively). Thus, $GF$ having the hylomorphism property (or unique hylomorphism property) entails $FG$ having the hylomorphism property (or unique hylomorphism property, respectively). 
+\end{proof}
+
+\begin{theorem}\label{UniqueHylomorphismsMeansIsomorphicFixedPoints}
+If $F$ is an endofunctor with the unique hylomorphism property, then any fixed point of $F$ is both an initial algebra and a terminal coalgebra. Thus, any two fixed points of $F$ are isomorphic via a unique isomorphism (indeed, if $F$ has any fixed points, its category of fixed points is equivalent to the terminal category).
+\end{theorem}
+\begin{proof}
+That any fixed point of $F$ is an initial algebra is by observing that algebra morphisms from $F$ to some other algebra $X$ correspond to coalgebra-to-algebra hylomorphisms from $F$ to $X$, which are unique by the unique hylomorphism property. In the same way, any fixed point of $F$ is a terminal coalgebra.
+
+As the set of morphisms between two fixed points of $F$ can be seen as the set of hylomorphisms between a coalgebra and algebra of $F$, there is precisely one morphism between any given domain and codomain in the category of fixed points of $F$. If such a category has any objects at all, it is equivalent to the terminal category, with precisely one object and one (identity) morphism.
+\end{proof}
+
+\subsection{Back to \Loeb/ stuff, rename}
 \magicref{LoebPropertyLexUniqueness} is only a special case of a much broader and important theorem which we now discuss.
 
 \begin{theorem}\label{CoalgToAlg}
