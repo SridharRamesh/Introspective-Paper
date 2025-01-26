@@ -61,7 +61,7 @@ This is by considering the two operations $x \mapsto G(x)$ and $y \mapsto m \cir
 
 \subsection{The \Loeb/ property in abstract}\label{LoebPropertySection}
 \begin{definition}\label{LoebPropertyDefn}
-Let $D$ be any category with a terminal object and let $\Box : D \to D$ be a terminal-object-preserving endofunctor on $D$. We say $\Box$ has the \defined{\Loeb/ property} if, for every object $\Omega$ of $D$ and every morphism $\loebNeg : \Box \Omega \to \Omega$, there exists a morphism $\omega : 1 \to \Omega$ making the following square commute:
+Let $D$ be any category with a terminal object and let $\Box : D \to D$ be a terminal-object-preserving endofunctor on $D$. We say $\Box$ has the \defined{weak \Loeb/ property} if, for every object $\Omega$ of $D$ and every morphism $\loebNeg : \Box \Omega \to \Omega$, there exists a morphism $\omega : 1 \to \Omega$ making the following square commute:
 % https://q.uiver.app/#q=WzAsNCxbMCwxLCIxIl0sWzEsMCwiXFxCb3ggXFxPbWVnYSJdLFsxLDEsIlxcT21lZ2EiXSxbMCwwLCJcXEJveCAxIl0sWzEsMiwiXFxsb2ViTmVnIl0sWzAsMiwiXFxvbWVnYSIsMl0sWzMsMCwiIiwwLHsibGV2ZWwiOjIsInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCJcXEJveCBcXG9tZWdhIl1d
 \[\begin{tikzcd}[ampersand replacement=\&]
 	{\Box 1} \& {\Box \Omega} \\
@@ -74,34 +74,34 @@ Let $D$ be any category with a terminal object and let $\Box : D \to D$ be a ter
 
 In other words, for every $\Omega \in D$ and $\loebNeg : \Box \Omega \to \Omega$, there is a fixed point of $\omega \mapsto \loebNeg \circ (\Box \omega) : \Hom_D(1, \Omega) \to \Hom_D(1, \Omega)$.
 
-If such fixed points are furthermore always unique, we say $\Box$ has the \defined{\Loeb/ property with uniqueness}. (Note that the \Loeb/ property with uniqueness is the same as saying that the terminal $\Box$-algebra is also an initial $\Box$-algebra.)
+If such fixed points are furthermore always unique, we say $\Box$ has the \defined{strong \Loeb/ property}. Note that the strong \Loeb/ property is the same as saying that the terminal $\Box$-algebra is also an initial $\Box$-algebra.
 \end{definition}
 
 \begin{observation}\label{KnasterTarskiExample}
-For example, the identity endofunctor on the category of complete lattices and monotonic maps between them has the \Loeb/ property (this amounts to the Knaster-Tarski fixed point theorem). However, this does not have the \Loeb/ property with uniqueness.
+For example, the identity endofunctor on the category of complete lattices and monotonic maps between them has the weak \Loeb/ property (this amounts to the Knaster-Tarski fixed point theorem). However, this does not have the strong \Loeb/ property.
 \end{observation}
 
-In this chapter, we will establish that for every introspective theory $\langle T, C \rangle$, each aspect of each of $\Box_{T/-}$, $\Box_C$, and $\Box_{\Psh{C}}$ has the \Loeb/ property with uniqueness. That such a strong result follows from such a minimal and simple categorical structure motivates much of our interest in the concept of introspective theories.
+In this chapter, we will establish that for every introspective theory $\langle T, C \rangle$, each aspect of each of $\Box_{T/-}$, $\Box_C$, and $\Box_{\Psh{C}}$ has the strong \Loeb/ property. That such a strong result follows from such a minimal and simple categorical structure motivates much of our interest in the concept of introspective theories.
 
 But before we establish this version of \Loeb/'s theorem for introspective theories in particular, we will develop the theory of the \Loeb/ property and its consequences a little further in abstract. 
 
 \begin{theorem}\label{LoebTransfer}
-Let $D$ and $E$ be categories with terminal objects, and let $M : D \to E$ and $N : E \to D$ be functors preserving terminal objects. Suppose $NM : D \to D$ has the \Loeb/ property. Then so does $MN : E \to E$. Furthermore, if $NM$ has the \Loeb/ property with uniqueness, then so does $MN$.
+Let $D$ and $E$ be categories with terminal objects, and let $M : D \to E$ and $N : E \to D$ be functors preserving terminal objects. If $NM : D \to D$ has the weak \Loeb/ property, then so does $MN : E \to E$. Similarly, if $NM$ has the strong \Loeb/ property, then so does $MN$.
 \end{theorem}
 \begin{proof}
-Let $\alpha$ be an arbitrary $MN$-algebra, By \magicref{CyclicHylomorphismCorollary}, the $MN$-hylomorphisms from the terminal $MN$-algebra to $\alpha$ are in bijective correspondence with the $NM$-hylomorphisms from the terminal $NM$-algebra to $N(\alpha)$. Such an $NM$-hylomorphism exists (or exists uniquely), as $NM$ has the \Loeb/ property (or \Loeb/ property with uniqueness, respectively).
+Let $\alpha$ be an arbitrary $MN$-algebra, By \magicref{CyclicHylomorphismCorollary}, the $MN$-hylomorphisms from the terminal $MN$-algebra to $\alpha$ are in bijective correspondence with the $NM$-hylomorphisms from the terminal $NM$-algebra to $N(\alpha)$. This set of $NM$-hylomorphisms is inhabited if $NM$ has the weak \Loeb/ property, and uniquely inhabited if $NM$ has the strong \Loeb/ property.
 
 Old proof: \TODOinline{Remove this mention of old proof, or rather, incorporate this as a clarification on what the new proof also amounts to}
 
 This is by the general theorem \magicref{CyclicFixedPointsSets} that fixed points of a composition of functions are in bijection with fixed points of any cyclic rearrangement of that composition (as $f$ and $g$ themselves restrict to inverse maps between fixed points of $gf$ and $fg$). In particular, letting $comp_x(y) = x \circ y$, the fixed points of $\omega_E \mapsto comp_{\loebNeg}(M(N(\omega_E)))$ are in bijection with the fixed points of $\omega_D \mapsto N (comp_{{\loebNeg}}(M(\omega_D)))$, which is to say, of $\omega_D \mapsto comp_{N({\loebNeg})}(N (M (\omega_D)))$.
 
-The latter fixed points must exist (or exist uniquely) if $NM : D \to D$ has the \Loeb/ property (or the \Loeb/ property with uniqueness, respectively), and thus in such cases so do the former fixed points, establishing the corresponding property for $MN : E \to E$.
+The latter fixed points must exist (or exist uniquely) if $NM : D \to D$ has the weak \Loeb/ property (or the strong \Loeb/ property, respectively), and thus in such cases so do the former fixed points, establishing the corresponding property for $MN : E \to E$.
 \end{proof}
 
 \sTODOinline{The above is a special case of Eppendahl's observations on algebra-initial coalgebras in \quote{Coalgebra-to-Algebra Morphisms}.}
 
 \begin{theorem}\label{LoebPropertyLexUniqueness}
-Let $D$ be any category with a terminal object and equalizers, and let $\Box : D \to D$ be a terminal-object-preserving endofunctor on $D$. If $\Box$ has the \Loeb/ property, then it furthermore has the \Loeb/ property with uniqueness.
+Let $D$ be any category with a terminal object and equalizers, and let $\Box : D \to D$ be a terminal-object-preserving endofunctor on $D$. If $\Box$ has the weak \Loeb/ property, then it furthermore has the strong \Loeb/ property.
 \end{theorem}
 \begin{proof}
 We must show that, given any two commutative squares as below (with the same $\loebNeg$ on the right hand side of each), the morphisms $\omega$ and $\psi$ are equal:
@@ -122,7 +122,7 @@ We must show that, given any two commutative squares as below (with the same $\l
 
 Let $h : H \to 1$ be the equalizer of $\omega$ and $\psi$.  We will have that $\omega = \psi$ just in case $h$ is an isomorphism. As this $h$ is monic, making $H$ a subobject of $1$, we will have that $h$ is an isomorphism just in case there is any map from $1$ to $H$.
 
-Thanks to the \Loeb/ property, this in turn occurs just in case there is some map from $\Box H$ to $H$. And by the definition of $H$ as an equalizer, this occurs just in case there is some map from $\Box H$ to $1$ which gives equal results when composed with $\omega$ and with $\psi$.
+Thanks to the weak \Loeb/ property, this in turn occurs just in case there is some map from $\Box H$ to $H$. And by the definition of $H$ as an equalizer, this occurs just in case there is some map from $\Box H$ to $1$ which gives equal results when composed with $\omega$ and with $\psi$.
 
 But the map $\Box h : \Box H \to 1$ does indeed have this property, as seen in the following commutative diagram (where the top left square commutes because $h; \omega = h; \psi$):
 
@@ -147,18 +147,18 @@ This completes the proof.
 \end{proof}
 
 \begin{remark}
-Note that \magicref{LoebPropertyLexUniqueness} makes essential use of equalizers. We can see this by considering the example from \magicref{KnasterTarskiExample}, which has the \Loeb/ property but not the \Loeb/ property with uniqueness. This is possible as the category of complete lattices and arbitrary monotonic maps lacks equalizers.
+Note that \magicref{LoebPropertyLexUniqueness} makes essential use of equalizers. We can see this by considering the example from \magicref{KnasterTarskiExample}, which has the weak \Loeb/ property but not the strong \Loeb/ property. This is possible as the category of complete lattices and arbitrary monotonic maps lacks equalizers.
 \end{remark}
 
 The application of these abstract results to locally introspective theories in particular is like so:
 
 \begin{theorem}\label{LoebTransferIntrosp}
-If $\langle T, C \rangle$ is a locally introspective theory and $t$ is an object of $T$ such that at least one of $\Box_{T/-}$, $\Box_C$, or $\Box_{\Psh{C}}$ has the \Loeb/ property (without presumed uniqueness) at its $t$-aspect, then all three have the \Loeb/ property with uniqueness at their $t$-aspect.
+If $\langle T, C \rangle$ is a locally introspective theory and $t$ is an object of $T$ such that at least one of $\Box_{T/-}$, $\Box_C$, or $\Box_{\Psh{C}}$ has the weak \Loeb/ property at its $t$-aspect, then all three have the strong \Loeb/ property at their $t$-aspect.
 
 If this happens for every $t \in T$, we say this locally introspective theory itself has the \defined{\Loeb/ property}.
 \end{theorem}
 \begin{proof}
-By \magicref{LoebTransfer}, when considering the definitions of the various $\Box$ operators given via the triangle at \magicref{BoxDefn}, we find that if any of these $\Box$ operators have the \Loeb/ property at their $t$-aspect, then all three do. By \magicref{LoebPropertyLexUniqueness}, we can furthermore conclude the \Loeb/ property with uniqueness.
+By \magicref{LoebTransfer}, when considering the definitions of the various $\Box$ operators given via the triangle at \magicref{BoxDefn}, we find that if any of these $\Box$ operators have the weak \Loeb/ property at their $t$-aspect, then all three do. By \magicref{LoebPropertyLexUniqueness}, we can furthermore conclude the strong \Loeb/ property.
 \end{proof}
 
 \sTODOinline{
@@ -168,25 +168,27 @@ In the above proof, we used \magicref{LoebTransfer} to transfer the \Loeb/ prope
 \end{remark}
 }
 
+The key result of this chapter (at \TODO ???) will be showing that every introspective theory does indeed have the \Loeb/ property.
+
 \subsection{Hylomorphism stuff, rename}
 The \Loeb/ property asserts the existence of hylomorphisms with a particular coalgebra (the isomorphism $: 1 \to \Box 1$) as domain. A stronger property which is also sometimes of interest asserts the existence of hylomorphisms regardless of domain:
 
 \begin{definition}
-Let $F$ be an endofunctor. We say $F$ has the \defined{hylomorphism property} if, for every $F$-coalgebra and every $F$-algebra, there exists a hylomorphism from the former to the latter. If there is always a unique such hylomorphism, then we say $F$ has the \defined{unique hylomorphism property}.
+Let $F$ be an endofunctor. We say $F$ has the \defined{weak hylomorphism property} if, for every $F$-coalgebra and every $F$-algebra, there exists a hylomorphism from the former to the latter. If there is always a unique such hylomorphism, then we say $F$ has the \defined{strong hylomorphism property}.
 \end{definition}
 
 \begin{theorem}
-When $F$ and $G$ are functors in opposite directions between two categories, then $FG$ has the hylomorphism property (or unique hylomorphism property) if $GF$ does.
+When $F$ and $G$ are functors in opposite directions between two categories, then $FG$ has the weak or strong hylomorphism property if $GF$ does.
 \end{theorem}
 \begin{proof}
-By the bijection between $FG$-hylomorphisms and $GF$-hylomorphisms given in \magicref{CyclicHylomorphismCorollary}, we have that $FG$-hylomorphisms from an arbitrary $w$ to arbitrary $m$ will exist (or exist uniquely) once the $GF$-hylomorphisms from $G(w)$ to $G(m)$ exist (or exist uniquely, respectively). Thus, $GF$ having the hylomorphism property (or unique hylomorphism property) entails $FG$ having the hylomorphism property (or unique hylomorphism property, respectively). 
+By the bijection between $FG$-hylomorphisms and $GF$-hylomorphisms given in \magicref{CyclicHylomorphismCorollary}, we have that $FG$-hylomorphisms from an arbitrary $w$ to arbitrary $m$ will exist (or exist uniquely) once the $GF$-hylomorphisms from $G(w)$ to $G(m)$ exist (or exist uniquely, respectively). Thus, $GF$ having the weak or strong hylomorphism property entails $FG$ having the same property. 
 \end{proof}
 
 \begin{theorem}\label{UniqueHylomorphismsMeansIsomorphicFixedPoints}
-If $F$ is an endofunctor with the unique hylomorphism property, then any fixed point of $F$ is both an initial algebra and a terminal coalgebra. Thus, any two fixed points of $F$ are isomorphic via a unique isomorphism (indeed, if $F$ has any fixed points, its category of fixed points is equivalent to the terminal category).
+If $F$ is an endofunctor with the strong hylomorphism property, then any fixed point of $F$ is both an initial algebra and a terminal coalgebra. Thus, any two fixed points of $F$ are isomorphic via a unique isomorphism (indeed, if $F$ has any fixed points, its category of fixed points is equivalent to the terminal category).
 \end{theorem}
 \begin{proof}
-That any fixed point of $F$ is an initial algebra is by observing that algebra morphisms from $F$ to some other algebra $X$ correspond to coalgebra-to-algebra hylomorphisms from $F$ to $X$, which are unique by the unique hylomorphism property. In the same way, any fixed point of $F$ is a terminal coalgebra.
+That any fixed point of $F$ is an initial algebra is by observing that algebra morphisms from $F$ to some other algebra $X$ correspond to coalgebra-to-algebra hylomorphisms from $F$ to $X$, which are unique by the strong hylomorphism property. In the same way, any fixed point of $F$ is a terminal coalgebra.
 
 As the set of morphisms between two fixed points of $F$ can be seen as the set of hylomorphisms between a coalgebra and algebra of $F$, there is precisely one morphism between any given domain and codomain in the category of fixed points of $F$. If such a category has any objects at all, it is equivalent to the terminal category, with precisely one object and one (identity) morphism.
 \end{proof}
@@ -197,7 +199,7 @@ As the set of morphisms between two fixed points of $F$ can be seen as the set o
 \begin{theorem}\label{CoalgToAlg}
 Let $D$ be any category with a terminal object, and let $\Box : D \to D$ be a terminal-object-preserving functor. Let $E$ be any locally \repsmall/ $D$-indexed category. Let $F$ be an endofunctor on $\Glob{E}$ with the property that, for any objects $x, y \in \Glob{E}$, there is a morphism $f_{x, y} : \Box \Hom_E(x, y) \to \Hom_E(F(x), F(y))$, such that for every $m \in \Glob{\Hom_E(x, y)} = \Hom_D(1, \Hom_E(x, y))$, we have that $F(m) \in \Glob{\Hom_E(F(x), F(y))} = \Hom_D(1, \Hom_E(F(x), F(y)))$ is given by applying $f_{x, y}$ to $\Box m \in \Glob{\Box \Hom_E(x, y)}$.
 
-If $\Box$ has the \Loeb/ property (or \Loeb/ property with uniqueness), then $F$ has the hylomorphism property (or unique hylomorphism property, respectively).
+If $\Box$ has the weak or strong \Loeb/ property, then $F$ has the corresponding hylomorphism property.
 \end{theorem}
 \begin{proof}
 An $F$-hylomorphism from $W : w \to F(w)$ to $M : F(m) \to m$ is a fixed point of $x \mapsto M \circ F(x) \circ W : \Hom_E(w, m) \to \Hom_E(w, m)$. But as $F(x) = f_{w, m}(\Box x)$, this is the same as a fixed point for $x \mapsto g(\Box x)$ where $g(-)$ is defined by $M \circ f_{w, m}(-) \circ W : \Box \Hom_E(w, m) \to \Hom_E(w, m)$. 
@@ -206,24 +208,24 @@ The hylomorphisms from $W$ to $M$ are thus the same as the fixed points given by
 \end{proof}
 
 \begin{corollary}
-Let $D$ be any lexcategory, and let $\Box : D \to D$ be a lexfunctor. Let $E$ be any $D$-internal category, and let $f : \Box E \to E$ be a $D$-internal lexfunctor. Let $F$ be the endofunctor on $\Glob{E}$ defined by $F(m) = f(\Box m)$. If $\Box$ has the \Loeb/ property (and therefore a fortiori the \Loeb/ property with uniqueness, via \magicref{LoebPropertyLexUniqueness}), then $F$ has the unique hylomorphism property.
+Let $D$ be any lexcategory, and let $\Box : D \to D$ be a lexfunctor. Let $E$ be any $D$-internal category, and let $f : \Box E \to E$ be a $D$-internal lexfunctor. Let $F$ be the endofunctor on $\Glob{E}$ defined by $F(m) = f(\Box m)$. If $\Box$ has the weak \Loeb/ property (and therefore a fortiori the strong \Loeb/ property, via \magicref{LoebPropertyLexUniqueness}), then $F$ has the strong hylomorphism property.
 
 (Furthermore, by considering the action of $f$ on $\Ob(E)$, we see that $F$ has a fixed point. Thus, keeping in mind \magicref{UniqueHylomorphismsMeansIsomorphicFixedPoints}, the category of fixed points of $F$ is terminal.)
 \end{corollary}
 
 We now demonstrate how \magicref{LoebPropertyLexUniqueness} can be seen as a special case of \magicref{CoalgToAlg}:
 \begin{corollary}\label{LoebPropertyLexUniquenessRedux}
-Let $D$ be any category with a terminal object and equalizers, and let $\Box : D \to D$ be a terminal-object-preserving functor. If $\Box$ has the \Loeb/ property, then it furthermore has the \Loeb/ property with uniqueness.
+Let $D$ be any category with a terminal object and equalizers, and let $\Box : D \to D$ be a terminal-object-preserving functor. If $\Box$ has the weak \Loeb/ property, then it furthermore has the strong \Loeb/ property.
 \end{corollary}
 \begin{proof}
 Let $E$ be an arbitrary object of $D$ (thus, a \repsmall/ $D$-indexed set) and let us construe this also as a \repsmall/ $D$-indexed discrete category. Let $f : \Box E \to E$ be an arbitrary map in $D$, and as above, let us take $F : \Hom_D(1, E) \to \Hom_D(1, E)$ to be given as the composition of $\Box : \Hom_D(1, E) \to \Hom_D(1, \Box E)$ with $f \circ - : \Hom_D(1, \Box E) \to \Hom_D(1, E)$.
 
-As $E$ is a discrete category, observe that any $F$-coalgebra or $F$-algebra in the global aspect of $E$ amounts to a fixed point of $f \circ \Box(-) : \Hom_D(1, E) \to \Hom_D(1, E)$. The \Loeb/ property tells us such fixed points exist, while \magicref{CoalgToAlg} tells us there is a hylomorphism between any such fixed points. But as $E$ is a discrete category, such a hylomorphism amounts to just an equality between the two elements of $\Hom_D(1, E)$. Thus, any two such fixed points are equal, which is to say, we have the \Loeb/ property with uniqueness.
+As $E$ is a discrete category, observe that any $F$-coalgebra or $F$-algebra in the global aspect of $E$ amounts to a fixed point of $f \circ \Box(-) : \Hom_D(1, E) \to \Hom_D(1, E)$. The weak \Loeb/ property tells us such fixed points exist, while \magicref{CoalgToAlg} tells us there is a hylomorphism between any such fixed points. But as $E$ is a discrete category, such a hylomorphism amounts to just an equality between the two elements of $\Hom_D(1, E)$. Thus, any two such fixed points are equal, which is to say, we have the strong \Loeb/ property.
 \end{proof}
 (It is perhaps easy to miss how the presumption of equalizers in $D$ has been used in the argument for \magicref{LoebPropertyLexUniquenessRedux}. At one point within its invocation of \magicref{CoalgToAlg}, the argument considers the object $\Box \Hom_E(w, m)$ for parallel $w, m \in \Hom_D(1, E)$. As such, it depends upon the fact that $\Hom_E(w, m)$ is a \repsmall/ $D$-indexed set. This object $\Hom_E(w, m)$ of $D$ is given by an equalizer between parallel maps from $1$ to $E$ in $D$; this is where the fact that $D$ has equalizers is essential.)
 
 \begin{corollary}\label{InitialTerminalCoincidence}
-Consider the same setup as of \magicref{CoalgToAlg}, and presume $\Box$ has the \Loeb/ property with uniqueness (as we now know follows automatically from the \Loeb/ property on a category with equalizers). Then any fixed point of $F$ is simultaneously an initial $F$-algebra and a terminal $F$-coalgebra. In particular, any two such fixed points are isomorphic, via a unique $F$-algebra isomorphism.
+Consider the same setup as of \magicref{CoalgToAlg}, and presume $\Box$ has the strong \Loeb/ property (as we now know follows automatically from the weak \Loeb/ property on a category with equalizers). Then any fixed point of $F$ is simultaneously an initial $F$-algebra and a terminal $F$-coalgebra. In particular, any two such fixed points are isomorphic, via a unique $F$-algebra isomorphism.
 \end{corollary}
 \begin{proof}
 By combining \magicref{CoalgToAlg} with \magicref{UniqueHylomorphismsMeansIsomorphicFixedPoints}.
@@ -232,27 +234,27 @@ By combining \magicref{CoalgToAlg} with \magicref{UniqueHylomorphismsMeansIsomor
 \sTODOinline{Link this to \magicref{IntrospTyConFixedPoints}. Note after our later bootstrapping section that this uniqueness means that ultimately, the apparent dependence on various arbitrary choices in our proof of the bootstrapping theorem doesn't matter in the end. We get the same result no matter what.}
 
 \begin{remark}
-The argument we have given for \magicref{CoalgToAlg} and thus for \magicref{InitialTerminalCoincidence} is essentially the same as that given for Lemma 7.6 in \autocite{birkedal2011first}, though the argument is slightly differently framed there. This argument is given in \autocite{birkedal2011first} in a context where the uniqueness of the \Loeb/ property has already been presumed, whereas we have noted that this argument can also be given in a context where only the weaker \Loeb/ property without uniqueness has been presumed, and then this argument can be used to in fact derive said uniqueness (given equalizers).
+The argument we have given for \magicref{CoalgToAlg} and thus for \magicref{InitialTerminalCoincidence} is essentially the same as that given for Lemma 7.6 in \autocite{birkedal2011first}, though the argument is slightly differently framed there. This argument is given in \autocite{birkedal2011first} in a context where the strong \Loeb/ property with uniqueness has already been presumed, whereas we have noted that this argument can also be given in a context where only the weak \Loeb/ property without uniqueness has been presumed, and then this argument can be used to in fact derive said uniqueness (given equalizers).
 
-Arguments establishing that the weaker \Loeb/ property entails the \Loeb/ property with uniqueness in contexts with identity types have been noted in the literature on guarded recursion. For example, as Theorem V.8 in \autocite{birkedal2013universes} and as Theorem 9.5 in \autocite{birkedal2021Multimodal}. However, we are unaware of any prior observation in the literature that this uniqueness can also be understood as a special case of the existence of coalgebra-to-algebra hylomorphisms, unifying those arguments.
+Arguments establishing that the weaker \Loeb/ property without uniqueness entails the stronger \Loeb/ property with uniqueness in contexts with identity types have been noted in the literature on guarded recursion. For example, as Theorem V.8 in \autocite{birkedal2013universes} and as Theorem 9.5 in \autocite{birkedal2021Multimodal}. However, we are unaware of any prior observation in the literature that this uniqueness can also be understood as a special case of the existence of coalgebra-to-algebra hylomorphisms, unifying those arguments.
 \end{remark}
 
 \begin{theorem}\label{CCCLoebUniqueness}
-The identity endofunctor on a cartesian closed category has the \Loeb/ property with uniqueness just in case the category is the trivial terminal category.
+The identity endofunctor on a cartesian closed category has the strong \Loeb/ property just in case the category is the trivial terminal category.
 \end{theorem}
 \begin{proof}
-Taking $\Box$ to be this identity endofunctor and applying the \Loeb/ property with uniqueness to the morphism $\id_{B^A} : \Box(B^A) \to (B^A)$, for arbitrary objects $A$ and $B$, we find that each $B^A$ has a unique global element, which is to say, there is a unique map between any pair of objects. Thus all objects become isomorphic to the terminal object.
+Taking $\Box$ to be this identity endofunctor and applying the strong \Loeb/ property to the morphism $\id_{B^A} : \Box(B^A) \to (B^A)$, for arbitrary objects $A$ and $B$, we find that each $B^A$ has a unique global element, which is to say, there is a unique map between any pair of objects. Thus all objects become isomorphic to the terminal object.
 \end{proof}
 
 \begin{corollary}\label{CCCLoebLex}
-The identity endofunctor on a cartesian closed category with equalizers has the \Loeb/ property just in case the category is the trivial terminal category.
+The identity endofunctor on a cartesian closed category with equalizers has the strong \Loeb/ property just in case the category is the trivial terminal category.
 \end{corollary}
 \begin{proof}
 By combining \magicref{CCCLoebUniqueness} and \magicref{LoebPropertyLexUniqueness}.
 \end{proof}
 
 \begin{observation}
-The example from \magicref{KnasterTarskiExample} shows that it is possible for the identity endofunctor on a nontrivial cartesian closed category to have the \Loeb/ property, so long as neither uniqueness nor equalizers are presumed.
+The example from \magicref{KnasterTarskiExample} shows that it is possible for the identity endofunctor on a nontrivial cartesian closed category to have the weak \Loeb/ property, so long as neither uniqueness nor equalizers are presumed.
 \end{observation}
 
 \subsection{Lawvere's fixed point theorem}\label{LawvereFPTSection}
@@ -382,7 +384,7 @@ In many cases we are interested in (though not all!), we furthermore take $P(\po
 \begin{theorem}\label{PreIntrospDiagFromIso}
 Suppose given a locally introspective theory $\langle T, C, \introS, \introN \rangle$ and an object $P$ in the global aspect of $\Psh{C}$.
 
-If there is any object $X$ of $T$ with an isomorphism from $X$ to $P(\introS(X))$, then, within the global aspect of $\Psh{C}$, for every $\loebNeg : \Box P \to P$, we obtain an $\omega : 1 \to P$, such that $\omega = g \circ \omega'$, where $\omega' = \Box_{\Psh{C}}(\omega) : 1 \to \Box P$. In other words, we obtain the instance of the \Loeb/ property constrained specifically to $P$.
+If there is any object $X$ of $T$ with an isomorphism from $X$ to $P(\introS(X))$, then, within the global aspect of $\Psh{C}$, for every $\loebNeg : \Box P \to P$, we obtain an $\omega : 1 \to P$, such that $\omega = g \circ \omega'$, where $\omega' = \Box_{\Psh{C}}(\omega) : 1 \to \Box P$. In other words, we obtain the instance of the weak \Loeb/ property constrained specifically to $P$.
 
 We get the same result also if, within $\Glob{C}$, there is any object $Y$ along with an isomorphism from $Y$ to $\introS(P(Y))$.
 \end{theorem}
@@ -477,7 +479,7 @@ Suppose given an introspective theory $\langle T, C, \introS, \introN \rangle$.
 
 Then, within $\Glob{\Psh{C}}$, for every object $P$ and morphism $\loebNeg : \Box P \to P$, we obtain an $\omega : 1 \to P$, such that $\loebNeg \circ (\Box \omega) = \omega$.
 
-In other words, the global aspect of $\Box_{\Psh{C}}$ has the \Loeb/ property. Keeping in mind the equivalences of \magicref{LoebTransferIntrosp}, we may conclude that the global aspects of $\Box_{T/-}$, $\Box_C$, and $\Box_{\Psh{C}}$ all have the \Loeb/ property with uniqueness.
+In other words, the global aspect of $\Box_{\Psh{C}}$ has the weak \Loeb/ property. Keeping in mind the equivalences of \magicref{LoebTransferIntrosp}, we may conclude that the global aspects of $\Box_{T/-}$, $\Box_C$, and $\Box_{\Psh{C}}$ all have the strong \Loeb/ property.
 \closeNamed{theorem}
 
 \begin{observation}
@@ -485,7 +487,7 @@ We can consider the particular case where $P$ is $C$-\repsmall/, just as $\Box P
 \end{observation}
 
 \begin{corollary}\label{IntrospLoebAtEachAspect}
-For any introspective theory $\langle T, C \rangle$, every aspect of $\Box_T$, $\Box_C$, and $\Box_{\Psh{C}}$ has the \Loeb/ property with uniqueness.
+For any introspective theory $\langle T, C \rangle$, every aspect of $\Box_T$, $\Box_C$, and $\Box_{\Psh{C}}$ has the strong \Loeb/ property.
 
 In other words, every introspective theory has the \Loeb/ property, in the terminology of \magicref{LoebTransferIntrosp}.
 \end{corollary}
@@ -493,7 +495,7 @@ In other words, every introspective theory has the \Loeb/ property, in the termi
 By \magicref{SliceBoxIsAspectBox}, each aspect of any of these $\Box$ functors is the global aspect of the corresponding $\Box$ functor on the corresponding slice introspective theory. Thus, we simply invoke \magicref{IntrospLoeb} on this slice introspective theory.
 \end{proof}
 
-The above is our key result. The fact that the simple definition of introspective theories is enough to lead to their satisfying the \Loeb/ property with uniqueness motivates much of our interest in the concept of introspective theories.
+The above is our key result. The fact that the simple definition of introspective theories is enough to lead to their satisfying the \Loeb/ property motivates much of our interest in the concept of introspective theories.
 
 \begin{observation}
 The fixed points produced by \magicref{IntrospTyConFixedPoints} are furthermore unique up to canonical isomorphism, by combining \magicref{IntrospLoeb} with \magicref{InitialTerminalCoincidence}. \sTODOinline{Give more details}
@@ -519,13 +521,13 @@ This will furthermore be introspective (that is, the self-indexing will be \reps
 \begin{proof}
 For a lexcategory $T$ equipped as a pre-introspective theory in this way, the operation $\Box_T$ acts as the identity.
 
-And by \magicref{IntrospLoeb}, if $T$ is an introspective theory, then $\Box_T$ will have the \Loeb/ property with uniqueness.
+And by \magicref{IntrospLoeb}, if $T$ is an introspective theory, then $\Box_T$ will have the strong \Loeb/ property.
 
-But by \magicref{CCCLoebUniqueness}, the identity endofunctor on a cartesian closed lexcategory has the \Loeb/ property with uniqueness only when the category is the trivial terminal category.
+But by \magicref{CCCLoebUniqueness}, the identity endofunctor on a cartesian closed lexcategory has the strong \Loeb/ property only when the category is the trivial terminal category.
 \end{proof}
 This \quote{no-go} result was demonstrated in \autocite{PittsTaylor1989} by an essentially identical argument to the argument we have given, when the abstractions in our argument are unwound to this special case.
 
-But by generalizing to introspective theories, we are able to expand from this negative result (there are no nontrivial lexcategories whose self-indexing is \repsmall/) to a positive result (there are many nontrivial examples of introspective theories, which all end up satisfying the \Loeb/ property with uniqueness and all the further corollaries of this noted in \magicref{LoebPropertySection}).
+But by generalizing to introspective theories, we are able to expand from this negative result (there are no nontrivial lexcategories whose self-indexing is \repsmall/) to a positive result (there are many nontrivial examples of introspective theories, which all end up satisfying the \Loeb/ property and all the further corollaries of this noted in \magicref{LoebPropertySection}).
 
 \begin{observation}
 From the above, we see that, though the \Loeb/ property holds for all introspective theories automatically, it does not hold automatically for merely locally introspective theories (as there are many locally cartesian closed categories which are nontrivial. Counterexamples could also be constructed from non-well-founded transitive relations using \magicref{KripkeLocallyIntrosp}.). However, we have also seen there are some natural examples of locally introspective theories which, while not fully introspective themselves, nonetheless have arbitrarily loose sub-introspections (in the sense of \magicref{SubIntrospectionDefn}), as in the relationship between our archetypal examples \magicref{KripkeLocallyIntrosp} and \magicref{KripkeIntrosp}, or the relationship between our archetypal examples \magicref{StepIndexingLocallyIntrosp} and \magicref{StepIndexingIntrosp}. Such locally introspective theories will thus inherit the \Loeb/ property from their sub-introspections.
@@ -554,7 +556,7 @@ Recall the introspective theory $\langle \PshUnderQInf, C' \rangle$ from \magicr
 
 The global aspect of $C'$ here is a certain full sublexcategory of $\Set^{|P|}$ (again defined by cardinality constraints, which may again be taken to be arbitrarily loose such that any \setsmall/ number of particular desired objects can be found within this). Recall from the discussion at \magicref{KripkeFrameModal} that the $\Box$ operator acts on this such that $\Box F(x)$ is the product of $F(y)$ over all $y < x$, where $F \in \Set^{|P|}$ and $x, y \in P$. For subterminal $F$ acting as propositions, this corresponds to the traditional interpretation of the $\Box$ operator in a Kripke frame, such that $\Box F$ is true at a world just in case $F$ is true at all lower worlds.
 
-In this context, the \Loeb/ property with uniqueness which we are given by \magicref{IntrospLoeb} tells us that we may define functions by transfinite recursion: Given at each $x \in P$ a function $g$ from $\prod_{y < x} F(y)$ to $F(x)$, we obtain a uniquely determined function $G$ whose domain is $P$ such that each $G(x)$ is given by $g$ applied to the values of $G$ at $y < x$.
+In this context, the strong \Loeb/ property which we are given by \magicref{IntrospLoeb} tells us that we may define functions by transfinite recursion: Given at each $x \in P$ a function $g$ from $\prod_{y < x} F(y)$ to $F(x)$, we obtain a uniquely determined function $G$ whose domain is $P$ such that each $G(x)$ is given by $g$ applied to the values of $G$ at $y < x$.
 
 In the particular case where $F$ is subterminal representing a proposition (that is, an arbitrary subset of $|P|$), this amounts to the principle of transfinite induction or \quote{strong induction}: It tells us that a proposition holds of all of $P$ so long as it holds of any particular $x \in P$ once it holds of all $y < x$.
 
