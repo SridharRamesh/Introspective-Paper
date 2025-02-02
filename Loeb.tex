@@ -157,7 +157,7 @@ In the above proof, we used \magicref{LoebTransfer} to transfer the \Loeb/ prope
 \end{remark}
 }
 
-The key result of this chapter (at \TODO ???) will be showing that every introspective theory does indeed have the \Loeb/ property.
+The key result of this chapter (at \TODO ???) will be showing that every introspective theory does indeed have the \Loeb/ property.  \sTODOinline{I think this sentence is redundant, I think I said something like it already earlier in this chapter}
 
 \subsection{Hylomorphism stuff, rename}
 The \Loeb/ property asserts the existence of hylomorphisms with a particular coalgebra (the isomorphism $: 1 \to \Box 1$) as domain. A stronger property which is also sometimes of interest asserts the existence of hylomorphisms regardless of domain:
@@ -246,92 +246,33 @@ By combining \magicref{CCCLoebUniqueness} and \magicref{LoebPropertyLexUniquenes
 The example from \magicref{KnasterTarskiExample} shows that it is possible for the identity endofunctor on a nontrivial cartesian closed category to have the weak \Loeb/ property, so long as neither uniqueness nor equalizers are presumed.
 \end{observation}
 
-\subsection{Lawvere's fixed point theorem}\label{LawvereFPTSection}
-In this section, we first refresh the reader on Lawvere's fixed point theorem \autocite{lawvere1969diagonal}, which captures the general structure of many diagonalization arguments and their relationship to categorical structure. Then we note a slight generalization for which essentially the same argument applies.
-
-Then in the next section we will turn this generalization into a result in the context of general pre-introspective theories. Then we will specialize further down to introspective theories, and observe a wonderful \quote{bootstrapping} phenomenon which arises there, which shall ultimately provide us with the \Loeb/ property in that context, which is our main result.
-
-\openNamed{theorem}{Lawvere's Fixed Point Theorem}\label{LawveresFixedPointTheorem}
-Let $T$ be an arbitrary category. Let $X$ be an object of $T$ and let $\Omega$ be any $T$-indexed set. Suppose also given some map $\App' : X \to \Omega^X$ (equivalent to the data of a map $\App : X \times X \to \Omega$).
-
-Let $\point$ be any object of $T$.\footnote{It is common to presume $\point$ to be terminal, but this plays no role in the theorem.} By a \quote{point} of a $T$-indexed set, we shall mean an element of its aspect at $\point$ (equivalent to the data of a map into it from $\point$).
-
-Suppose $\App$ has the surjectivity-like property that, for every map $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have that $\App(f, x) = F(x)$.
-
-Then for any map $\loebNeg : \Omega \to \Omega$, there exists a point $\omega$ of $\Omega$ such that $\omega = \loebNeg(\omega)$. That is to say, $\loebNeg$ has a fixed point.
-\closeNamed{theorem}
-\begin{proof}
-Let $F : X \to \Omega$ be the following composition:
-
-% https://q.uiver.app/?q=WzAsNCxbMCwwLCJYIl0sWzIsMCwiWCBcXHRpbWVzIFgiXSxbMywwLCJcXE9tZWdhIl0sWzQsMCwiXFxPbWVnYSJdLFswLDEsIlxcbGFuZ2xlIFxcaWRfWCwgXFxpZF9YIFxccmFuZ2xlIl0sWzEsMiwiXFxBcHAiXSxbMiwzLCJcXGxvZWJOZWciXV0=
-\[\begin{tikzcd}
-	X && {X \times X} & \Omega & \Omega
-	\arrow["{\langle \id_X, \id_X \rangle}", from=1-1, to=1-3]
-	\arrow["\App", from=1-3, to=1-4]
-	\arrow["\loebNeg", from=1-4, to=1-5]
-\end{tikzcd}\]
-
-That is, for any generalized element $x$ of $X$, we have that $F(x) = \loebNeg(\App(x, x))$.
-
-We know there exists a point $f$ of $X$ which corresponds with $F$ in the manner of our surjectivity-like supposition on $\App$. Now consider the instance of this surjectivity-like supposition where $x = f$. This tells us that $\App(f, f) = F(f)$. But $F(f) = \loebNeg(\App(f, f))$.
-
-Thus, taking $\omega = \App(f, f)$, we have that $\omega = \loebNeg(\omega)$ as desired.
-\end{proof}
-
-Let us make a few remarks on the scope of generality of this theorem.
-
-Lawvere originally states this theorem specifically for the case where $T$ is a cartesian closed category, but later in \autocite{lawvere1969diagonal} notes that this implies the theorem just as well for the case where $T$ is merely a category with finite products, as any category can be embedded as a full subcategory of a cartesian closed category in a way which preserves any products or exponentials already present (via the Yoneda embedding). \autocite{lawvere1969diagonal} does not explicitly consider examples where the original category of interest $T$ lacks finite products, such that $X \times X$ is not an object of $T$, nor consider taking $\Omega$ to be merely a $T$-indexed set rather than an object of $T$, but of course these are covered in the same way by the same insight that we can work in $\Psh{T}$ instead of $T$.
-
-Even so broadly interpreted, Lawvere's fixed point theorem will not be sufficient for our purposes in this chapter, but its familiarity may help prepare the reader for the following generalization:
+\subsection{Generalizing Lawvere's fixed point theorem}\label{LawvereFPTSection}
+In this section, we note a slight generalization of Lawvere's famous fixed point theorem \autocite{lawvere1969diagonal} which will be of use to us.
 
 \openNamed{theorem}{Self-Related Point Theorem}\label{SelfRelatedPointTheorem}
-Let $T$ be an arbitrary category. Let $\point$ and $X$ be objects of $T$ and let $\Omega$ be any $T$-indexed set. Suppose also given some map $\App' : X \to \Omega^X$ (equivalent to the data of a map $\App : X \times X \to \Omega$).
+Let $T$ be an arbitrary category. In the following, we shall use \quote{point of} as shorthand for \quote{element of the $t$-aspect of}, for some fixed object $t$ of $T$.\footnote{In many applications, this $t$ is taken to be a terminal object. But such a condition plays no actual role in this theorem's proof.} 
 
-As before, we shall use \quote{point of} as shorthand for \quote{element of the $\point$-aspect of}.
-
-Suppose also given a binary relation $R$ on the points of $\Omega$.\footnote{Note that we needn't presume $R$ to be symmetric or transitive or any such thing!} And suppose $\App$ has the surjectivity-like property that, for every morphism $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have $R(\App(f, x), F(x))$.
+Let $X$ be an object of $T$ and let $\Omega$ be any $T$-indexed set. Suppose given a map $\App : X \times X \to \Omega$ and a binary relation $R$ on the points of $\Omega$. And suppose $\App$ has the surjectivity-like property that, for every map $F : X \to \Omega$, there is a point $f$ of $X$ such that for every point $x$ of $X$, we have $R(\App(f, x), F(x))$.
 
 Then there exists a point $\omega$ of $\Omega$ such that $R(\omega, \omega)$. That is to say, $R$ has a self-related point.
 \closeNamed{theorem}
 \begin{proof}
-Let $F : X \to \Omega$ be the following composition:
+Let $F : X \to \Omega$ be the composition $\App \circ \Delta_X$, where $\Delta_X$ is the diagonal map from $X$ to $X \times X$. That is, for any generalized element $x$ of $X$, we have that $F(x) = \App(x, x)$.
 
-% https://q.uiver.app/?q=WzAsNCxbMCwwLCJYIl0sWzIsMCwiWCBcXHRpbWVzIFgiXSxbMywwLCJcXE9tZWdhIl0sWzQsMF0sWzAsMSwiXFxsYW5nbGUgXFxpZF9YLCBcXGlkX1ggXFxyYW5nbGUiXSxbMSwyLCJcXEFwcCJdXQ==
-\[\begin{tikzcd}
-	X && {X \times X} & \Omega & {}
-	\arrow["{\langle \id_X, \id_X \rangle}", from=1-1, to=1-3]
-	\arrow["\App", from=1-3, to=1-4]
-\end{tikzcd}\]
+Our surjectivity-like supposition tells us there is a point $f$ of $X$ such that for every point $x$ of $X$, we have $R(\App(f, x), F(x))$. Thus, if we can find an $x$ for which $F(x) = \App(f, x)$, then we will have found a point of $\Omega$ which is related to itself by $R$, as desired.
 
-That is, for any generalized element $x$ of $X$, we have that $F(x) = \App(x, x)$.
-
-We know there exists a point $f$ of $X$ in accordance with our surjectivity-like supposition on $\App'$. Now consider the instance of the surjectivity-like supposition where $x = f$. This tells us that $R(\App(f, f), F(f))$. But $F(f) = \App(f, f)$.
-
-Thus, we have found a point of $\Omega$ which is related to itself by $R$, as desired.
+Such an $x$ is provided by $f$ itself, as the definition of $F$ ensures $\App(f, f) = F(f)$. This completes the proof.
 \end{proof}
 
-Note that \magicref{LawveresFixedPointTheorem} is a special case of \magicref{SelfRelatedPointTheorem}, like so:
-
-\openNamed{corollary}{Lawvere's Fixed Point Theorem, Redux}\label{LawveresFixedPointTheoremRedux}
-Consider the same setup as of \magicref{SelfRelatedPointTheorem}, specialized to $R$ as the equality relation. Furthermore, suppose given $\loebNeg : \Omega \to \Omega$. Then there exists a point $\omega$ of $\Omega$ such that $\omega = \loebNeg(\omega)$.
-\closeNamed{corollary}
-\begin{proof}
-Consider the binary relation $R_{\loebNeg}$ on points of $\Omega$ such that $R_{\loebNeg}(\omega_1, \omega_2)$ holds just in case $\omega_1 = \loebNeg(\omega_2)$.
-
-We have been given the supposition that, for every morphism $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have $\App(f, x) = F(x)$.
-
-As this holds for arbitrary $F : X \to \Omega$, this also holds when an arbitrary $F$ is replaced by $\loebNeg \circ F : X \to \Omega$. That is to say, for every $F : X \to \Omega$, there is a point $f$ of $X$, such that for every point $x$ of $X$, we have $\App(f, x) = (\loebNeg \circ F)(x)$, which is to say, $R_{\loebNeg}(\App(f, x), F(x))$.
-
-But this is precisely the surjectivity supposition we need in order to invoke \magicref{SelfRelatedPointTheorem} with $R_{\loebNeg}$ in place of $R$. Doing so, we obtain a point $\omega$ of $\Omega$ such that $R_{\loebNeg}(\omega, \omega)$, which is to say $\omega = \loebNeg(\omega)$, as desired.
-\end{proof}
-
-At any rate, we shall find the additional flexibility of \magicref{SelfRelatedPointTheorem} in allowing a relation in place of equality to be indispensable in the next sections, as we begin to specialize towards our application to introspective theories.
+\TODOinline{Discuss how Lawvere's FPT is a special case of this}
 
 \subsection{Presheaf diagonalization for pre-introspective theories}\label{PreIntrospDiagSection}
+In this section, we will turn our \magicref{SelfRelatedPointTheorem} into some results in the context of general pre-introspective theories. Then in the next section we will specialize further down to introspective theories, and observe a wonderful \quote{bootstrapping} phenomenon which arises there, which shall ultimately provide us with the \Loeb/ property for introspective theories, which is our main result.
+
 \openNamed{theorem}{Simplified Pre-introspective Diagonalization}
 Let $\langle T, C, \introS, \introN \rangle$ be a pre-introspective theory. Let $\rho$ be an object of $\Glob{C}$. Suppose also given a fixed point of $\Hom_C(\introS(-), \rho)$; that is, some object $X \in T$ and isomorphism $\alpha : X \to \Hom_C(\introS(X), \rho)$. Finally, let $\loebNeg : \introS(\Hom_C(1_C, \rho)) \to \rho$ in $\Glob{C}$ be given.
 
-Then we obtain $\omega_C : 1_C \to \rho$ in $\Glob{C}$ (equivalently, this can be construed as $\omega_T : 1_T \to \Hom_C(1_C, \rho)$ in $T$) such that $\omega_C = \loebNeg \circ \introS(\omega_T)$.
+Then we obtain $\omega_C : 1_C \to \rho$ in $\Glob{C}$ (equivalently, this can be construed as the data of some $\omega_T : 1_T \to \Hom_C(1_C, \rho)$ in $T$) such that $\omega_C = \loebNeg \circ \introS(\omega_T)$.
 \closeNamed{theorem}
 
 \openNamed{theorem}{Pre-introspective Diagonalization}\label{PreIntrospDiag}
