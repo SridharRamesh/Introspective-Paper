@@ -752,6 +752,9 @@ This completes the demonstration that $\beta$ is a strict introspective theory h
 As left adjoints preserve initial objects, the above tells us that the initial strict introspective theory (which we described in \magicref{InitialIntrospectiveTheory}) is also the initial geminal category. Thus, the underlying lexcategory of the initial geminal category is the initial lexcategory with an internal geminal category!
 \end{corollary}
 
+\sTODOinline{The following construction works even for some things that aren't geminal categories; in particular, if we define a K-category (a la the modal logic K) as a lexcategory with an internal lexcategory and a functor from the former to the global aspect of the latter (the first three of the six axioms of a geminal category), then every K-category has an underlying lexcategory-with-an-internal-lexcategory (even though K-categories do not have internal K-categories), and the right adjoint to this forgetful functor is given by the following construction. It would be useful to figure out the natural generality in which the following construction works.
+
+Note that the initial geminal category G on some generating objects maps into the following construction applied to Set-with-G-internal-to-it (mapping the generating objects arbitrarily), and in this way the theorems that G proves about its internal geminal category in fact apply to G as well. This relates to the reflection rule derivation given in https://sridharramesh.github.io/HowSridharThinks/reflectionrule/. The same applies to K-categories as above.}
 \begin{construction}
 Consider the functor from the category of geminal categories to the category of strict lexcategories with a designated internal geminal category, given by sending any geminal category $G$ to the strict lexcategory $\underlying{G}$ with internal geminal category $\InteriorGeminal{G}$. This functor has a right adjoint.
 

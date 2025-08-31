@@ -269,10 +269,10 @@ Such an $x$ is provided by $f$ itself, as the definition of $F$ ensures $\App(f,
 \subsection{Presheaf diagonalization for pre-introspective theories}\label{PreIntrospDiagSection}
 In this section, we will turn our \magicref{SelfRelatedPointTheorem} into some results in the context of general pre-introspective theories. Then in the next section we will specialize further down to introspective theories, and observe a wonderful \quote{bootstrapping} phenomenon which arises there, which shall ultimately provide us with the \Loeb/ property for introspective theories, which is our main result.
 
-\openNamed{theorem}{Simplified Pre-introspective Diagonalization}
-Let $\langle T, C, \introS, \introN \rangle$ be a pre-introspective theory. Let $\rho$ be an object of $\Glob{C}$. Suppose also given a fixed point of $\Hom_C(\introS(-), \rho)$; that is, some object $X \in T$ and isomorphism $\alpha : X \to \Hom_C(\introS(X), \rho)$. Finally, let $\loebNeg : \introS(\Hom_C(1_C, \rho)) \to \rho$ in $\Glob{C}$ be given.
+\openNamed{theorem}{Simplified Introspective Diagonalization}
+Let $\langle T, C, \introS, \introN \rangle$ be a locally introspective theory. Let $\rho$ be an object of $\Glob{C}$. Suppose also given a fixed point of $\Hom_C(\introS(-), \rho)$; that is, some object $X \in T$ and isomorphism $\alpha : X \to \Hom_C(\introS(X), \rho)$. Finally, let $\loebNeg : \Box \rho \to \rho$ in $\Glob{C}$ be given (recall, $\Box \rho$ in this context means $\introS(\Hom_C(1_C, \rho))$).
 
-Then we obtain $\omega_C : 1_C \to \rho$ in $\Glob{C}$ (equivalently, this can be construed as the data of some $\omega_T : 1_T \to \Hom_C(1_C, \rho)$ in $T$) such that $\omega_C = \loebNeg \circ \introS(\omega_T)$.
+Then we obtain $\omega_C : 1_C \to \rho$ in $\Glob{C}$ such that $\omega_C = \loebNeg \circ \Box \omega_C$. (In other words, we obtain the instance of the \Loeb/ property for this $\rho$)
 \closeNamed{theorem}
 
 \openNamed{theorem}{Pre-introspective Diagonalization}\label{PreIntrospDiag}
