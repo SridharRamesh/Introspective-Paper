@@ -270,10 +270,22 @@ Such an $x$ is provided by $f$ itself, as the definition of $F$ ensures $\App(f,
 In this section, we will turn our \magicref{SelfRelatedPointTheorem} into some results in the context of general pre-introspective theories. Then in the next section we will specialize further down to introspective theories, and observe a wonderful \quote{bootstrapping} phenomenon which arises there, which shall ultimately provide us with the \Loeb/ property for introspective theories, which is our main result.
 
 \openNamed{theorem}{Simplified Introspective Diagonalization}
-Let $\langle T, C, \introS, \introN \rangle$ be a locally introspective theory. Let $\rho$ be an object of $\Glob{C}$. Suppose also given a fixed point of $\Hom_C(\introS(-), \rho)$; that is, some object $X \in T$ and isomorphism $\alpha : X \to \Hom_C(\introS(X), \rho)$. Finally, let $\loebNeg : \Box \rho \to \rho$ in $\Glob{C}$ be given (recall, $\Box \rho$ in this context means $\introS(\Hom_C(1_C, \rho))$).
+Let $\langle T, C, \introS, \introN \rangle$ be a locally introspective theory. Let $\rho$ be an object of $\Glob{C}$. Suppose also given a fixed point of $\Hom_C(\introS(-), \rho)$; that is, some object $X \in T$ and isomorphism $\alpha : X \to \Hom_C(\introS(X), \rho)$. Finally, let $\loebNeg : \Box \rho \to \rho$ in $\Glob{C}$ be given (recall, $\Box \rho$ in this context means $\introS(\Hom_C(1, \rho))$).
 
-Then we obtain $\omega_C : 1_C \to \rho$ in $\Glob{C}$ such that $\omega_C = \loebNeg \circ \Box \omega_C$. (In other words, we obtain the instance of the \Loeb/ property for this $\rho$)
+Then we obtain $\omega : 1 \to \rho$ in $\Glob{C}$ such that $\omega = \loebNeg \circ \Box \omega$. (In other words, we obtain the instance of the weak \Loeb/ property for this $\rho$)
 \closeNamed{theorem}
+\begin{proof}
+We shall show how this is an instance of \magicref{SelfRelatedPointTheorem}.
+
+Note that $\alpha \times \introN_X : X \times X \to \Hom_C(\introS(X), \rho) \times \Hom_C(1, \introS(X))$. We also have a composition operation for $C$ of type $\Hom_C(\introS(X), \rho) \times \Hom_C(1, \introS(X)) \to \Hom_C(1, \rho)$. Composing these two, we get an operation $App : X \times X \to \Hom_C(1, \rho)$.
+
+Define the binary relation $R(\omega_1, \omega_2)$ on global points of $\Hom_C(1, \rho)$ as the equation $\omega_1 = \loebNeg(\Box \omega_2)$. \sTODOinline{Check that this use of box makes sense}
+
+Consider an arbitrary $F : X \to \Hom_C(1, \rho)$. We have the composition $\loebNeg \circ \introS(F) : \introS(X) \to \rho$ in $\Glob{C}$. This is a globally defined element of $\Hom_C(\introS(X), \rho)$ and thus has a preimage under $\alpha$ which is a globally defined element of $X$; let us call this $m$. Note that $App(m, n) = \alpha(m) \circ_C \introN_X(n) = \loebNeg \circ \introS(F) \circ \introN_X(n) = \loebNeg \circ \introN(F(n))$ TODO
+
+Thus, the surjectivity-like property is satisfied for us to invoke \magicref{SelfRelatedPointTheorem}, concluding that $R$ does indeed have a self-related point.
+
+\end{proof}
 
 \openNamed{theorem}{Pre-introspective Diagonalization}\label{PreIntrospDiag}
 Let $\langle T, C, \introS, \introN \rangle$ be a pre-introspective theory.\footnote{The argument does not actually use all of this structure. It would suffice to let $T$ be any category, $C$ be a $T$-indexed category, $\introS$ be a functor from $T$ to the global aspect of $C$, $\point_C$ be any globally defined object of $C$, $\introN$ be a map from $t$ to $\Hom_C(\point_C, \introS(t))$, natural in $t \in T$, and $\point_T$ be any object of $T$. Knowing that the proof makes no use of the further lexcategory structure of a pre-introspective theory may make it easier to follow.} Let $\point_T$ be the terminal object of $T$ and let $\point_C$ be the terminal object of $C$. Throughout the following, we use \quote{point of} as shorthand for \quote{element of the $\point_T$-aspect of}.
